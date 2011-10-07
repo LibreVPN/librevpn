@@ -3,6 +3,8 @@ Poner estos archivos dentro de /etc/tinc
 
 ## Crear un nodo
 
+Correr `./configure nodo dominio` o:
+
 Editar el archivo lab/tinc.conf cambiando el valor de Name al nombre de tu
 nodo.
 
