@@ -1,0 +1,5 @@
+# para poner en /etc/hosts
+
+192.168.9.2   berreta.lab
+192.168.9.3   ponape.lab
+192.168.9.32  caca.lab

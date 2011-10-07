@@ -1,3 +1,2 @@
 #!/bin/sh
-# Cambiá la x por la id de tu nodo
 ifconfig $INTERFACE {{subnet}} netmask 255.255.255.0
