@@ -1,30 +1,45 @@
 #!/bin/bash
 
-node=${1:-${HOSTNAME}}
-address=${2:-$(wget -qO - ifconfig.me/ip)}
+if [ $(dirname "${PWD}") != "/etc/tinc" ]; then
+    echo ":: Este directorio debe estar bajo /etc/tinc"
+    exit 1
+fi
 
-let randomip=$RANDOM%255+10
+source config
 
 echo ":: Datos del nodo"
-echo "-> El nombre del nodo es Nodo${node}"
+echo "-> El nombre de la VPN es ${vpn}"
+echo "-> El nombre del nodo es ${node}"
 echo "-> La dirección del nodo es ${address}"
-echo "-> La subnet será 192.168.9.${randomip}/32"
+echo "-> La subnet será ${subnet}"
 echo "Si no es correcto presione ^C para cancelar"
 read pause
 
-echo "Address = ${address}" >> hosts/Nodo${node}
-echo "Subnet = 192.168.9.${randomip}/32" >> hosts/Nodo${node}
+echo ":: Creando la rama ${node}"
+git branch ${node}
+git checkout ${node}
 
-sed -i "s/{{subnet}}/192.168.9.${randomip}/g" tinc-up
-sed -i "s/{{node}}/Nodo${node}/g" tinc.conf
+touch hosts/${node}
+git add host/${node}
+
+echo "Address = ${address}" >> hosts/${node}
+echo "Subnet = ${subnet}" >> hosts/${node}
+
+sed -i "s/{{subnet}}/${subnet}/g" tinc-up
+sed -i "s/{{node}}/${node}/g" tinc.conf
 
 echo ":: Agregando los hosts remotos"
-for host in hosts/*; do
-    echo "-> ${node}"
+pushd hosts
+for host in *; do
+    echo "-> ${host}"
     echo "ConnectTo = ${host}" >> tinc.conf
 done
+popd
 
-tincd -n lab --generate-keys=4096 && \
-    echo 'La red está configurada, ahora corré `tincd -n lab`'
+tincd -n ${vpn} --generate-keys=4096 && \
+    echo "La red está configurada, ahora corré \`tincd -n ${vpn}\`
+y pasale tu archivo hosts/${node} a otro nodo."
+
+git commit -a -m "Configurado ${node}"
 
 exit $?

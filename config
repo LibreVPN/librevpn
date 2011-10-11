@@ -1,0 +1,16 @@
+# La IP de tu nodo en la VPN
+# Elegir el último octeto
+subnet=192.168.9.cambiame/32
+
+# La dirección de acceso público del nodo
+# Cambiar por tu dominio
+address=$(wget -qO - ifconfig.me/ip)
+
+# Autoconfigurar info
+# Nombre de la VPN (lab)
+vpn=$(basename $PWD)
+
+# Nombre de tu nodo
+node=Nodo$(hostname)
+
+
