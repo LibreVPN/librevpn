@@ -11,7 +11,7 @@ echo ":: Datos del nodo"
 echo "-> El nombre de la VPN es ${vpn}"
 echo "-> El nombre del nodo es ${node}"
 echo "-> La dirección del nodo es ${address}"
-echo "-> La subnet será ${subnet}"
+echo "-> La red será ${ip}/${subnet}"
 echo "Si no es correcto presione ^C para cancelar"
 read pause
 
@@ -23,9 +23,9 @@ touch hosts/${node}
 git add host/${node}
 
 echo "Address = ${address}" >> hosts/${node}
-echo "Subnet = ${subnet}" >> hosts/${node}
+echo "Subnet = ${ip}/${subnet}" >> hosts/${node}
 
-sed -i "s/{{subnet}}/${subnet}/g" tinc-up
+sed -i "s/{{subnet}}/${ip}\/${subnet}/g" tinc-up
 sed -i "s/{{node}}/${node}/g" tinc.conf
 
 echo ":: Agregando los hosts remotos"
