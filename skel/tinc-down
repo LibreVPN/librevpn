@@ -1,4 +1,4 @@
 #!/bin/sh
-# This file closes down the tap device.
+# Este archivo da de baja la interfaz de la VPN
 
 ifconfig $INTERFACE down
