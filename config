@@ -5,15 +5,15 @@ subnet=/32
 
 # (Opcional)
 # La dirección de acceso público del nodo
-# Cambiar por tu dominio
+# Cambiar por un dominio que lleve a este nodo
 address=$(wget -qO - ifconfig.me/ip)
 
 # Autoconfigurar info
-# Nombre de la VPN (lab)
+# Nombre de la VPN (lab por default)
 vpn=$(basename $PWD)
 
 # Nombre de tu nodo
-node=Nodo$(hostname)
+node=$(hostname)
 
 # La ip de otro nodo al que enlazar
 bro=192.168.9.

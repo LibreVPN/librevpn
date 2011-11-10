@@ -22,11 +22,11 @@ git checkout ${node}
 touch hosts/${node}
 git add host/${node}
 
-echo "Address = ${address}" >> hosts/${node}
-echo "Subnet = ${ip}${subnet}" >> hosts/${node}
+echo "Address = ${address}" >> skel/hosts/${node}
+echo "Subnet = ${ip}${subnet}" >> skel/hosts/${node}
 
-sed -i "s/{{subnet}}/${ip}/g" tinc-up
-sed -i "s/{{node}}/${node}/g" tinc.conf
+sed -i "s/{{subnet}}/${ip}/g" skel/tinc-up
+sed -i "s/{{node}}/${node}/g" skel/tinc.conf
 
 echo ":: Agregando los hosts remotos"
 pushd hosts
