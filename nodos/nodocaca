@@ -1,5 +1,6 @@
 Address = bazza.com.ar
 Subnet = 192.168.9.32/32
+
 -----BEGIN RSA PUBLIC KEY-----
 MIICCgKCAgEA7H7fWEMVF+GqkBoZgauce6grJJ6J+v7iucryvPMBLq+78bHoREOG
 8nlIDj9ZhDGWAHL/kxzfpTLNcxdtMfAn2xPZ/BAqVMYMUxr7rtWJP8704wdBH2JL

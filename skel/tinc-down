@@ -1,0 +1,4 @@
+#!/bin/sh
+# Este archivo da de baja la interfaz de la VPN
+
+ifconfig $INTERFACE down

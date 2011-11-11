@@ -1,2 +1,0 @@
-#!/bin/sh
-ifconfig $INTERFACE {{subnet}} netmask 255.255.255.0

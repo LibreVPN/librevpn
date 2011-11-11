@@ -1,40 +1,37 @@
 #!/bin/bash
 
-if [ $(dirname "${PWD}") != "/etc/tinc" ]; then
-    echo ":: Este directorio debe estar bajo /etc/tinc"
+source config
+
+if [ $ip == "cambiar" ]; then
+    echo ":: Tenés que configurar al menos la IP del nodo (en config)"
     exit 1
 fi
 
-source config
-
 echo ":: Datos del nodo"
-echo "-> El nombre de la VPN es ${vpn}"
+echo "-> El nombre de la VPN es ${vpn} y su rango es ${rango_vpn}"
 echo "-> El nombre del nodo es ${node}"
-echo "-> La dirección del nodo es ${address}"
-echo "-> La red será ${ip}${subnet}"
+echo "-> La dirección del nodo es ${address} (siempre es mejor un dominio que una IP)"
+echo "-> La red del nodo será ${ip}${subnet}"
 echo "Si no es correcto presione ^C para cancelar"
 read pause
 
 echo ":: Creando la rama ${node}"
-git branch ${node}
-git checkout ${node}
+git checkout -b ${node}
 
-touch hosts/${node}
-git add host/${node}
+touch nodos/${node}
 
-echo "Address = ${address}" >> hosts/${node}
-echo "Subnet = ${ip}${subnet}" >> hosts/${node}
+echo "Address = ${address}" >> nodos/${node}
+echo "Subnet = ${ip}${subnet}" >> nodos/${node}
 
-sed -i "s/{{subnet}}/${ip}/g" tinc-up
-sed -i "s/{{node}}/${node}/g" tinc.conf
+sed -i "s/{{subnet}}/${ip}/g" skel/tinc-up
+sed -i "s/{{node}}/${node}/g" skel/tinc.conf
 
 echo ":: Agregando los hosts remotos"
-pushd hosts
-for host in *; do
+for host in conectar; do
     echo "-> ${host}"
-    echo "ConnectTo = ${host}" >> tinc.conf
+    echo "ConnectTo = ${host}" >> skel/tinc.conf
+    cp nodos/${host} skel/hosts/
 done
-popd
 
 tincd -n ${vpn} --generate-keys=4096 && \
     echo "La red está configurada, ahora corré \`tincd -n ${vpn}\`

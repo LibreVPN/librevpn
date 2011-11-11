@@ -1,0 +1,4 @@
+#!/bin/sh
+# Para dar de alta la interfaz de la VPN. Usamos una netmask
+# que englobe todas las subredes de cada nodo.
+ifconfig $INTERFACE {{subnet}} netmask {{rango_vpn}}
