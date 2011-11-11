@@ -24,7 +24,7 @@ exit 1 if $?.to_i > 0
 log = IO::read('/var/log/tinc.lab.log').scan(re_log).to_s
 
 # Crear el grafico
-g = GraphViz::new('structs', 'type' => 'digraph')
+g = GraphViz::new('lab', 'type' => 'graph')
 
 # Estilo
 g.node[:fontname] = 'DejaVu Sans'
@@ -44,6 +44,6 @@ log.scan(re_nodes) do |n|
 end
 
 # Salida
-g.output(:png => '/tmp/graph.png')
+#g.output(:png => '/tmp/graph.png')
 g.output(:dot => nil)
-puts '// El grafico se guardo en /tmp/graph.png'
+#puts '// El grafico se guardo en /tmp/graph.png'
