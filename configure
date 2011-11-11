@@ -48,7 +48,7 @@ for host in ${conectar_a}; do
     cp nodos/${host} ${hosts}/
 done
 
-tincd -c ${PWD} -n ${vpn} --generate-keys=4096 && \
+tincd -c ${PWD}/${vpn} -n ${vpn} --generate-keys=4096 && \
     msg "La red está configurada"
 
 tar --remove-files -czf ${vpn}.tar.gz ${vpn}/
