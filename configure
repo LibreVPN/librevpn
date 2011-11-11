@@ -42,7 +42,7 @@ cp skel/tinc-down ${vpn}/
 chmod +x ${vpn}/tinc-{up,down}
 
 msg "Agregando los hosts remotos"
-for host in conectar; do
+for host in ${conectar_a}; do
     msg2 "${host}"
     echo "ConnectTo = ${host}" >> ${vpn}/tinc.conf
     cp nodos/${host} ${hosts}/
