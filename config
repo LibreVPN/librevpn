@@ -14,7 +14,7 @@ rango_vpn=255.255.255.0
 # La IP de tu nodo en la VPN
 # Elegir el último octeto, que no esté ocupado en
 # el archivo lista.
-ip=192.168.9.255
+ip=cambiar
 
 # La subnet que va a manejar tu nodo. Por default lo dejamos
 # sólo.
@@ -26,7 +26,7 @@ subnet=/32
 address=$(wget -qO - ifconfig.me/ip)
 
 # Nombre de tu nodo
-node=test
+node=$(hostname)
 
 # Lista de nodos con los que conectarse inicialmente.
 # Cada uno de estos nodos debe tener el archivo hosts/<nodo> de
