@@ -2,41 +2,57 @@
 
 source config
 
-if [ $ip == "cambiar" ]; then
-    echo ":: Tenés que configurar al menos la IP del nodo (en config)"
+msg() { echo ":: $@"; }
+
+msg2() { echo "-> $@"; }
+
+if [ "${ip}" = 'cambiar' ]; then
+    msg 'Tenés que configurar al menos la IP del nodo (en config)'
     exit 1
 fi
 
-echo ":: Datos del nodo"
-echo "-> El nombre de la VPN es ${vpn} y su rango es ${rango_vpn}"
-echo "-> El nombre del nodo es ${node}"
-echo "-> La dirección del nodo es ${address} (siempre es mejor un dominio que una IP)"
-echo "-> La red del nodo será ${ip}${subnet}"
-echo "Si no es correcto presione ^C para cancelar"
+msg "Datos del nodo"
+msg2 "El nombre de la VPN es ${vpn} y su rango es ${rango_vpn}"
+msg2 "El nombre del nodo es ${node}"
+msg2 "La dirección del nodo es ${address} (siempre es mejor un dominio que una IP)"
+msg2 "La red del nodo será ${ip}${subnet}"
+msg2 "Si no es correcto presione ^C para cancelar"
 read pause
 
-echo ":: Creando la rama ${node}"
-git checkout -b ${node}
+msg "Creando configuración"
+msg2 "Creando directorio"
 
-touch nodos/${node}
+hosts=${vpn}/hosts
+mkdir -p ${hosts}
 
-echo "Address = ${address}" >> nodos/${node}
-echo "Subnet = ${ip}${subnet}" >> nodos/${node}
+msg2 "Nodo"
+touch ${hosts}/${node}
 
-sed -i "s/{{subnet}}/${ip}/g" skel/tinc-up
-sed -i "s/{{node}}/${node}/g" skel/tinc.conf
+echo "Address = ${address}" >> ${hosts}/${node}
+echo "Subnet = ${ip}${subnet}" >> ${hosts}/${node}
 
-echo ":: Agregando los hosts remotos"
+sed -e "s/{{ip}}/${ip}/g" \
+    -e "s/{{rango_vpn}}/${rango_vpn}/g" \
+    skel/tinc-up > ${vpn}/tinc-up
+
+sed "s/{{node}}/${node}/g" skel/tinc.conf > ${vpn}/tinc.conf
+
+cp skel/tinc-down ${vpn}/
+
+chmod +x ${vpn}/tinc-{up,down}
+
+msg "Agregando los hosts remotos"
 for host in conectar; do
-    echo "-> ${host}"
-    echo "ConnectTo = ${host}" >> skel/tinc.conf
-    cp nodos/${host} skel/hosts/
+    msg2 "${host}"
+    echo "ConnectTo = ${host}" >> ${vpn}/tinc.conf
+    cp nodos/${host} ${hosts}/
 done
 
-tincd -n ${vpn} --generate-keys=4096 && \
-    echo "La red está configurada, ahora corré \`tincd -n ${vpn}\`
-y pasale tu archivo hosts/${node} a otro nodo."
+tincd -c ${PWD} -n ${vpn} --generate-keys=4096 && \
+    msg "La red está configurada"
 
-git commit -a -m "Configurado ${node}"
+tar --remove-files -czf ${vpn}.tar.gz ${vpn}/
+
+msg2 "La configuración se encuentra en ${vpn}.tar.gz"
 
 exit $?
