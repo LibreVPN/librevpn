@@ -54,9 +54,11 @@ tincd -c ${PWD}/${vpn} -n ${vpn} --generate-keys=4096 && \
 msg "Firmar el archivo criptográficamente? (s/n)"
 read yesno
 
-if [ "${yesno}" = "s" ] -a which gpg >/dev/null 2>&1; then
+if [ "${yesno}" = "s" ]; then
     gpg --output ${hosts}/${node}.sig --detach-sig ${hosts}/${node}
 fi 
+
+host_files=$(shopt -s nullglob; echo ${hosts}/${node}*)
 
 tar --remove-files -czf ${vpn}.tar.gz ${vpn}/
 
@@ -66,7 +68,6 @@ msg2 "Descomprimir en /etc/tinc"
 msg "Enviá tu archivo de host a los responsables de los nodos:"
 msg2 "${conectar_a[@]}"
 
-shopt -s nullglob
-msg2 "Archivos a enviar:" ${hosts}/${node}*
+msg2 "Archivos a enviar: ${host_files}"
 
 exit $?
