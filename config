@@ -26,7 +26,7 @@ subnet=/32
 address=$(wget -qO - ifconfig.me/ip)
 
 # Nombre de tu nodo
-node=$(hostname)
+node=$(hostname | tr -d '-')
 
 # Lista de nodos con los que conectarse inicialmente.
 # Cada uno de estos nodos debe tener el archivo hosts/<nodo> de
