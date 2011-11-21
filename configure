@@ -12,6 +12,7 @@ if [ "${ip}" = 'cambiar' ]; then
 fi
 
 msg "Datos del nodo"
+msg2 "El responsable del nodo es ${id}"
 msg2 "El nombre de la VPN es ${vpn} y su rango es ${rango_vpn}"
 msg2 "El nombre del nodo es ${node}"
 msg2 "La dirección del nodo es ${address} (siempre es mejor un dominio que una IP)"
@@ -32,6 +33,7 @@ echo "Address = ${address}" >> ${hosts}/${node}
 echo "Subnet = ${ip}${subnet}" >> ${hosts}/${node}
 
 sed -e "s/{{ip}}/${ip}/g" \
+    -e "s/{{id}}/${id}/g" \
     -e "s/{{rango_vpn}}/${rango_vpn}/g" \
     skel/tinc-up > ${vpn}/tinc-up
 

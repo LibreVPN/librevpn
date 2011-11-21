@@ -1,6 +1,9 @@
 # Configuración de la VPN (tiene que ser la misma para cada nodo)
 # ===============================================================
 
+# Por favor completá esto para saber quien es el responsable del nodo
+id="Tu Nombre <ytu@mail.org>"
+
 # Nombre de la VPN (por default es el nombre de este directorio)
 vpn=$(basename $PWD)
 
