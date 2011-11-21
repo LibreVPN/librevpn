@@ -1,7 +1,6 @@
 -- Agregar a prosody.cfg.lua
 
-VirtualHost "{{node}}.lab"
+VirtualHost "{{node}}.local"
     admins { '{{jid}}' }
     enabled = true
-
 
