@@ -1,5 +1,6 @@
 Address = lainventoria.com.ar
 Subnet = 192.168.9.107/32
+Port = 1863
 
 -----BEGIN RSA PUBLIC KEY-----
 MIICCgKCAgEA1tRkg12eTgflNfArd/vw2QSr5XlIx5opWuJ5d0cAiU7oVNFFZzGF
