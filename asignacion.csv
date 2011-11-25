@@ -2,9 +2,10 @@ IP                ;Nodo             ; Responsable                           ;Fec
 192.168.9.2/32    ;berreta          ; mpj <mauricio@pasquierjuan.com.ar>    ;2011-10-01
 192.168.9.3/32    ;ponape           ; fauno <fauno@kiwwwi.com.ar>           ;2011-10-01
 192.168.9.4/32    ;tarkin           ; jbeatty <beatty@linux.com>            ;2011-11-20
-192.168.9.6/32    ;jack             ; <?>                                   ;2011-11-22
-192.168.9.16/32   ;atlantis         ; renateitor <?>                        ;2011-11-22
-192.168.9.17/32   ;arwen            ; <?>                                   ;2011-11-22
+192.168.9.6/32    ;jack             ; guerreromdq <guerremdq@gmail.com>     ;2011-11-22
+192.168.9.16/32   ;atlantis         ; renateitor <renato@carelli.com.ar>    ;2011-11-22
+192.168.9.17/32   ;arwen            ; renateitor <renato@carelli.com.ar>    ;2011-11-22
+192.168.9.18/32   ;sec164           ; renateitor <renato@carelli.com.ar>    ;2011-11-22
 192.168.9.30/32   ;diablo           ; bazza <bazaaa@yahoo.com.ar>           ;2011-11-22
 192.168.9.31/32   ;robotica         ; bazza <bazaaa@yahoo.com.ar>           ;2011-11-18
 192.168.9.32/32   ;anastasia        ; bazza <bazaaa@yahoo.com.ar>           ;2011-10-01
