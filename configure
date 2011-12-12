@@ -76,7 +76,7 @@ fi
 
 host_files=$(shopt -s nullglob; echo ${hosts}/${node}*)
 
-tar --remove-files -cvzf ${vpn}.tar.gz ${vpn}/
+tar -cvzf ${vpn}.tar.gz ${vpn}/
 
 msg2 "La configuración se encuentra en ${vpn}.tar.gz"
 msg2 "Descomprimir en /etc/tinc"
