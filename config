@@ -1,6 +1,9 @@
 # Configuración de la VPN (tiene que ser la misma para cada nodo)
 # ===============================================================
 
+# Por favor completá esto para saber quien es el responsable del nodo
+id="Tu Nombre <ytu@mail.org>"
+
 # Nombre de la VPN (por default es el nombre de este directorio)
 vpn=$(basename $PWD)
 
@@ -14,7 +17,7 @@ rango_vpn=255.255.255.0
 # La IP de tu nodo en la VPN
 # Elegir el último octeto, que no esté ocupado en
 # el archivo lista.
-ip=192.168.9.255
+ip=$(get_ip)
 
 # La subnet que va a manejar tu nodo. Por default lo dejamos
 # sólo.
@@ -25,11 +28,11 @@ subnet=/32
 # por un dominio (dinámico o no) que lleve a este nodo
 address=$(wget -qO - ifconfig.me/ip)
 
-# Nombre de tu nodo
-node=$(hostname)
+# Nombre de tu nodo sin guiones
+node=$(hostname | tr -d '-')
 
 # Lista de nodos con los que conectarse inicialmente.
 # Cada uno de estos nodos debe tener el archivo hosts/<nodo> de
 # este nodo
 #conectar_a="nodo_a nodo_b etc"
-conectar_a="medieval ponape"
+conectar_a="medieval lancelot ponape"

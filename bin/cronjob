@@ -1,0 +1,9 @@
+#!/bin/bash
+
+pushd /home/fauno/projects/graph/
+
+/home/fauno/projects/lab/bin/graph | \
+    tee graph.dot | \
+    circo -Tpng > /srv/http/hack.lab/graph/current.png
+
+git commit -m "Actualización $(date +"%Y.%m.%d %Hhs")" graph.dot

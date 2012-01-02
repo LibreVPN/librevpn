@@ -1,23 +1,69 @@
 #!/bin/bash
 
+# Imprimir todo a stderr
+msg() { echo ":: $@" 1>&2; }
+
+msg2() { echo "-> $@" 1>&2; }
+
+error() { echo "ERROR: $@" 1>&2; }
+
+get_ip() {
+    local subnets=/tmp/$$.subnets
+    local ip=""
+    local fourth=0
+    local tries=0
+
+    sed -e '/Subnet/!d' -e 's/.*= //' nodos/* | sort -V > ${subnets}
+
+    if [ $(wc -l ${subnets} | cut -d' ' -f1) -ge 250 ]; then
+# No detecta si hay varios rangos en uso pero por ahora sirve
+        error "Este rango está agotado"
+        return 1
+    fi
+
+    until [ -n "${ip}" ]; do
+        let fourth=${RANDOM}%253
+# TODO no hardcodear el rango
+        local tmpip="192.168.9.${fourth}${subnet}"
+
+        if ! grep -q "${tmpip}" "${subnets}"; then
+            ip="${tmpip}"
+        fi
+
+        let tries=${tries}+1
+    done
+
+    msg "Obtenida IP libre en ${tries} intentos"
+    echo "${ip}"
+}
+
 source config
 
-msg() { echo ":: $@"; }
-
-msg2() { echo "-> $@"; }
-
-if [ "${ip}" = 'cambiar' ]; then
+if [ -z "${ip}" ]; then
     msg 'Tenés que configurar al menos la IP del nodo (en config)'
     exit 1
 fi
 
 msg "Datos del nodo"
+msg2 "El responsable del nodo es ${id}"
 msg2 "El nombre de la VPN es ${vpn} y su rango es ${rango_vpn}"
 msg2 "El nombre del nodo es ${node}"
 msg2 "La dirección del nodo es ${address} (siempre es mejor un dominio que una IP)"
 msg2 "La red del nodo será ${ip}${subnet}"
 msg2 "Si no es correcto presione ^C para cancelar"
 read pause
+
+vars=""
+for var in id vpn rango_vpn node address ip subnet; do
+    if [ -z "${!var}" ]; then
+        vars="${vars}${var} "
+    fi
+done
+
+if [ ${#vars} -gt 0 ]; then
+    error "Las variables están vacías: ${vars}"
+    exit 1
+fi
 
 msg "Creando configuración"
 msg2 "Creando directorio"
@@ -32,6 +78,7 @@ echo "Address = ${address}" >> ${hosts}/${node}
 echo "Subnet = ${ip}${subnet}" >> ${hosts}/${node}
 
 sed -e "s/{{ip}}/${ip}/g" \
+    -e "s/{{id}}/${id}/g" \
     -e "s/{{rango_vpn}}/${rango_vpn}/g" \
     skel/tinc-up > ${vpn}/tinc-up
 
@@ -54,11 +101,13 @@ tincd -c ${PWD}/${vpn} -n ${vpn} --generate-keys=4096 && \
 msg "Firmar el archivo criptográficamente? (s/n)"
 read yesno
 
-if [ "${yesno}" = "s" ] -a which gpg >/dev/null 2>&1; then
+if [ "${yesno}" = "s" ]; then
     gpg --output ${hosts}/${node}.sig --detach-sig ${hosts}/${node}
 fi 
 
-tar --remove-files -czf ${vpn}.tar.gz ${vpn}/
+host_files=$(shopt -s nullglob; echo ${hosts}/${node}*)
+
+tar -cvzf ${vpn}.tar.gz ${vpn}/
 
 msg2 "La configuración se encuentra en ${vpn}.tar.gz"
 msg2 "Descomprimir en /etc/tinc"
@@ -66,7 +115,6 @@ msg2 "Descomprimir en /etc/tinc"
 msg "Enviá tu archivo de host a los responsables de los nodos:"
 msg2 "${conectar_a[@]}"
 
-shopt -s nullglob
-msg2 "Archivos a enviar:" ${hosts}/${node}*
+msg2 "Archivos a enviar: ${host_files}"
 
 exit $?
