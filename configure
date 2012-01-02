@@ -31,6 +31,11 @@ get_ip() {
         fi
 
         let tries=${tries}+1
+
+        if [ ${tries} -ge 250 ]; then
+            error "No hay IPs libre"
+            return 1
+        fi
     done
 
     msg "Obtenida IP libre en ${tries} intentos"
