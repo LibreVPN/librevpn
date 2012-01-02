@@ -1,14 +1,45 @@
 #!/bin/bash
 
+# Imprimir todo a stderr
+msg() { echo ":: $@" 1>&2; }
+
+msg2() { echo "-> $@" 1>&2; }
+
+error() { echo "ERROR: $@" 1>&2; }
+
+get_ip() {
+    local subnets=/tmp/$$.subnets
+    local ip=""
+    local fourth=0
+    local tries=0
+
+    sed -e '/Subnet/!d' -e 's/.*= //' nodos/* | sort -V > ${subnets}
+
+    if [ $(wc -l ${subnets} | cut -d' ' -f1) -ge 250 ]; then
+# No detecta si hay varios rangos en uso pero por ahora sirve
+        error "Este rango está agotado"
+        return 1
+    fi
+
+    until [ -n "${ip}" ]; do
+        let fourth=${RANDOM}%253
+# TODO no hardcodear el rango
+        local tmpip="192.168.9.${fourth}${subnet}"
+
+        if ! grep -q "${tmpip}" "${subnets}"; then
+            ip="${tmpip}"
+        fi
+
+        let tries=${tries}+1
+    done
+
+    msg "Obtenida IP libre en ${tries} intentos"
+    echo "${ip}"
+}
+
 source config
 
-msg() { echo ":: $@"; }
-
-msg2() { echo "-> $@"; }
-
-error() { echo "ERROR: $@"; }
-
-if [ "${ip}" = 'cambiar' ]; then
+if [ -z "${ip}" ]; then
     msg 'Tenés que configurar al menos la IP del nodo (en config)'
     exit 1
 fi
