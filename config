@@ -2,7 +2,7 @@
 # ===============================================================
 
 # Por favor completá esto para saber quien es el responsable del nodo
-id="Tu Nombre <ytu@mail.org>"
+id="LibreVPN test <vpn@hackcoop.com.ar>"
 
 # Nombre de la VPN (por default es el nombre de este directorio)
 vpn=$(basename $PWD)
