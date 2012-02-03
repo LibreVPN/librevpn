@@ -1,6 +1,4 @@
 Address = akant.dyndns.org
-Subnet = 192.168.9.235/32
-Address = akant.dyndns.org
 Subnet = 192.168.9.18/32
 
 -----BEGIN RSA PUBLIC KEY-----
