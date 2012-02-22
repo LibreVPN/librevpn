@@ -1,4 +1,7 @@
 #!/bin/bash
+# Autoconfiguración del nodo
+# Toma las variables del archivo 'config' y devuelve un tarball con la
+# configuración, para descomprimir en /etc/tinc
 
 # Imprimir todo a stderr
 msg() { echo ":: $@" 1>&2; }
@@ -7,25 +10,31 @@ msg2() { echo "-> $@" 1>&2; }
 
 error() { echo "ERROR: $@" 1>&2; }
 
+# Encuentra una IP libre entre los archivos de host
 get_ip() {
+# Las subnets encontradas
     local subnets=/tmp/$$.subnets
     local ip=""
     local fourth=0
     local tries=0
 
+# Armar la lista de IPs
     sed -e '/Subnet/!d' -e 's/.*= //' nodos/* | sort -V > ${subnets}
 
+# Fallar si hay 250 nodos...
     if [ $(wc -l ${subnets} | cut -d' ' -f1) -ge 250 ]; then
 # No detecta si hay varios rangos en uso pero por ahora sirve
         error "Este rango está agotado"
         return 1
     fi
 
+# Hasta que encontremos una IP libre elegir el cuarto octeto al azar
     until [ -n "${ip}" ]; do
         let fourth=${RANDOM}%253
 # TODO no hardcodear el rango
         local tmpip="192.168.9.${fourth}${subnet}"
 
+# Está en la lista?
         if ! grep -q "${tmpip}" "${subnets}"; then
             ip="${tmpip}"
         fi
@@ -37,6 +46,7 @@ get_ip() {
     echo "${ip}"
 }
 
+# Tomar la configuración
 source config
 
 if [ -z "${ip}" ]; then
@@ -53,6 +63,7 @@ msg2 "La red del nodo será ${ip}${subnet}"
 msg2 "Si no es correcto presione ^C para cancelar"
 read pause
 
+# Comprobar que todas las variables existan
 vars=""
 for var in id vpn rango_vpn node address ip subnet; do
     if [ -z "${!var}" ]; then
@@ -68,26 +79,34 @@ fi
 msg "Creando configuración"
 msg2 "Creando directorio"
 
+# Dirección de los hosts
 hosts=${vpn}/hosts
 mkdir -p ${hosts}
 
+# Escribir la configuración
 msg2 "Nodo"
 touch ${hosts}/${node}
 
+# Dirección pública y dentro de la VPN
 echo "Address = ${address}" >> ${hosts}/${node}
 echo "Subnet = ${ip}${subnet}" >> ${hosts}/${node}
 
+# Escribir el script tinc-up
 sed -e "s/{{ip}}/${ip}/g" \
     -e "s/{{id}}/${id}/g" \
     -e "s/{{rango_vpn}}/${rango_vpn}/g" \
     skel/tinc-up > ${vpn}/tinc-up
 
+# Nombre del nodo
 sed "s/{{node}}/${node}/g" skel/tinc.conf > ${vpn}/tinc.conf
 
+# tinc-down
 cp skel/tinc-down ${vpn}/
 
+# Hacer ejecutables
 chmod +x ${vpn}/tinc-{up,down}
 
+# Tomar todos los hosts de conectar_a y copiarlos al directorio de hosts
 msg "Agregando los hosts remotos"
 for host in ${conectar_a}; do
     msg2 "${host}"
@@ -95,9 +114,11 @@ for host in ${conectar_a}; do
     cp nodos/${host} ${hosts}/
 done
 
+# Generar las llaves
 tincd -c ${PWD}/${vpn} -n ${vpn} --generate-keys=4096 && \
     msg "La red está configurada"
 
+# Firmar con GPG para mandar por mail
 msg "Firmar el archivo criptográficamente? (s/n)"
 read yesno
 
@@ -105,8 +126,10 @@ if [ "${yesno}" = "s" ]; then
     gpg --output ${hosts}/${node}.sig --detach-sig ${hosts}/${node}
 fi 
 
+# Tomar todos los nodos en hosts
 host_files=$(shopt -s nullglob; echo ${hosts}/${node}*)
 
+# Crear el tarball
 tar -cvzf ${vpn}.tar.gz ${vpn}/
 
 msg2 "La configuración se encuentra en ${vpn}.tar.gz"
