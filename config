@@ -35,4 +35,4 @@ node=$(hostname | tr -d '-')
 # Cada uno de estos nodos debe tener el archivo hosts/<nodo> de
 # este nodo
 #conectar_a="nodo_a nodo_b etc"
-conectar_a="medieval lancelot ponape"
+conectar_a="apolo lancelot diablo"
