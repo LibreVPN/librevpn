@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Solo acepta IPs fuera del rango de LibreVPN
+# tinc pasa como SUBNET: MAC, Subnet de la VPN y Subnet extras
+# (queremos las extras)
+function validate_ip() {
+    echo "$1" | \
+    grep "[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+/[0-9]\+" | \
+    egrep -q "192.168.9.[0-9]\+"
+
+    return $?
+}
+
+if validate_ip ${SUBNET}; then
+    echo "$(date) tincd.${NETNAME}[$0]: Adding route ${SUBNET} for node ${NODE}" >> /tmp/subnet.log
+    ip route add ${SUBNET} dev ${INTERFACE}
+fi
