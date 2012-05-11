@@ -15,13 +15,17 @@ rango_vpn=255.255.255.0
 # ======================
 
 # La IP de tu nodo en la VPN
-# Elegir el último octeto, que no esté ocupado en
-# el archivo lista.
+# get_ip selecciona una IP disponible
 ip=$(get_ip)
 
 # La subnet que va a manejar tu nodo. Por default lo dejamos
 # sólo.
 subnet=/32
+
+# Subnets extra, separadas por espacios
+# Agrega la subnet de tu red libre si este es un nodo pasarela
+# Ejemplo para BAL: 10.4.24.128/27
+subnets=""
 
 # (Opcional)
 # La dirección de acceso público del nodo. Lo mejor es cambiarlo
@@ -34,5 +38,5 @@ node=$(hostname | tr -d '-')
 # Lista de nodos con los que conectarse inicialmente.
 # Cada uno de estos nodos debe tener el archivo hosts/<nodo> de
 # este nodo
-#conectar_a="nodo_a nodo_b etc"
+# Separados por espacios
 conectar_a="apolo lancelot diablo"

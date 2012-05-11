@@ -65,12 +65,17 @@ msg2 "El nombre de la VPN es ${vpn} y su rango es ${rango_vpn}"
 msg2 "El nombre del nodo es ${node}"
 msg2 "La dirección del nodo es ${address} (siempre es mejor un dominio que una IP)"
 msg2 "La red del nodo será ${ip}${subnet}"
+
+if [ ! -z "${subnets}" ]; then
+    msg2 "Este nodo anunciará las subredes: ${subnets}"
+fi
+
 msg2 "Si no es correcto presione ^C para cancelar"
 read pause
 
 # Comprobar que todas las variables existan
 vars=""
-for var in id vpn rango_vpn node address ip subnet; do
+for var in id vpn rango_vpn node ip subnet; do
     if [ -z "${!var}" ]; then
         vars="${vars}${var} "
     fi
@@ -92,13 +97,19 @@ mkdir -p ${hosts}
 msg2 "Nodo"
 touch ${hosts}/${node}
 
+# Nombre y mail
+echo "# ${id}" >> ${hosts}/${node}
+
 # Dirección pública y dentro de la VPN
 echo "Address = ${address}" >> ${hosts}/${node}
 echo "Subnet = ${ip}${subnet}" >> ${hosts}/${node}
 
+for _subnet in ${subnets}; do
+    echo "Subnet = ${_subnet}" >> ${hosts}/${node}
+done
+
 # Escribir el script tinc-up
 sed -e "s/{{ip}}/${ip}/g" \
-    -e "s/{{id}}/${id}/g" \
     -e "s/{{rango_vpn}}/${rango_vpn}/g" \
     skel/tinc-up > ${vpn}/tinc-up
 
@@ -107,24 +118,26 @@ sed "s/{{node}}/${node}/g" skel/tinc.conf > ${vpn}/tinc.conf
 
 # tinc-down
 cp skel/tinc-down ${vpn}/
+cp skel/subnet-up ${vpn}/
 
 # Hacer ejecutables
-chmod +x ${vpn}/tinc-{up,down}
+chmod +x ${vpn}/tinc-{up,down} ${vpn}/subnet-up
 
 # Tomar todos los hosts de conectar_a y copiarlos al directorio de hosts
 msg "Agregando los hosts remotos"
 for host in ${conectar_a}; do
     msg2 "${host}"
     echo "ConnectTo = ${host}" >> ${vpn}/tinc.conf
-    cp nodos/${host} ${hosts}/
+    cp nodos/${host} ${hosts}/ 2>/dev/null || error "Falta el archivo"
 done
 
 # Generar las llaves
-tincd -c ${PWD}/${vpn} -n ${vpn} --generate-keys=4096 && \
+msg "Generando llaves..."
+echo -e "\n" | tincd -c ${PWD}/${vpn} -n ${vpn} --generate-keys=4096 && \
     msg "La red está configurada"
 
 # Firmar con GPG para mandar por mail
-msg "Firmar el archivo criptográficamente? (s/n)"
+msg "Firmar el archivo con GPG? (s/N)"
 read yesno
 
 if [ "${yesno}" = "s" ]; then
@@ -135,7 +148,7 @@ fi
 host_files=$(shopt -s nullglob; echo ${hosts}/${node}*)
 
 # Crear el tarball
-tar -cvzf ${vpn}.tar.gz ${vpn}/
+tar -cvzf ${vpn}.tar.gz ${vpn}
 
 msg2 "La configuración se encuentra en ${vpn}.tar.gz"
 msg2 "Descomprimir en /etc/tinc"
