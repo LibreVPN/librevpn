@@ -11,7 +11,16 @@ function validate_ip() {
     return $?
 }
 
+# Agrega una linea al log
+function log() {
+    echo "$(date) tincd.${NETNAME}[$0]: $@" >> /tmp/subnets.${NETNAME}.log 
+}
+
 if validate_ip ${SUBNET}; then
-    echo "$(date) tincd.${NETNAME}[$0]: Adding route ${SUBNET} for node ${NODE}" >> /tmp/subnet.log
-    ip route add ${SUBNET} dev ${INTERFACE}
+    if ! which ip; then
+        log "TODO: Implementar soporte para \`route\`"
+    else
+        ip route add ${SUBNET} dev ${INTERFACE}
+        log "Agregando ruta ${SUBNET} para el nodo ${NODE}"
+    fi
 fi
