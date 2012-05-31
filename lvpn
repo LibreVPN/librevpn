@@ -1,0 +1,21 @@
+#!/bin/bash
+# Wrapper para correr los comandos al estilo `git comando parametros`
+# Hay que crearlos en libdir/lvpn-comando
+
+# El comando
+command=$1; shift
+
+# El directorio de comandos
+libdir="$(dirname $(basename $0))/lib"
+
+. "${libdir}/msg"
+
+# Chequear si el comando existe
+if [ ! -x "${libdir}/$0-${command}" ]; then
+    fatal_error "${command} no existe, tal vez quisiste decir: no-${command}"
+fi
+
+# Correr el comando
+${libdir}/$0-${command} $@
+
+exit $?
