@@ -53,7 +53,8 @@ get_ip() {
         fi
 
 # Aumentar la cantidad de intentos
-        let tries++
+# Por alguna razon let devuelve 1
+        let tries++ || true
 
         if [ ${tries} -ge 250 ]; then
             error "No hay IPs libres"
@@ -63,6 +64,7 @@ get_ip() {
 
     $verbose && msg "Obtenida IP libre en ${tries} intentos"
     echo "${ip}"
+    return 0
 }
 
 help() {
@@ -107,7 +109,7 @@ nodefile="${lvpn_dir}/hosts/${nodename}"
 conffile="${nodedir}/tinc.conf"
 
 $verbose && msg "Chequeando sistema..."
-if [ -f /etc/tinc/lvpn/tinc.conf ]; then
+if [ -f ${tincdir}/tinc.conf ]; then
     fatal_error "Este sistema ya es un nodo de LibreVPN\! Utilice -f para pisar la instalación local."
 fi
 
@@ -175,11 +177,7 @@ fi
 $verbose && msg "Generando llaves..."
 echo -e "\n" | tincd -c "${nodedir}" --generate-keys=4096
 
-if $install ; then
-    msg "Instalando en el sistema..."
-    sudo mkdir -p /etc/tinc/lvpn/
-    sudo rsync -a --delete-after "${nodedir}/" /etc/tinc/lvpn/
-fi
+$install && ${libdir}/../lvpn install ${nodename}
 
 msg "El nodo se ha creado con éxito"
 msg "*Importante*: "

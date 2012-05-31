@@ -9,6 +9,7 @@ trap_exit() {
 
 trap 'trap_exit' TERM HUP QUIT INT ERR
 
+tincdir=/etc/tinc/lvpn
 # El directorio de comandos
 libdir="$(dirname $0)"
 hostdir="${libdir}/../hosts"
