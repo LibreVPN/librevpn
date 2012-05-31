@@ -86,6 +86,9 @@ help() {
 ${self/-/ } [-f] [-v] [-l 192.168.9.202/32] [-s subred] [-r] [-h dominio.eninternet.tld] [-c otronodo] nodo 
 
 Ejemplos:
+* Uso básico con una sola conexión
+  ${self/-/ } -i -c trululu guachiguau
+ 
 * Crear un nodo publico con una conexion e instalarlo localmente
   ${self/-/ } -i -h guachiguau.org -c trululu guachiguau
 
@@ -181,10 +184,15 @@ if ${subnetup} ; then
 fi
 
 $verbose && msg "Generando llaves..."
-echo -e "\n" | tincd -c "${nodedir}" --generate-keys=512
+echo -e "\n" | tincd -c "${nodedir}" --generate-keys=4096
 
 if $install ; then
     msg "Instalando en el sistema..."
     sudo mkdir -p /etc/tinc/lvpn/
     sudo rsync -a --delete-after "${nodedir}/" /etc/tinc/lvpn/
 fi
+
+msg "El nodo se ha creado con éxito"
+msg "Importante: envíe el archivo que representa a su nodo a vpn@hackcoop.com.ar ($nodefile)"
+
+exit 0
