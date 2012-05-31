@@ -1,0 +1,190 @@
+#!/bin/bash
+# Crea un nuevo nodo
+
+# Terminar ante el menor error
+set -E
+trap_exit() {
+    echo "ARGH! Algo pasó" 1>&2
+    exit 1
+}
+
+trap 'trap_exit' TERM HUP QUIT INT ERR
+
+# El directorio de comandos
+libdir="$(dirname $0)"
+hostdir="${libdir}/../hosts"
+
+. "${libdir}/msg"
+
+# Acepta la variable de entorno LVPN_DIR
+lvpn_dir="${LVPN_DIR:-${libdir}/..}"
+
+self="$(basename $0)"
+
+# ConnectTo
+connectto=""
+# Address
+address=""
+# Subnets extra (-s)
+subnets=""
+# Instalar
+install=false
+# Habilitar subnet-up (-r)
+subnetup=false
+# Modo verborrágico
+verbose=false
+
+add_to_file(){
+    f=$1; shift
+
+    echo "$@" >>$f
+}
+# Encuentra una IP libre entre los archivos de host
+get_ip() {
+# Las subnets encontradas
+    local subnets=/tmp/$$.subnets
+    local ip=""
+    local fourth=0
+    local tries=0
+
+# Armar la lista de IPs
+    grep -i "subnet\s*=" ${hostdir}/* | cut -d'=' -f2 | sort > ${subnets}
+
+# Fallar si hay 250 nodos...
+    if [ $(wc -l ${subnets} | cut -d' ' -f1 2>/dev/null) -ge 250 ]; then
+# No detecta si hay varios rangos en uso pero por ahora sirve
+        error "Este rango está agotado"
+        return 1
+    fi
+
+# Hasta que encontremos una IP libre elegir el cuarto octeto al azar
+    until [ -n "${ip}" ]; do
+        let fourth=${RANDOM}%250
+# TODO no hardcodear el rango
+        local tmpip="192.168.9.${fourth}/32"
+
+# Está en la lista?
+        if ! grep -q "${tmpip}" "${subnets}"; then
+            ip="${tmpip}"
+        fi
+
+# Aumentar la cantidad de intentos
+        let tries++
+
+        if [ ${tries} -ge 250 ]; then
+            error "No hay IPs libres"
+            return 1
+        fi
+    done
+
+    $verbose && msg "Obtenida IP libre en ${tries} intentos"
+    echo "${ip}"
+}
+
+help() {
+    echo "Crea un nuevo nodo
+${self/-/ } [-f] [-v] [-l 192.168.9.202/32] [-s subred] [-r] [-h dominio.eninternet.tld] [-c otronodo] nodo 
+
+Ejemplos:
+* Crear un nodo publico con una conexion e instalarlo localmente
+  ${self/-/ } -i -h guachiguau.org -c trululu guachiguau
+
+* Crear un nodo con una IP predeterminada en la red
+  ${self/-/ } -l 192.168.9.202/32 guachiguau
+
+* Crear un nodo que acepte otras redes 
+  ${self/-/ } -r guachiguau
+
+* Crear un nodo que acepte otras redes y sea puente de otra red
+  ${self/-/ } -r -s 10.4.23.224/27 guachiguau"
+}
+
+while getopts 'virfh:c:s:l:' arg; do
+    case $arg in
+        v) verbose=true ;;
+        r) subnetup=true ;;
+        i) install=true;;
+        f) force=true ;;
+        l) localnet="$OPTARG" ;;
+        h) address="$OPTARG" ;;
+        c) connectto="$connectto $OPTARG" ;;
+        s) subnets="$subnets $OPTARG" ;;
+    esac
+done ;
+let OPTIND--; shift $OPTIND
+
+nodename=$1
+nodedir="${lvpn_dir}/nodos/${nodename}"
+nodefile="${lvpn_dir}/hosts/${nodename}"
+conffile="${nodedir}/tinc.conf"
+
+$verbose && msg "Chequeando sistema..."
+if [ -f /etc/tinc/lvpn/tinc.conf ]; then
+    fatal_error "Este sistema ya es un nodo de LibreVPN\! Utilice -f para pisar la instalación local."
+fi
+
+$verbose && msg "Creando ${nodename}..."
+if [ -f "${nodefile}" ]; then
+    fatal_error "El nodo ya existe"
+fi
+
+$verbose && msg "Creando ${nodedir}..."
+if [ -d "${nodedir}" ]; then
+    fatal_error "El directorio del nodo ya existe"
+fi
+
+mkdir -p ${nodedir}/hosts || fatal_error "No se pudo crear el directorio"
+
+$verbose && msg "Generando ${nodefile}..."
+get_id >>"${nodefile}"
+
+if [ ! -z "${address}" ]; then
+    add_to_file "${nodefile}" "Address = ${address}"
+fi
+
+$verbose && msg "Determinando la IP del nodo..."
+if [ -z "${localnet}" ] ; then
+    localnet=$(get_ip)
+
+    if [ $? -ne 0 ]; then
+        fatal_error "No se pudo determinar una IP para este nodo"
+    fi
+fi
+
+$verbose && msg "Añadiendo subredes..."
+for _subnet in ${localnet} ${subnets}; do
+    add_to_file "${nodefile}" "Subnet = ${_subnet}"
+done
+
+$verbose && msg "Generando ${conffile}..."
+add_to_file "${conffile}" "Name = ${nodename}"
+add_to_file "${conffile}" "Mode = switch"
+
+$verbose && msg "Añadiendo hosts..."
+for _connectto in ${connectto}; do
+    _host="$(dirname "${nodefile}")/${_connectto}"
+    if [ ! -f "${_host}" ]; then
+        error "El archivo host de ${_connectto} no existe, salteando..."
+        continue
+    fi
+
+    add_to_file "${conffile}" "ConnectTo = ${_connectto}"
+    cp "${_host}" "${nodedir}/hosts/"
+done
+
+$verbose && msg "Copiando el resto de archivos..."
+cp -t "${nodedir}" "${libdir}"/skel/tinc-{up,down}
+cp -t "${nodedir}/hosts/" "${nodefile}"
+
+if ${subnetup} ; then
+    cp -t "${nodedir}" "${libdir}"/skel/subnet-{up,down}
+fi
+
+$verbose && msg "Generando llaves..."
+echo -e "\n" | tincd -c "${nodedir}" --generate-keys=512
+
+if $install ; then
+    msg "Instalando en el sistema..."
+    sudo mkdir -p /etc/tinc/lvpn/
+    sudo rsync -a --delete-after "${nodedir}/" /etc/tinc/lvpn/
+fi
