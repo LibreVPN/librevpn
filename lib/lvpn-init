@@ -1,25 +1,7 @@
 #!/bin/bash
 # Crea un nuevo nodo
 
-# Terminar ante el menor error
-set -E
-trap_exit() {
-    echo "ARGH! Algo pasó" 1>&2
-    exit 1
-}
-
-trap 'trap_exit' TERM HUP QUIT INT ERR
-
-# El directorio de comandos
-libdir="$(dirname $0)"
-hostdir="${libdir}/../hosts"
-
-. "${libdir}/msg"
-
-# Acepta la variable de entorno LVPN_DIR
-lvpn_dir="${LVPN_DIR:-${libdir}/..}"
-
-self="$(basename $0)"
+. $(dirname $0)/common
 
 # ConnectTo
 connectto=""
@@ -200,6 +182,8 @@ if $install ; then
 fi
 
 msg "El nodo se ha creado con éxito"
-msg "Importante: envíe el archivo que representa a su nodo a vpn@hackcoop.com.ar ($nodefile)"
+msg "*Importante*: "
+msg "* Envíe el archivo que representa su nodo a vpn@hackcoop.com.ar ($nodefile), o"
+msg "* Agregue ${nodefile} al repositorio git y publíquelo."
 
 exit 0

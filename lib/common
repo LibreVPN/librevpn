@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Terminar ante el menor error
+set -E
+trap_exit() {
+    echo "ARGH! Algo pasó" 1>&2
+    exit 1
+}
+
+trap 'trap_exit' TERM HUP QUIT INT ERR
+
+# El directorio de comandos
+libdir="$(dirname $0)"
+hostdir="${libdir}/../hosts"
+
+. "${libdir}/msg"
+
+# Acepta la variable de entorno LVPN_DIR
+lvpn_dir="${LVPN_DIR:-${libdir}/..}"
+
+self="$(basename $0)"
