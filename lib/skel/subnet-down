@@ -1,4 +1,5 @@
 #!/bin/sh
+# Este archivo da de baja las subnets de la VPN
 
 # Solo acepta IPs fuera del rango de LibreVPN
 # tinc pasa como SUBNET: MAC, Subnet de la VPN y Subnet extras
@@ -17,11 +18,11 @@ function log() {
 }
 
 if validate_ip ${SUBNET}; then
-    log "Agregando ruta ${SUBNET} para el nodo ${NODE}"
+    log "Quitando ruta ${SUBNET} para el nodo ${NODE}"
 
     if ! which ip; then
-        route add ${SUBNET} dev ${INTERFACE}
+        route del ${SUBNET}
     else
-        ip route add ${SUBNET} dev ${INTERFACE}
+        ip route del ${SUBNET}
     fi
 fi
