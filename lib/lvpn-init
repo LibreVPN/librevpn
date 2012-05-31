@@ -25,6 +25,8 @@ self="$(basename $0)"
 connectto=""
 # Address
 address=""
+# Port
+port=""
 # Subnets extra (-s)
 subnets=""
 # Instalar
@@ -83,7 +85,7 @@ get_ip() {
 
 help() {
     echo "Crea un nuevo nodo
-${self/-/ } [-f] [-v] [-l 192.168.9.202/32] [-s subred] [-r] [-h dominio.eninternet.tld] [-c otronodo] nodo 
+${self/-/ } [-f] [-v] [-p 655] [-l 192.168.9.202/32] [-s subred] [-r] [-h dominio.eninternet.tld] [-c otronodo] nodo 
 
 Ejemplos:
 * Uso básico con una sola conexión
@@ -102,12 +104,13 @@ Ejemplos:
   ${self/-/ } -r -s 10.4.23.224/27 guachiguau"
 }
 
-while getopts 'virfh:c:s:l:' arg; do
+while getopts 'virfp:h:c:s:l:' arg; do
     case $arg in
         v) verbose=true ;;
         r) subnetup=true ;;
         i) install=true;;
         f) force=true ;;
+        p) port="$OPTARG" ;;
         l) localnet="$OPTARG" ;;
         h) address="$OPTARG" ;;
         c) connectto="$connectto $OPTARG" ;;
@@ -143,6 +146,10 @@ get_id >>"${nodefile}"
 
 if [ ! -z "${address}" ]; then
     add_to_file "${nodefile}" "Address = ${address}"
+fi
+
+if [ ! -z "${port}" ]; then
+    add_to_file "${nodefile}" "Port = ${port}"
 fi
 
 $verbose && msg "Determinando la IP del nodo..."
