@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# La base para todos los mensajes, se imprime en stderr
+msg() {
+    echo "> $@" 1>&2
+}
+
+error() {
+    msg "ERROR: $@"
+}
+
+warning() {
+    msg "ALERTA: $@"
+}
+
+# Mensaje de error y salir
+fatal_error() {
+    error "$@"
+    exit 1
+}
+
+# Toma la ayuda desde doc/$comando
+# $1 el comando para obtener la ayuda
+help() {
+    ${PAGER:-less} "${libdir}/../doc/$1.markdown" 2>/dev/null || true
+}
+
+# Obtiene la id del responsable del nodo
+get_id() {
+    if which git >/dev/null; then
+        echo "# $(git config --get user.name) <$(git config --get user.email)>"
+    else
+        echo "# $USER@$HOSTNAME"
+    fi
+}
