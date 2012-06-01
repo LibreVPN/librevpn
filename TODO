@@ -14,4 +14,8 @@
 
 * Hacer cambios como para poder instalarlo globalmente (= Makefile, lib/common, etc.)
 
+* Usar gettext para los mensajes
+
+* Publicar los nodos con git-daemon ad-hoc (en un puerto especial)
+
 vim:set ts=2 sw=2 et syntax=markdown:
