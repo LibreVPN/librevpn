@@ -1,0 +1,29 @@
+#!/bin/bash
+# Sincroniza los nodos de un nodo remoto o local
+# Necesita acceso SSH, pensado para sincronizar nodos en un router con *WRT
+# No usamos rsync porque no existe
+
+. $(dirname $0)/common
+
+while getopts "h" arg; do
+    case $arg in
+        h) help ${self} ; exit 0;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+# Setear las opciones
+node="$1"; shift
+host="$1"; shift
+dir="$1"; shift
+
+nodedir="${lvpn_dir}/nodos/${node}"
+
+if [ ! -f "${nodedir}/tinc.conf" ]; then
+    fatal_error "El nodo no existe o es inválido"
+fi
+
+# Usamos un scp normal porque probablemente no haya rsync del otro lado
+scp -r "${nodedir}" ${host}:"${dir:-${tincdir}}/"
+
+exit $?

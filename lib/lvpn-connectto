@@ -13,7 +13,7 @@ let OPTIND--; shift ${OPTIND}
 node="$1"; shift
 hosts="$@"
 
-nodedir="${libdir}/../nodos/${node}"
+nodedir="${lvpn_dir}/nodos/${node}"
 
 if [ ! -f "${nodedir}/tinc.conf" ]; then
     fatal_error "El nodo no existe o es inválido"
