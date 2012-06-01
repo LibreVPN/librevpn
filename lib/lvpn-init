@@ -136,7 +136,7 @@ add_to_file "${conffile}" "Mode = switch"
 
 $verbose && msg "Añadiendo hosts..."
 for _connectto in ${connectto}; do
-    _host="$(dirname "${nodefile}")/${_connectto}"
+    _host="${lvpn_dir}/hosts/${_connectto}"
     if [ ! -f "${_host}" ]; then
         error "El archivo host de ${_connectto} no existe, salteando..."
         continue
