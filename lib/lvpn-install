@@ -1,0 +1,21 @@
+#!/bin/bash
+# Sincroniza los nodos de un nodo remoto o local
+# Necesita acceso SSH, pensado para sincronizar nodos en un router con *WRT
+# No usamos rsync porque no existe
+
+. $(dirname $0)/common
+
+for _node in $@ ; do
+    nodedir="${libdir}/../nodos/${_node}"
+
+    if [ ! -d "${nodedir}" ]; then
+        fatal_error "El nodo no existe"
+    fi
+
+    msg "Instalando en el sistema..."
+    sudo mkdir -p "${tincdir}"
+    sudo rsync -a --delete-after "${nodedir}/" "${tincdir}/"
+
+done
+
+exit $?
