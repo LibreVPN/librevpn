@@ -85,7 +85,7 @@ let OPTIND--; shift $OPTIND
 
 nodename=$1
 nodedir="${lvpn_dir}/nodos/${nodename}"
-nodefile="${lvpn_dir}/hosts/${nodename}"
+nodefile="${nodedir}/hosts/${nodename}"
 conffile="${nodedir}/tinc.conf"
 
 $verbose && msg "Chequeando sistema..."
@@ -148,7 +148,6 @@ done
 
 $verbose && msg "Copiando el resto de archivos..."
 cp -t "${nodedir}" "${libdir}"/skel/tinc-{up,down}
-cp -t "${nodedir}/hosts/" "${nodefile}"
 
 if ${subnetup} ; then
     cp -t "${nodedir}" "${libdir}"/skel/subnet-{up,down}
@@ -156,6 +155,9 @@ fi
 
 $verbose && msg "Generando llaves..."
 echo -e "\n" | tincd -c "${nodedir}" --generate-keys=4096
+
+$verbose && msg "Guardando el archivo de host con los demás nodos"
+cp -t "${lvpn_dir}/hosts" "${nodefile}"
 
 $install && ${libdir}/../lvpn install ${nodename}
 
