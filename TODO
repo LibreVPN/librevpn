@@ -1,0 +1,13 @@
+# Cosas para hacer
+
+> No puede hacerlo otro?
+
+* `grep -rHn TODO .`
+
+* lvpn-check. Chequear errores comunes (falta tinc.conf, hosts/minodo,
+  hosts/conectara)
+
+* Tomar los nodos a los que se esta rechazando conexion (es decir, tienen al
+  nodo en ConnectTo) y actualiza o informa cuáles son.
+
+vim:set ts=2 sw=2 et syntax=markdown:
