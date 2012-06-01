@@ -67,36 +67,16 @@ get_ip() {
     return 0
 }
 
-help() {
-    echo "Crea un nuevo nodo
-${self/-/ } [-f] [-v] [-p 655] [-l 192.168.9.202/32] [-s subred] [-r] [-h dominio.eninternet.tld] [-c otronodo] nodo 
-
-Ejemplos:
-* Uso básico con una sola conexión
-  ${self/-/ } -i -c trululu guachiguau
- 
-* Crear un nodo publico con una conexion e instalarlo localmente
-  ${self/-/ } -i -h guachiguau.org -c trululu guachiguau
-
-* Crear un nodo con una IP predeterminada en la red
-  ${self/-/ } -l 192.168.9.202/32 guachiguau
-
-* Crear un nodo que acepte otras redes 
-  ${self/-/ } -r guachiguau
-
-* Crear un nodo que acepte otras redes y sea puente de otra red
-  ${self/-/ } -r -s 10.4.23.224/27 guachiguau"
-}
-
-while getopts 'virfp:h:c:s:l:' arg; do
+while getopts 'vhirfp:a:c:s:l:' arg; do
     case $arg in
+        h) help $self; exit 0 ;;
         v) verbose=true ;;
         r) subnetup=true ;;
         i) install=true;;
         f) force=true ;;
         p) port="$OPTARG" ;;
         l) localnet="$OPTARG" ;;
-        h) address="$OPTARG" ;;
+        a) address="$OPTARG" ;;
         c) connectto="$connectto $OPTARG" ;;
         s) subnets="$subnets $OPTARG" ;;
     esac
