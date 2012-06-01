@@ -1,0 +1,37 @@
+#!/bin/bash
+# Agrega valores connectto a un nodo
+
+. $(dirname $0)/common
+
+while getopts "h" arg; do
+    case $arg in
+        h) help ${self} ; exit 0;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+node="$1"; shift
+hosts="$@"
+
+nodedir="${libdir}/../nodos/${node}"
+
+if [ ! -f "${nodedir}/tinc.conf" ]; then
+    fatal_error "El nodo no existe o es inválido"
+fi
+
+# Recorrer todos los host que se pasaron
+for _connectto in ${hosts}; do
+# Generar el archivo y encontrarlo, saltear si no existe
+    _host="${lvpn_dir}/hosts/${_connectto}"
+    if [ ! -f "${_host}" ]; then
+        error "El archivo host de ${_connectto} no existe, salteando..."
+        continue
+    fi
+
+# Agregar la linea ConnectTo = nodo a tinc.conf
+    add_to_file "${nodedir}/tinc.conf" "ConnectTo = ${_connectto}"
+# Y copiar el archivo al directorio del nodo
+    cp "${_host}" "${nodedir}/hosts/"
+done
+
+exit $?

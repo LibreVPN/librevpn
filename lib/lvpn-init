@@ -18,11 +18,6 @@ subnetup=false
 # Modo verborrágico
 verbose=false
 
-add_to_file(){
-    f=$1; shift
-
-    echo "$@" >>$f
-}
 # Encuentra una IP libre entre los archivos de host
 get_ip() {
 # Las subnets encontradas
@@ -135,16 +130,7 @@ add_to_file "${conffile}" "Name = ${nodename}"
 add_to_file "${conffile}" "Mode = switch"
 
 $verbose && msg "Añadiendo hosts..."
-for _connectto in ${connectto}; do
-    _host="${lvpn_dir}/hosts/${_connectto}"
-    if [ ! -f "${_host}" ]; then
-        error "El archivo host de ${_connectto} no existe, salteando..."
-        continue
-    fi
-
-    add_to_file "${conffile}" "ConnectTo = ${_connectto}"
-    cp "${_host}" "${nodedir}/hosts/"
-done
+${lvpn_dir}/lvpn connectto ${connectto}
 
 $verbose && msg "Copiando el resto de archivos..."
 cp -t "${nodedir}" "${libdir}"/skel/tinc-{up,down}
@@ -159,7 +145,7 @@ echo -e "\n" | tincd -c "${nodedir}" --generate-keys=4096
 $verbose && msg "Guardando el archivo de host con los demás nodos"
 cp -t "${lvpn_dir}/hosts" "${nodefile}"
 
-$install && ${libdir}/../lvpn install ${nodename}
+$install && ${lvpn_dir}/lvpn install ${nodename}
 
 msg "El nodo se ha creado con éxito"
 msg "*Importante*: "

@@ -20,3 +20,10 @@ hostdir="${libdir}/../hosts"
 lvpn_dir="${LVPN_DIR:-${libdir}/..}"
 
 self="$(basename $0)"
+
+# Agrega una linea a un archivo
+add_to_file(){
+    f=$1; shift
+
+    echo "$@" >>$f
+}
