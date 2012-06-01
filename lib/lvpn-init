@@ -3,6 +3,7 @@
 
 . $(dirname $0)/common
 
+# Opciones
 # ConnectTo
 connectto=""
 # Address
@@ -62,6 +63,7 @@ get_ip() {
     return 0
 }
 
+# Procesar los flags (ver doc)
 while getopts 'vhirfp:a:c:s:l:' arg; do
     case $arg in
         h) help $self; exit 0 ;;
@@ -82,6 +84,11 @@ nodename=$1
 nodedir="${lvpn_dir}/nodos/${nodename}"
 nodefile="${nodedir}/hosts/${nodename}"
 conffile="${nodedir}/tinc.conf"
+
+# Con -f se eliminan los archivos anteriores
+if $force; then
+    rm -r "${nodefile}" "${nodedir}" || true
+fi
 
 $verbose && msg "Chequeando sistema..."
 if [ -f ${tincdir}/tinc.conf ]; then
