@@ -10,4 +10,8 @@
 * Tomar los nodos a los que se esta rechazando conexion (es decir, tienen al
   nodo en ConnectTo) y actualiza o informa cuáles son.
 
+* Bash completion
+
+* Hacer cambios como para poder instalarlo globalmente (= Makefile, lib/common, etc.)
+
 vim:set ts=2 sw=2 et syntax=markdown:
