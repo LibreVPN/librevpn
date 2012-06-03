@@ -3,18 +3,18 @@
 # Necesita acceso SSH, pensado para sincronizar nodos en un router con *WRT
 # No usamos rsync porque no existe
 
-. $(dirname $0)/common
+. common
 
 for _node in $@ ; do
-    nodedir="${libdir}/../nodos/${_node}"
+    nodedir="${LVPN_DIR}/nodos/${_node}"
 
     if [ ! -d "${nodedir}" ]; then
         fatal_error "El nodo no existe"
     fi
 
     msg "Instalando en el sistema..."
-    sudo mkdir -p "${tincdir}"
-    sudo rsync -a --delete-after "${nodedir}/" "${tincdir}/"
+    sudo mkdir -p "${TINC}"
+    sudo rsync -a --delete-after "${nodedir}/" "${TINC}/"
 
 done
 

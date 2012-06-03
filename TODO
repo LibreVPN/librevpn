@@ -12,10 +12,10 @@
 
 * Bash completion
 
-* Hacer cambios como para poder instalarlo globalmente (= Makefile, lib/common, etc.)
-
 * Usar gettext para los mensajes
 
 * Publicar los nodos con git-daemon ad-hoc (en un puerto especial)
+
+* Administrar tincd, convertir el log a un socket y poder leer eventos desde ahi
 
 vim:set ts=2 sw=2 et syntax=markdown:

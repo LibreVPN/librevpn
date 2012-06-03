@@ -1,7 +1,7 @@
 #!/bin/bash
 # Crea un nuevo nodo
 
-. $(dirname $0)/common
+. "${LVPN_LIBDIR}"/common
 
 # Opciones
 # ConnectTo
@@ -18,6 +18,7 @@ install=false
 subnetup=false
 # Modo verborrágico
 verbose=false
+force=false
 
 # Encuentra una IP libre entre los archivos de host
 get_ip() {
@@ -80,8 +81,14 @@ while getopts 'vhirfp:a:c:s:l:' arg; do
 done ;
 let OPTIND--; shift $OPTIND
 
-nodename=$1
-nodedir="${lvpn_dir}/nodos/${nodename}"
+# TODO chequear que el nombre sea valido
+nodename="${1}"
+
+if [ -z "${nodename}" ]; then
+    fatal_error "Se necesita un nombre de nodo"
+fi
+
+nodedir="${LVPN_DIR}/nodos/${nodename}"
 nodefile="${nodedir}/hosts/${nodename}"
 conffile="${nodedir}/tinc.conf"
 
@@ -137,22 +144,24 @@ add_to_file "${conffile}" "Name = ${nodename}"
 add_to_file "${conffile}" "Mode = switch"
 
 $verbose && msg "Añadiendo hosts..."
-${lvpn_dir}/lvpn connectto ${connectto}
+if [ -n "${connectto}" ]; then
+    ${LVPN} connectto ${nodename} ${connectto}
+fi
 
 $verbose && msg "Copiando el resto de archivos..."
-cp -t "${nodedir}" "${libdir}"/skel/tinc-{up,down}
+cp -t "${nodedir}" "${LVPN_LIBDIR}"/skel/tinc-{up,down}
 
 if ${subnetup} ; then
-    cp -t "${nodedir}" "${libdir}"/skel/subnet-{up,down}
+    cp -t "${nodedir}" "${LVPN_LIBDIR}"/skel/subnet-{up,down}
 fi
 
 $verbose && msg "Generando llaves..."
-echo -e "\n" | tincd -c "${nodedir}" --generate-keys=4096
+echo -e "\n" | tincd -c "${nodedir}" --generate-keys=${KEYSIZE}
 
 $verbose && msg "Guardando el archivo de host con los demás nodos"
-cp -t "${lvpn_dir}/hosts" "${nodefile}"
+cp -t "${LVPN_HOSTS}" "${nodefile}"
 
-$install && ${lvpn_dir}/lvpn install ${nodename}
+$install && ${LVPN} install ${nodename}
 
 msg "El nodo se ha creado con éxito"
 msg "*Importante*: "

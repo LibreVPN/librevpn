@@ -2,20 +2,36 @@
 # Wrapper para correr los comandos al estilo `git comando parametros`
 # Hay que crearlos en libdir/lvpn-comando
 
+# ENV
+# Tomar las variables de entorno (por ejemplo de un archivo de configuración
+# o de la shell) o usar directorios locales
+TINC=/etc/tinc/lvpn
+LVPN="$(readlink -f $0)"
+LVPN_DIR="${LVPN_DIR:-$(dirname "$LVPN")}"
+LVPN_LIBDIR="${LVPN_LIBDIR:-${LVPN_DIR}/lib}"
+LVPN_HOSTS="${LVPN_HOSTS:-${LVPN_DIR}/hosts}"
+KEYSIZE=${KEYSIZE:-4096}
+
+export TINC LVPN LVPN_DIR LVPN_LIBDIR LVPN_HOSTS KEYSIZE
+
+. "${LVPN_LIBDIR}/common"
+
+while getopts "h" arg; do
+    case $arg in
+        h) help lvpn ; exit 0;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
 # El comando
 command=$1; shift
 
-# El directorio de comandos
-libdir="$(dirname $(basename $0))/lib"
-
-. "${libdir}/msg"
-
 # Chequear si el comando existe
-if [ ! -x "${libdir}/$0-${command}" ]; then
-    fatal_error "${command} no existe, tal vez quisiste decir: no-${command}"
+if [ ! -x "${LVPN_LIBDIR}/$0-${command}" ]; then
+    fatal_error "${command} no existe, tal vez te gustaría implementarlo :D"
 fi
 
 # Correr el comando
-${libdir}/$0-${command} $@
+${LVPN_LIBDIR}/$0-${command} $@
 
 exit $?
