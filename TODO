@@ -8,7 +8,7 @@
   hosts/conectara)
 
 * Tomar los nodos a los que se esta rechazando conexion (es decir, tienen al
-  nodo en ConnectTo) y actualiza o informa cuáles son.
+  nodo local en ConnectTo) y actualiza o informa cuáles son.
 
 * Bash completion
 

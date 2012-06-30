@@ -23,6 +23,8 @@ if [ ! -f "${nodedir}/tinc.conf" ]; then
     fatal_error "El nodo no existe o es inválido"
 fi
 
+# Crear el directorio
+ssh ${host} mkdir -p "${dir:-${TINC}}/"
 # Usamos un scp normal porque probablemente no haya rsync del otro lado
 # scp normalmente pisa todos los archivos
 scp -r "${nodedir}" ${host}:"${dir:-${TINC}}/"
