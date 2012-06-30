@@ -32,6 +32,6 @@ if [ ! -x "${LVPN_LIBDIR}/$0-${command}" ]; then
 fi
 
 # Correr el comando
-${LVPN_LIBDIR}/$0-${command} $@
+exec ${LVPN_LIBDIR}/$0-${command} $@
 
 exit $?
