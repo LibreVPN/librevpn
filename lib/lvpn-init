@@ -29,7 +29,7 @@ get_ip() {
     local tries=0
 
 # Armar la lista de IPs
-    grep -i "subnet\s*=" ${hostdir}/* | cut -d'=' -f2 | sort > ${subnets}
+    grep -i "subnet\s*=" ${LVPN_HOSTS}/* | cut -d'=' -f2 | sort > ${subnets}
 
 # Fallar si hay 250 nodos...
     if [ $(wc -l ${subnets} | cut -d' ' -f1 2>/dev/null) -ge 250 ]; then
