@@ -3,7 +3,7 @@
 # Necesita acceso SSH, pensado para sincronizar nodos en un router con *WRT
 # No usamos rsync porque no existe
 
-. common
+. "${LVPN_LIBDIR}"/common
 
 for _node in $@ ; do
     nodedir="${LVPN_DIR}/nodos/${_node}"
