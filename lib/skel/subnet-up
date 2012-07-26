@@ -3,25 +3,15 @@
 # Solo acepta IPs fuera del rango de LibreVPN
 # tinc pasa como SUBNET: MAC, Subnet de la VPN y Subnet extras
 # (queremos las extras)
-function validate_ip() {
-    echo "$1" | \
-    grep "[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+/[0-9]\+" | \
-    egrep -q "192.168.9.[0-9]\+"
+# TODO sólo funciona con IPv4
 
-    return $?
-}
+# Si encuentra estas cadenas en la subnet, no es necesario
+for not in ':' '192.168.9.'; do
+    echo "$SUBNET" | grep "$not" >/dev/null 2>&1
+    [ $? -eq 0 ] && exit 0
+done
 
-# Agrega una linea al log
-function log() {
-    echo "$(date) tincd.${NETNAME}[$0]: $@" >> /tmp/subnets.${NETNAME}.log 
-}
+# Usar `ip` si está disponible
+which ip >/dev/null && IP=ip
 
-if validate_ip ${SUBNET}; then
-    log "Agregando ruta ${SUBNET} para el nodo ${NODE}"
-
-    if ! which ip; then
-        route add ${SUBNET} dev ${INTERFACE}
-    else
-        ip route add ${SUBNET} dev ${INTERFACE}
-    fi
-fi
+$IP route add $SUBNET dev $INTERFACE
