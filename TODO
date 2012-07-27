@@ -18,4 +18,6 @@
 
 * Administrar tincd, convertir el log a un socket y poder leer eventos desde ahi
 
+* Usar script host-{up,down} para saber cuales son los nodos disponibles
+
 vim:set ts=2 sw=2 et syntax=markdown:
