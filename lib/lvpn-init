@@ -139,9 +139,18 @@ for _subnet in ${localnet} ${subnets}; do
     add_to_file "${nodefile}" "Subnet = ${_subnet}"
 done
 
+# Si se anuncia otra subnet, el nodo actua como router, pero se pierden
+# servicios como avahi
+if [ -z "${subnets}" ]; then
+    mode="switch"
+else
+    mode="router"
+fi
+$verbose && msg "Este nodo es un ${mode}"
+
 $verbose && msg "Generando ${conffile}..."
 add_to_file "${conffile}" "Name = ${nodename}"
-add_to_file "${conffile}" "Mode = switch"
+add_to_file "${conffile}" "Mode = ${mode}"
 
 $verbose && msg "Añadiendo hosts..."
 if [ -n "${connectto}" ]; then
