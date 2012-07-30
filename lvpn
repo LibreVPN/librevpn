@@ -27,11 +27,11 @@ let OPTIND--; shift ${OPTIND}
 command=$1; shift
 
 # Chequear si el comando existe
-if [ ! -x "${LVPN_LIBDIR}/$0-${command}" ]; then
+if [ ! -x "${LVPN_LIBDIR}/lvpn-${command}" ]; then
     fatal_error "${command} no existe, tal vez te gustaría implementarlo :D"
 fi
 
 # Correr el comando
-exec ${LVPN_LIBDIR}/$0-${command} $@
+exec ${LVPN_LIBDIR}/lvpn-${command} $@
 
 exit $?

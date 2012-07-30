@@ -3,7 +3,7 @@
 Los nodos se guardan en el directorio $LVPN\_DIR/nodos/ 
 
 Uso: 
-lvpn init [-f] [-v] [-p 655] [-l 192.168.9.202/32] [-s subred] [-r] [-h dominio.eninternet.tld] [-c otronodo] nodo 
+lvpn init [-f] [-v] [-p 655] [-l 192.168.9.202/32] [-s subred] [-r] [-a dominio.eninternet.tld] [-c otronodo] nodo 
 
 Ejemplos:
 * Uso básico con una sola conexión
@@ -12,7 +12,7 @@ Ejemplos:
  
 * Crear un nodo publico con una conexion e instalarlo localmente
 
-  lvpn init -i -h guachiguau.org -c trululu guachiguau
+  lvpn init -i -a guachiguau.org -c trululu guachiguau
 
 * Crear un nodo con una IP predeterminada en la red 
 
