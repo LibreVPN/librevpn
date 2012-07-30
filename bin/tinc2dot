@@ -1,0 +1,76 @@
+#!/bin/bash
+#
+#       grafico tinc2dot version 0.2.1
+#       Ernesto bazzano (c) Liberado bajo licencia AGPL
+#
+#	Basado en los ejemplos de graphviz 
+#		http://graphviz.org/content/psg
+#		http://graphviz.org/content/fsm
+
+DIA=$(date)
+NODOS=$( cat /tmp/lab.dot | grep ">" )
+SERVICIOS=$(avahi-browse --all -t -p | sort -u | sed 's/\ /-/g' )
+
+echo "digraph Lab {
+        graph [fontsize=30 labelloc=\"b\" splines=true overlap=false rankdir=\"LR\"];
+        layout=circo;
+	size=\"10, 7.5\" ;
+	pad=\"0.5\";
+        stylesheet=\"style.css\";
+	mindist=0.05;
+	node [style = \"filled\",  shape=\"circle\", margin=\".5,.5\", fixedsize=true, width=1.5, style=\"filled\"];
+        edge [penwidth=2, arrowsize=\"1.5\",  margin=\"1,1\", pencolor=\"1 1 1\"];
+
+	${NODOS}
+
+	label=\"\nLibreVPN - ${DIA} - http://anastasia.local/tinc2dot\"
+"
+
+for NODO in $(echo $NODOS | sed 's/->/\n/g; s/;/\n/g; s/\ //g' | sort -u); do
+
+        ENLACES=$(echo $NODOS | sed 's/;/\n/g' | grep $NODO | wc -l)
+        GRUESO=$(echo $ENLACES/2 | bc -l | sed 's/\..*//g')
+        COLOR=$(echo \(1/10*0$GRUESO\)+0.3 | bc -l)
+        SATURACION="0.$(echo $((-11+$ENLACES)) | sed 's/-//g')"
+
+        #IP=$( ping -c 1 $NODO.local | grep from | sed 's/.*(\(.*\..*\..*\..*\)).*/\1/g')
+        if [ "$ENLACES" == "1" ]; then
+                ESTILO="style=\"dotted\""
+                GRUESO=1
+        else
+                ESTILO=""
+        fi
+
+	echo "$NODO [ $ESTILO \"
+	fillcolor=\"$COLOR $SATURACION .85\", \
+	penwidth=\"$(echo 14/10*$GRUESO+.8 | bc -l)\", \
+	tooltip=\"$(echo $(echo $SERVICIOS | sed 's/ /\n/g' | grep $NODO))\", \
+        URL=\"/vpn/?nodo=${NODO}\",\
+	width=\"$(echo \(3/10*$GRUESO\)+1.2 | bc -l)\", \
+
+label=<<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" align=\"center\" colspan=\"2\" >\
+<tr><td><img src=\"vpn/avatar/${NODO}.png\" /></td><td>${NODO}</td></tr>\
+</table>>\
+]"
+
+done
+
+exit
+	image=\"vpn/img/${NODO}.png\",\
+	#fillcolor=\"$(echo \(1/10*0$GRUESO\)+0.5 | bc -l) $(echo 1/8*$GRUESO | bc -l) $(echo $GRUESO/10+.7 | bc -l)\", \
+
+Que hay de nuevo:
+
+	-Mejoras graficas
+		-Solo una linea con doble flecha
+        -colores segun enlaces
+                -Mas enlaces
+                        -color rojo
+                        -mas saturacion
+                -Menos enlaces
+                        -color azul
+                        -mas saturacion
+                -enlaces promedio
+                        -menos saturacion
+	-Avatares pequeños
+	-Listas
