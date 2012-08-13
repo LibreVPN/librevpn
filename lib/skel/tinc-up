@@ -4,6 +4,8 @@
 
 # Tomar la IP desde el archivo de configuración
 # Equivale al primer Subnet del archivo de host
-ip="$(grep -m 1 -i "subnet\s*=" /etc/tinc/${NETNAME}/hosts/${NAME} | cut -d'=' -f2)"
+ip="$(grep -m 1 -i "subnet\s*=" /etc/tinc/${NETNAME}/hosts/${NAME} | \
+        cut -d'=' -f2 | \
+        cut -d'/' -f1)"
 
 ifconfig $INTERFACE $ip netmask 255.255.255.0
