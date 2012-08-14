@@ -1,5 +1,6 @@
 #  dzup <dzup@u3mx.com>
 Subnet = 192.168.9.11/32
+Address = nahual.u3mx.com
 -----BEGIN RSA PUBLIC KEY-----
 MIICCgKCAgEAw6HUkhWtHaxYcebq8S7/EsstkBpr1l+BhLSVY+eREW4L5TE0E3Q6
 1AWJSaJsgPGQEDvkEYzfIy5B8iAUDauvgCDmyVaUl9JHNUVg92KASruSxZBcBB+w
