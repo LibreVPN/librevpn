@@ -3,6 +3,8 @@
 
 . "${LVPN_LIBDIR}"/common
 
+requires tincd
+
 # Opciones
 # ConnectTo
 connectto=""
@@ -97,14 +99,9 @@ if $force; then
     rm -r "${nodefile}" "${nodedir}" || true
 fi
 
-$verbose && msg "Chequeando sistema..."
-if [ -f ${tincdir}/tinc.conf ]; then
-    fatal_error "Este sistema ya es un nodo de LibreVPN\! Utilice -f para pisar la instalación local."
-fi
-
 $verbose && msg "Creando ${nodename}..."
 if [ -f "${nodefile}" ]; then
-    fatal_error "El nodo ya existe"
+    fatal_error "El nodo ya existe! Utilice -f para re-crearlo"
 fi
 
 $verbose && msg "Creando ${nodedir}..."
