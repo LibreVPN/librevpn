@@ -19,6 +19,12 @@ if [ ! -f "${nodedir}/tinc.conf" ]; then
     fatal_error "El nodo no existe o es inválido"
 fi
 
+# Mostrar los ConnectTo si no se agrega ninguno
+if [ -z "${hosts}" ]; then
+    grep -i "^connectto" "${nodedir}"/tinc.conf |  cut -d "=" -f2 | tr -d " "
+    exit
+fi
+
 # Recorrer todos los host que se pasaron
 for _connectto in ${hosts}; do
 # Generar el archivo y encontrarlo, saltear si no existe
