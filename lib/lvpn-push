@@ -5,6 +5,8 @@
 
 . "${LVPN_LIBDIR}"/common
 
+requires ssh scp 
+
 while getopts "h" arg; do
     case $arg in
         h) help ${self} ; exit 0;;
