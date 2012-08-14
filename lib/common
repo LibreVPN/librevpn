@@ -19,3 +19,17 @@ add_to_file(){
 
     echo "$@" >>$f
 }
+
+# Comprueba si los programas necesarios existen en el sistema
+requires() {
+    local missing=""
+    for _bin in $@; do
+        if ! which $_bin >/dev/null 2>&1; then
+            missing+=" $_bin"
+        fi
+    done
+
+    if [ ${#missing} -ne 0 ]; then
+        fatal_error "Los siguientes programas no se encuentran en PATH:${missing}"
+   fi
+}
