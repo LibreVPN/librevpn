@@ -5,6 +5,17 @@
 
 . "${LVPN_LIBDIR}"/common
 
+requires rsync
+
+# Salir si no se es root y no existe sudo, sino usarlo
+if [ ! -w / ]; then
+    if ! which sudo >/dev/null 2>&1; then
+        fatal_error "Correr como root"
+    else
+        sudo=sudo
+    fi
+fi
+
 for _node in $@ ; do
     nodedir="${LVPN_DIR}/nodos/${_node}"
 
@@ -13,8 +24,8 @@ for _node in $@ ; do
     fi
 
     msg "Instalando en el sistema..."
-    sudo mkdir -p "${TINC}"
-    sudo rsync -a --delete-after "${nodedir}/" "${TINC}/"
+    $sudo mkdir -p "${TINC}"
+    $sudo rsync -a --delete-after "${nodedir}/" "${TINC}/"
 
 done
 
