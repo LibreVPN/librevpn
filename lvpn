@@ -12,7 +12,11 @@ LVPN_LIBDIR="${LVPN_LIBDIR:-${LVPN_DIR}/lib}"
 LVPN_HOSTS="${LVPN_HOSTS:-${LVPN_DIR}/hosts}"
 KEYSIZE=${KEYSIZE:-4096}
 
-export TINC LVPN LVPN_DIR LVPN_LIBDIR LVPN_HOSTS KEYSIZE
+# Para gettext
+TEXTDOMAINDIR=${TEXTDOMAINDIR:-"/usr/share/locale"}
+TEXTDOMAIN="$(basename "${LVPN}")"
+
+export TINC LVPN LVPN_DIR LVPN_LIBDIR LVPN_HOSTS KEYSIZE TEXTDOMAINDIR TEXTDOMAIN
 
 . "${LVPN_LIBDIR}/common"
 
@@ -28,7 +32,7 @@ command=$1; shift
 
 # Chequear si el comando existe
 if [ ! -x "${LVPN_LIBDIR}/lvpn-${command}" ]; then
-    fatal_error "${command} no existe, tal vez te gustaría implementarlo :D"
+    fatal_error "%s no existe, tal vez te gustaría implementarlo :D" ${command}
 fi
 
 # Correr el comando

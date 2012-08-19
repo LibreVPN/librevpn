@@ -3,7 +3,7 @@
 # Terminar ante el menor error
 set -E
 trap_exit() {
-    echo "ARGH! Algo pasó" 1>&2
+    gettext "ARGH! Algo pasó" 1>&2
     exit 1
 }
 
@@ -30,6 +30,6 @@ requires() {
     done
 
     if [ ${#missing} -ne 0 ]; then
-        fatal_error "Los siguientes programas no se encuentran en PATH:${missing}"
+        fatal_error "Los siguientes programas no se encuentran en PATH:%s" "${missing}"
    fi
 }

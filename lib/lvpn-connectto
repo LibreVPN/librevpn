@@ -30,11 +30,11 @@ for _connectto in ${hosts}; do
 # Generar el archivo y encontrarlo, saltear si no existe
     _host="${LVPN_DIR}/hosts/${_connectto}"
     if [ ! -f "${_host}" ]; then
-        error "El archivo host de ${_connectto} no existe, salteando..."
+        error "El archivo host de %s no existe, salteando..." ${_connectto}
         continue
     fi
 
-    msg "Copiando el archivo host de ${_connectto}"
+    msg "Copiando el archivo host de %s" ${_connectto}
 
 # Agregar la linea ConnectTo = nodo a tinc.conf
     add_to_file "${nodedir}/tinc.conf" "ConnectTo = ${_connectto}"

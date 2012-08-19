@@ -61,7 +61,7 @@ get_ip() {
         fi
     done
 
-    $verbose && msg "Obtenida IP libre en ${tries} intentos"
+    $verbose && msg "Obtenida IP libre en %s intentos" ${tries}
     echo "${ip}"
     return 0
 }
@@ -99,19 +99,19 @@ if $force; then
     rm -r "${nodefile}" "${nodedir}" || true
 fi
 
-$verbose && msg "Creando ${nodename}..."
+$verbose && msg "Creando %s..." "${nodename}"
 if [ -f "${nodefile}" ]; then
     fatal_error "El nodo ya existe! Utilice -f para re-crearlo"
 fi
 
-$verbose && msg "Creando ${nodedir}..."
+$verbose && msg "Creando %s..." "${nodedir}"
 if [ -d "${nodedir}" ]; then
     fatal_error "El directorio del nodo ya existe"
 fi
 
 mkdir -p ${nodedir}/hosts || fatal_error "No se pudo crear el directorio"
 
-$verbose && msg "Generando ${nodefile}..."
+$verbose && msg "Generando %s..." "${nodefile}"
 get_id >>"${nodefile}"
 
 if [ ! -z "${address}" ]; then
@@ -143,9 +143,9 @@ if [ -z "${subnets}" ]; then
 else
     mode="router"
 fi
-$verbose && msg "Este nodo es un ${mode}"
+$verbose && msg "Este nodo es un %s" "${mode}"
 
-$verbose && msg "Generando ${conffile}..."
+$verbose && msg "Generando %s..." "${conffile}"
 add_to_file "${conffile}" "Name = ${nodename}"
 add_to_file "${conffile}" "Mode = ${mode}"
 
@@ -171,7 +171,7 @@ $install && ${LVPN} install ${nodename}
 
 msg "El nodo se ha creado con éxito"
 msg "*Importante*: "
-msg "* Envíe el archivo que representa su nodo a vpn@hackcoop.com.ar ($nodefile), o"
-msg "* Agregue ${nodefile} al repositorio git y publíquelo."
+msg "* Envíe el archivo que representa su nodo a vpn@hackcoop.com.ar (%s), o" "${nodefile}"
+msg "* Agregue %s al repositorio git y publíquelo." "${nodefile}"
 
 exit 0

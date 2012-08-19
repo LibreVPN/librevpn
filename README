@@ -1,0 +1,11 @@
+# LibreVPN
+
+http://librevpn.org.ar
+
+
+## I18n
+
+    mkdir -p locale/en/LC_MESSAGES
+    msgfmt -o locale/en/LC_MESSAGES/lvpn.mo locale/en.po
+    export TEXTDOMAINDIR=$PWD/locale
+
