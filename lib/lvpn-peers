@@ -3,7 +3,7 @@
 
 . "${LVPN_LIBDIR}"/common
 
-requires sort uniq grep
+requires sort uniq grep tr
 
 while getopts "hc" arg; do
     case $arg in
@@ -20,6 +20,6 @@ if [ ! -f "${log}" ]; then
 fi
 
 grep "Peer .* had unknown identity " ${log} 2>/dev/null | \
-    grep -o "([^)]\+)" | sort | uniq ${count}
+    grep -o "([^)]\+)" | sort | tr -d "[()]" | uniq ${count}
 
 exit $?
