@@ -1,0 +1,25 @@
+#!/bin/bash
+# Lista los pares desconocidos
+
+. "${LVPN_LIBDIR}"/common
+
+requires sort uniq grep
+
+while getopts "hc" arg; do
+    case $arg in
+        h) help ${self} ; exit 0;;
+        c) count="-c" ;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+log="${1:-/var/log/tinc.$(basename "${TINC}").log}"
+
+if [ ! -f "${log}" ]; then
+    fatal_error "El archivo de log no existe."
+fi
+
+grep "Peer .* had unknown identity " ${log} 2>/dev/null | \
+    grep -o "([^)]\+)" | sort | uniq ${count}
+
+exit $?

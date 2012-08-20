@@ -101,3 +101,6 @@ msgstr "* Send the file representing your node to vpn@hackcoop.com.ar (%s), or"
 
 msgid "* Agregue %s al repositorio git y publíquelo."
 msgstr "* Add %s to the git repository and publish it."
+
+msgid "El archivo de log no existe."
+msgstr "The log file doesn't exists."
