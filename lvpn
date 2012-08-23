@@ -5,7 +5,7 @@
 # ENV
 # Tomar las variables de entorno (por ejemplo de un archivo de configuración
 # o de la shell) o usar directorios locales
-TINC=/etc/tinc/lvpn
+TINC=${TINC:-/etc/tinc/lvpn}
 LVPN="$(readlink -f $0)"
 LVPN_DIR="${LVPN_DIR:-$(dirname "$LVPN")}"
 LVPN_LIBDIR="${LVPN_LIBDIR:-${LVPN_DIR}/lib}"
