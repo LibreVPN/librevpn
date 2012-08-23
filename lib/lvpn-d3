@@ -1,0 +1,73 @@
+#!/bin/bash
+# Exporta los nodos y enlaces en JSON para D3 <http://d3js.org>
+# TODO convertir a un exportador genérico
+
+. "${LVPN_LIBDIR}"/common
+
+requires tail ps sudo killall wc cut nl sed mktemp
+
+while getopts "h" arg; do
+    case $arg in
+        h) help ${self} ; exit 0;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+tmpfile="$(mktemp /tmp/$self-XXXX.log)"
+
+# Monitorear el log
+tail -f -n1 /var/log/tinc.$(basename ${TINC}).log > ${tmpfile} &
+tailpid=$(ps -o pid -C tail --no-header)
+
+# Limpia la cache de nodos y pide la lista de nodos y enlaces
+for _signal in WINCH USR2; do
+    sudo killall -SIG${_signal} tincd 2>/dev/null
+done
+
+# Esperar la lista
+while [ $(wc -l ${tmpfile} | cut -d " " -f1) -lt 5 ]; do
+    sleep 1s
+done
+
+# Matar el tail
+kill ${tailpid}
+
+# Grep ": $node at" limpiar, ordenar y numerar (para los indices)
+# Salida: index:nodo
+nodes=($(grep -o ": \+[^ ]\+ at" ${tmpfile} | \
+            grep -o " [^ ]\+ " | \
+            tr -d " " | \
+            sort -u | \
+            nl -v0 -s:))
+
+# Grep "$node to $othernode at" y limpiar
+links=($(grep -o "[^ ]\+ to [^ ]\+ at" ${tmpfile} | \
+            sed -e "s/ to /:/" -e "s/ at$//" | \
+            sort -u))
+
+# Extrae el indice de index:name
+get_index() {
+    needle=$1
+    echo "${nodes[@]}" | grep -o "[0-9]\+:${needle}" | cut -d":" -f1
+}
+
+# Array de nodos
+json='{"nodes":['
+for _n in ${nodes[@]}; do
+    json+='{"index":'${_n%%:*}',"name":"'${_n#*:}'"},'
+done
+
+# Array de enlaces
+# TODO es bastante lento
+json+='],"links":['
+for _l in ${links[@]}; do
+    json+='{"source":'$(get_index ${_l%%:*})',"target":'$(get_index ${_l#*:})'},'
+done
+json+=']}'
+
+# Limpiar comas extra
+echo $json | sed "s/},]/}]/g"
+
+rm ${tmpfile}
+
+exit $?
