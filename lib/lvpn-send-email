@@ -1,0 +1,38 @@
+#!/bin/bash
+# Envia el archivo de host del nodo a los nodos en connectto
+
+. "${LVPN_LIBDIR}"/common
+
+# export SENDMAIL=msmtp
+SENDMAIL=${SENDMAIL:-sendmail}
+
+requires ${SENDMAIL}
+
+while getopts "hs:m:f:t:"; do
+    case $arg in 
+        h) help ${self} ; exit 0;;
+        s) subject="${OPTARG}" ;;
+        m) message="${OPTARG}" ;;
+        f) from="${OPTARG}" ;;
+        t) to="${OPTARG}" ;;
+    esac
+done
+let OPTIND--; shift $OPTIND
+
+node=$1
+nodefile="$(get_node_file ${node})"
+
+subject="${subject:-"[LibreVPN] Adjuntando nodo ${node}"}"
+message="${message:-"Hola! Te adjunto mi nodo ${node}"}"
+from="${from:-"$(get_id | tr -d "#")"}"
+to="${to:-"vpn@hackcoop.com.ar"}"
+
+# Crea el mail y lo envía a sendmail
+cat <(echo "Subject: ${subject}") \
+    <(echo "From: ${from}") \
+    <(echo -e "To: ${to}\n") \
+    <(echo -e "${message}\n\n") \
+    ${nodefile} | \
+    ${SENDMAIL} -f ${from} -t 
+
+exit $?
