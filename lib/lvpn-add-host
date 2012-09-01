@@ -1,0 +1,32 @@
+#!/bin/bash
+# Agrega valores connectto a un nodo
+
+. "${LVPN_LIBDIR}"/common
+
+while getopts "h" arg; do
+    case $arg in
+        h) help ${self} ; exit 0;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+node="$1"; shift
+hosts="$@"
+
+nodedir="$(get_node_dir ${node})"
+
+# Recorrer todos los host que se pasaron
+for _host in ${hosts}; do
+# Generar el archivo y encontrarlo, saltear si no existe
+    _hostfile="${LVPN_DIR}/hosts/${_host}"
+    if [ ! -f "${_hostfile}" ]; then
+        error "El archivo host de %s no existe, salteando..." ${_host}
+        continue
+    fi
+
+    msg "Copiando el archivo host de %s" ${_host}
+# copiar el archivo al directorio del nodo
+    cp "${_hostfile}" "${nodedir}/hosts/"
+done
+
+exit $?
