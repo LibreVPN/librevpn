@@ -13,33 +13,19 @@ let OPTIND--; shift ${OPTIND}
 node="$1"; shift
 hosts="$@"
 
-nodedir="${LVPN_DIR}/nodos/${node}"
+nodedir="$(get_node_dir ${node})"
 
-if [ ! -f "${nodedir}/tinc.conf" ]; then
-    fatal_error "El nodo no existe o es inválido"
-fi
+# Salir si hosts está vacío
+if [ -z "${hosts}" ]; then exit; fi
 
-# Mostrar los ConnectTo si no se agrega ninguno
-if [ -z "${hosts}" ]; then
-    grep -i "^connectto" "${nodedir}"/tinc.conf |  cut -d "=" -f2 | tr -d " "
-    exit
-fi
+# Agregar los nodos
+${LVPN} add-host ${node} ${hosts} || \
+    fatal_error "No se pudieron agregar los archivos de host"
 
 # Recorrer todos los host que se pasaron
 for _connectto in ${hosts}; do
-# Generar el archivo y encontrarlo, saltear si no existe
-    _host="${LVPN_DIR}/hosts/${_connectto}"
-    if [ ! -f "${_host}" ]; then
-        error "El archivo host de %s no existe, salteando..." ${_connectto}
-        continue
-    fi
-
-    msg "Copiando el archivo host de %s" ${_connectto}
-
 # Agregar la linea ConnectTo = nodo a tinc.conf
     add_to_file "${nodedir}/tinc.conf" "ConnectTo = ${_connectto}"
-# Y copiar el archivo al directorio del nodo
-    cp "${_host}" "${nodedir}/hosts/"
 done
 
 exit $?
