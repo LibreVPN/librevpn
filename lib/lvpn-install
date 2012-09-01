@@ -17,11 +17,7 @@ if [ ! -w / ]; then
 fi
 
 for _node in $@ ; do
-    nodedir="${LVPN_DIR}/nodos/${_node}"
-
-    if [ ! -d "${nodedir}" ]; then
-        fatal_error "El nodo no existe"
-    fi
+    nodedir="$(get_node_dir ${_node})"
 
     msg "Instalando en el sistema..."
     $sudo mkdir -p "${TINC}"

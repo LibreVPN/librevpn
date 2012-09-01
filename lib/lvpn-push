@@ -19,11 +19,7 @@ node="$1"; shift
 host="$1"; shift
 dir="$1"; shift
 
-nodedir="${LVPN_DIR}/nodos/${node}"
-
-if [ ! -f "${nodedir}/tinc.conf" ]; then
-    fatal_error "El nodo no existe o es inválido"
-fi
+nodedir="$(get_node_dir ${node})"
 
 # Crear el directorio
 ssh ${host} mkdir -p "${dir:-${TINC}}/"
