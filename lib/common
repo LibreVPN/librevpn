@@ -3,7 +3,7 @@
 # Terminar ante el menor error
 set -E
 trap_exit() {
-    gettext "ARGH! Algo pasó" 1>&2
+    msg "ARGH! Algo pasó" 1>&2
     exit 1
 }
 
@@ -45,4 +45,15 @@ get_node_dir() {
     fi
 
     echo "${dir}"
+}
+
+get_node_file() {
+    dir="$(get_node_dir $1)"
+    file="${dir}/hosts/$1"
+
+    if [ ! -f "${file}" ]; then
+        fatal_error "El archivo host de %s no existe" $1
+    fi
+
+    echo "${file}"
 }
