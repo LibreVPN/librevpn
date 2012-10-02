@@ -18,4 +18,9 @@
 
 * Usar script host-{up,down} para saber cuales son los nodos disponibles
 
+* Autenticar amigo - F2F - key signing party - agrega mi nodo como amigo (en
+  persona)
+
+* Usar miniupnpc/natpmp para pedir un puerto en los nodos portatiles
+
 vim:set ts=2 sw=2 et syntax=markdown:
