@@ -21,7 +21,7 @@ for _node in $@ ; do
 
     msg "Instalando en el sistema..."
     $sudo mkdir -p "${TINC}"
-    $sudo rsync -a --delete-after "${nodedir}/" "${TINC}/"
+    $sudo rsync -a --no-owner --no-group --delete-after "${nodedir}/" "${TINC}/"
 
 done
 
