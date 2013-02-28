@@ -1,4 +1,0 @@
-#!/bin/bash
-
-git archive -v --format=tar --prefix=lab/ HEAD | \
-    gzip -9 > /tmp/lab.tar.gz
