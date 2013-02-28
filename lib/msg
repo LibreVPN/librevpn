@@ -26,7 +26,7 @@ fatal_error() {
 # Toma la ayuda desde doc/$comando
 # $1 el comando para obtener la ayuda
 help() {
-    ${PAGER:-less} "${LVPN_DIR}/doc/$1.markdown" 2>/dev/null || true
+    ${PAGER:-less -niSFX} "${LVPN_DIR}/doc/$1.markdown" 2>/dev/null || true
 }
 
 # Obtiene la id del responsable del nodo
