@@ -16,12 +16,21 @@ if [ ! -w / ]; then
     fi
 fi
 
+while getopts "hvd" arg; do
+    case $arg in
+        h) help ${self} ; exit 0;;
+        v) VERBOSE=-v ;;
+        d) DELETE=--delete-after ;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
 for _node in $@ ; do
     nodedir="$(get_node_dir ${_node})"
 
     msg "Instalando en el sistema..."
     $sudo mkdir -p "${TINC}"
-    $sudo rsync -a --delete-after "${nodedir}/" "${TINC}/"
+    $sudo rsync -a ${VERBOSE} ${DELETE} "${nodedir}/" "${TINC}/"
 
 done
 
