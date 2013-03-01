@@ -30,6 +30,6 @@ nodedir="$(get_node_dir "${1}")"
 
 msg "Instalando en el sistema..."
 $sudo mkdir -p "${TINC}"
-$sudo rsync -a ${VERBOSE} ${DELETE} ${DRYRUN} "${nodedir}/" "${TINC}/"
+$sudo rsync -a --no-owner --no-group ${VERBOSE} ${DELETE} ${DRYRUN} "${nodedir}/" "${TINC}/"
 
 exit $?
