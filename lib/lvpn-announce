@@ -43,7 +43,7 @@ if ${PERMANENT} ; then
 <?xml version="1.0" standalone='no'?>
 <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
 <service-group>
-    <name replace-wildcards="yes">%h@LibreVPN</name>
+    <name replace-wildcards="yes">${node}@LibreVPN</name>
     <service>
         <type>_${NETWORK}._udp</type>
         <port>${nodeport:-655}</port>
@@ -58,7 +58,7 @@ EOF
 else
 
 # Anunciar como usuario y pasar a segundo plano
-  avahi-publish -s "${HOSTNAME}@LibreVPN" \
+  avahi-publish -s "${node}@LibreVPN" \
                 _${NETWORK}._udp \
                 ${nodeport:-655} \
                 $(base64 "${nodedir}/hosts/${node}" | tac | tr "\n" ' ') \
