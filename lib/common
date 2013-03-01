@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Terminar ante el menor error
-set -E
+set -e
 trap_exit() {
     msg "ARGH! Algo pasó" 1>&2
     exit 1
