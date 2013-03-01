@@ -3,7 +3,6 @@
 
 . "${LVPN_LIBDIR}"/common
 
-NETWORK="$(basename "${TINC}")"
 PERMANENT=false
 STOP=false
 PIDFILE=${PIDFILE:-/tmp/${NETWORK}-announce.pid}
