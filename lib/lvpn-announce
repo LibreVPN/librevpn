@@ -45,7 +45,7 @@ if ${PERMANENT} ; then
 <service-group>
     <name replace-wildcards="yes">%h@LibreVPN</name>
     <service>
-        <type>_${NETWORK}._tcp</type>
+        <type>_${NETWORK}._udp</type>
         <port>${nodeport:-655}</port>
         $(base64 "${nodedir}/hosts/${node}" | \
           tac | \
