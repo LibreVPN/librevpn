@@ -6,6 +6,7 @@
 # Tomar las variables de entorno (por ejemplo de un archivo de configuración
 # o de la shell) o usar directorios locales
 TINC=${TINC:-/etc/tinc/lvpn}
+NETWORK="$(basename "${TINC}")"
 LVPN="$(readlink -f $0)"
 LVPN_DIR="${LVPN_DIR:-$(dirname "$LVPN")}"
 LVPN_LIBDIR="${LVPN_LIBDIR:-${LVPN_DIR}/lib}"
@@ -16,7 +17,7 @@ KEYSIZE=${KEYSIZE:-4096}
 TEXTDOMAINDIR=${TEXTDOMAINDIR:-"/usr/share/locale"}
 TEXTDOMAIN="$(basename "${LVPN}")"
 
-export TINC LVPN LVPN_DIR LVPN_LIBDIR LVPN_HOSTS KEYSIZE TEXTDOMAINDIR TEXTDOMAIN
+export TINC NETWORK LVPN LVPN_DIR LVPN_LIBDIR LVPN_HOSTS KEYSIZE TEXTDOMAINDIR TEXTDOMAIN
 
 . "${LVPN_LIBDIR}/common"
 
