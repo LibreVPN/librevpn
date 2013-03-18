@@ -3,30 +3,43 @@
 
 . "${LVPN_LIBDIR}"/common
 
-while getopts "h" arg; do
+UPDATE=false
+FORCE=false
+while getopts "ufh" arg; do
     case $arg in
-        h) help ${self} ; exit 0;;
+      u) UPDATE=true; FORCE=true ;;
+      f) FORCE=true ;;
+      h) help ${self} ; exit 0;;
     esac
 done
 let OPTIND--; shift ${OPTIND}
 
 node="$1"; shift
-hosts="$@"
-
 nodedir="$(get_node_dir ${node})"
+
+# Si estamos actualizando, la lista de hosts es la que ya esta cargada
+${UPDATE} || hosts="$@"
+${UPDATE} && hosts="$(shopt -s nullglob; echo "${nodedir}"/hosts/* | sed "s,${nodedir}/hosts/,,g")"
 
 # Recorrer todos los host que se pasaron
 for _host in ${hosts}; do
 # Generar el archivo y encontrarlo, saltear si no existe
     _hostfile="${LVPN_DIR}/hosts/${_host}"
+    _hostdest="${nodedir}/hosts/${_host}"
+
     if [ ! -f "${_hostfile}" ]; then
         error "El archivo host de %s no existe, salteando..." ${_host}
         continue
     fi
 
+# Saltear si no el host existe y no estamos forzando o actualizando
+    if [ -f "${_hostdest}" ]; then
+      ${FORCE} || continue
+    fi
+
     msg "Copiando el archivo host de %s" ${_host}
 # copiar el archivo al directorio del nodo
-    cp "${_hostfile}" "${nodedir}/hosts/"
+    cat "${_hostfile}" >"${nodedir}/hosts/${_host}"
 done
 
 exit $?
