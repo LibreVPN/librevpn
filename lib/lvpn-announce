@@ -43,7 +43,7 @@ if ${PERMANENT} ; then
 <?xml version="1.0" standalone='no'?>
 <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
 <service-group>
-    <name replace-wildcards="yes">${node}@LibreVPN</name>
+    <name replace-wildcards="yes">${node}@${NETWORK}</name>
     <service>
         <type>_${NETWORK}._udp</type>
         <port>${nodeport:-655}</port>
