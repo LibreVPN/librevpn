@@ -25,7 +25,8 @@ ${LVPN} add-host ${node} ${hosts} || \
 # Recorrer todos los host que se pasaron
 for _connectto in ${hosts}; do
 # Agregar la linea ConnectTo = nodo a tinc.conf
-    add_to_file "${nodedir}/tinc.conf" "ConnectTo = ${_connectto}"
+  msg "Conectar a %s" "${_connectto}"
+  add_to_file "${nodedir}/tinc.conf" "ConnectTo = ${_connectto}"
 done
 
 exit $?
