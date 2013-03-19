@@ -1,0 +1,6 @@
+[submodule "etc/libnatpmp"]
+	path = etc/libnatpmp
+	url = git://github.com/miniupnp/libnatpmp.git
+[submodule "etc/miniupnp"]
+	path = etc/miniupnp
+	url = git://github.com/miniupnp/miniupnp.git
