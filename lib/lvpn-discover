@@ -1,0 +1,92 @@
+#!/bin/bash
+# Descubre nodos en la red local y opcionalmente los agrega a connectto
+#set -x
+
+. "${LVPN_LIBDIR}"/common
+
+# Principio de mínima autoridad
+[ -w / ] && fatal_error "Correr como usuario normal"
+
+requires avahi-browse base64
+
+TMPDIR="$(mktemp -d /tmp/${NETWORK}-discover-XXXX)"
+
+# Opciones
+CONNECTTO=false
+FORCE=false
+ALL=false
+ADD=false
+NODES=""
+NODE=""
+while getopts "hc:fi:a:A" arg; do
+    case $arg in
+        h) help ${self} ; exit 0;;
+        c) CONNECTTO=true; ADD=true; NODE=${OPTARG} ;;
+        f) FORCE=true ;;
+        i) IFACE+="${OPTARG} " ;;
+        a) ADD=true ; NODE=${OPTARG};;
+        A) ALL=true ;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+test -n "${NODE}" && NODEDIR="$(get_node_dir "${NODE}")"
+
+# Encontrar todas las llaves en _lvpn._udp
+# TODO hacer terminate opcional y mantenerlo como un daemon?
+avahi-browse --terminate \
+             --ignore-local \
+             --parsable \
+             --resolve \
+             _${NETWORK}._udp | grep "^=" | \
+  while read _s; do
+# Interfaz descubierta
+    _iface="$(echo "$_s" | cut -d';' -f2)"
+
+# No considerar esta llave si está anunciada dentro de la VPN
+    if [ "${_iface}" = "${NETWORK}" ]; then
+      ${ALL} || continue
+    fi
+
+# Cuando se filtra por interfaz, saltear las que no se especificaron
+    if [ ! -z "${IFACE}" ]; then
+      echo "${IFACE}" | grep -q "${_iface}" || continue
+    fi
+
+# Encontrar el nombre del nodo sin @lvpn
+    _node="$(echo "${_s}" | cut -d';' -f4 | sed "s/064${NETWORK}//")"
+
+# No volver a procesar un nodo
+    echo "${NODES}" | grep -q "${_node}" && continue
+
+# Generar el archivo de host del nodo descubierto
+    echo "${_s}" | cut -d';' -f10 | sed 's/[ "]//g' | \
+      base64 -d >"${TMPDIR}/${_node}" 2>/dev/null
+
+# Si estamos agregando
+    if ${ADD}; then
+      msg "Obteniendo host %s" "${_node}"
+
+# Comprobar si ya tenemos la llave o vamos a confiar en la LAN
+      if [ ! -f "${LVPN_DIR}/hosts/${_node}" ] || ${FORCE} ; then
+        msg "Agregando %s" "${_node}"
+# Nunca me acuerdo cómo hacer esto sin cat
+        cat "${TMPDIR}/${_node}" >"${LVPN_DIR}/hosts/${_node}"
+      fi
+
+# CONNECTTO incluye ADD
+# TODO hacer esto todo junto requiere cambiar while read por otra cosa
+# o tomar los nodos del directorio temporal
+      ${CONNECTTO} || ${LVPN} add-host "${NODE}" "${_node}"
+      ${CONNECTTO} && ${LVPN} connectto "${NODE}" "${_node}"
+    else
+# Informar el nombre del nodo
+      echo "$_node"
+    fi
+
+# Llevar el registro de nodos descubiertos
+    NODES+="${_node} "
+  done
+
+rm -rf "${TMPDIR}"
+exit 0
