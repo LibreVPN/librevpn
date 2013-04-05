@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Sincroniza los nodos de un nodo remoto o local
 # Necesita acceso SSH, pensado para sincronizar nodos en un router con *WRT
 # No usamos rsync porque no existe

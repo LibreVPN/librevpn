@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Anuncia o desanuncia la llave del nodo en la red local
 
 . "${LVPN_LIBDIR}"/common

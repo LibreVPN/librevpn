@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Lista los pares desconocidos
 
 . "${LVPN_LIBDIR}"/common

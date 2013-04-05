@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Wrapper para correr los comandos al estilo `git comando parametros`
 # Hay que crearlos en libdir/lvpn-comando
 

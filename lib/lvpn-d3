@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Exporta los nodos y enlaces en JSON para D3 <http://d3js.org>
 # TODO convertir a un exportador genérico
+#set -e
 
 . "${LVPN_LIBDIR}"/common
 

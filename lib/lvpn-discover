@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Descubre nodos en la red local y opcionalmente los agrega a connectto
 #set -x
 
