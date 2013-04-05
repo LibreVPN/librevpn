@@ -155,17 +155,17 @@ if [ -n "${connectto}" ]; then
 fi
 
 $verbose && msg "Copiando el resto de archivos..."
-cp -t "${nodedir}" "${LVPN_LIBDIR}"/skel/tinc-{up,down}
+cp "${LVPN_LIBDIR}"/skel/tinc-{up,down} "${nodedir}"
 
 if ${subnetup} ; then
-    cp -t "${nodedir}" "${LVPN_LIBDIR}"/skel/subnet-{up,down}
+    cp "${LVPN_LIBDIR}"/skel/subnet-{up,down} "${nodedir}"
 fi
 
 $verbose && msg "Generando llaves..."
 echo -e "\n" | tincd -c "${nodedir}" --generate-keys=${KEYSIZE}
 
 $verbose && msg "Guardando el archivo de host con los demás nodos"
-cp -t "${LVPN_HOSTS}" "${nodefile}"
+cp "${nodefile}" "${LVPN_HOSTS}"
 
 $install && ${LVPN} install ${nodename}
 
