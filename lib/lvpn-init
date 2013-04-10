@@ -83,8 +83,8 @@ while getopts 'vhirfp:a:c:s:l:' arg; do
 done ;
 let OPTIND--; shift $OPTIND
 
-# TODO chequear que el nombre sea valido
-nodename="${1}"
+# Sólo permitir letras y números
+nodename="$(echo "${1}" | sed "s/[^a-z0-9\_]/_/gi")"
 
 if [ -z "${nodename}" ]; then
     fatal_error "Se necesita un nombre de nodo"
