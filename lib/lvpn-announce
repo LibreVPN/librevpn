@@ -58,7 +58,7 @@ EOF
 else
 
 # Anunciar como usuario y pasar a segundo plano
-  avahi-publish -s "${node}@LibreVPN" \
+  avahi-publish -s "${node}@${NETWORK}" \
                 _${NETWORK}._udp \
                 ${nodeport:-655} \
                 $(base64 "${nodedir}/hosts/${node}" | tac | tr "\n" ' ') \
