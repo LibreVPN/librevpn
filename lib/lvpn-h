@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+echo "Usar algun parametro:"
+
+ls lib/lvpn-* | sed 's/^.*lvpn-/\tlvpn\ /g; s/$/\ -h/g'
