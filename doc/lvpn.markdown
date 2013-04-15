@@ -1,0 +1,12 @@
+Usar algun parametro:
+	lvpn add-host -h
+	lvpn announce -h
+	lvpn connectto -h
+	lvpn d3 -h
+	lvpn discover -h
+	lvpn h -h
+	lvpn init -h
+	lvpn install -h
+	lvpn peers -h
+	lvpn push -h
+	lvpn send-email -h
