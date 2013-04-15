@@ -22,7 +22,7 @@ let OPTIND--; shift ${OPTIND}
 
 # Dejar de anunciar
 ${STOP} && ${PERMANENT} && ${sudo} rm "${SERVICE}" "${PIDFILE}" && exit
-${STOP} && pkill -F "${PIDFILE}" 2>/dev/null && rm "${PIDFILE}" && exit
+${STOP} && kill $(cat "${PIDFILE}") 2>/dev/null && rm "${PIDFILE}" && exit
 
 node="$1"; shift
 
