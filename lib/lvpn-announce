@@ -11,10 +11,11 @@ SERVICE=${SERVICE:-/etc/avahi/services/${NETWORK}.service}
 touch "${PIDFILE}" 2>/dev/null || \
 fatal_error "No se puede escribir el archivo de pid: %s" "${PIDFILE}"
 
-while getopts "hps" arg; do
+while getopts "hpbs" arg; do
     case $arg in
         h) help ${self} ; exit 0;;
         p) PERMANENT=true ;;
+        b) BEADLE=true ;;
         s) STOP=true ;;
     esac
 done
@@ -54,6 +55,16 @@ if ${PERMANENT} ; then
     </service>
 </service-group>
 EOF
+
+else if ${BEADLE} ; then
+
+# Anuncia las llaves tipo conserje
+  avahi-publish -s "${node}@${NETWORK}" \
+             _${NETWORK}._udp \
+              ${nodeport:-655} \
+              $(base64 "${nodedir}/beadle/${node}" | tac | tr "\n" ' ') \
+              1>/dev/null 2>&1 &
+  echo $! >"${PIDFILE}"
 
 else
 
