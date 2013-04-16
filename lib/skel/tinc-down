@@ -1,4 +1,11 @@
 #!/bin/sh
 # Este archivo da de baja la interfaz de la VPN
 
-ifconfig $INTERFACE down
+if which ip &>/dev/null ; then
+  ip link set ${INTERFACE} down
+else
+  ifconfig ${INTERFACE} down
+fi
+
+# TODO descomentar cuando tengamos una config por defecto de babeld
+# which babeld &>/dev/null && kill $(cat /var/run/babeld.pid)
