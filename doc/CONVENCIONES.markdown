@@ -2,6 +2,18 @@
 
 Notas para desarrolladores de lvpn :)
 
+## Árbol
+
+  lib/      # comandos
+  lib/skel/ # archivos base para tinc
+  doc/      # documentación
+  bin/      # programas de ayuda que no son especificamente de lvpn
+  etc/      # código fuente extra
+  hosts/    # archivos de nodos
+  nodos/    # nodos propios
+  locale/   # traducciones
+
+
 ## Dónde van los scripts
 
 El script `lvpn` autodescubre los comandos siguiendo la convención
@@ -30,6 +42,10 @@ comandos.
 * LVPN\_HOSTS: Path completo del directorio de hosts.
 
 * KEYSIZE: Tamaño por defecto de las llaves.
+
+* LVPN\_SUBNET: El rango de IPv4
+
+* LVPN\_SUBNET6: El rango de IPv6
 
 
 ## Dónde va la documentación
