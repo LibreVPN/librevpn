@@ -41,6 +41,8 @@ comandos.
 
 * LVPN\_HOSTS: Path completo del directorio de hosts.
 
+* LVPN\_LLAVERO: Path completo del directorio de llaves anunciables.
+
 * KEYSIZE: Tamaño por defecto de las llaves.
 
 * LVPN\_SUBNET: El rango de IPv4
