@@ -26,9 +26,11 @@ ${STOP} && ${PERMANENT} && ${sudo} rm "${SERVICE}" "${PIDFILE}" && exit
 ${STOP} && kill $(cat "${PIDFILE}") 2>/dev/null && rm "${PIDFILE}" && exit
 
 node="$1"; shift
+nodefile="${LVPN_HOSTS}/${node}"
 
-nodedir="$(get_node_dir ${node})"
-nodeport="$(grep "^\s*Port" "${nodedir}/hosts/${node}" | \
+test -f "${nodefile}" || fatal_warning "No existe ese nodo"
+
+nodeport="$(grep "^\s*Port" "${nodefile}" | \
             cut -d'=' -f2 | \
             tr -d ' ')"
 
@@ -48,7 +50,7 @@ if ${PERMANENT} ; then
     <service>
         <type>_${NETWORK}._udp</type>
         <port>${nodeport:-655}</port>
-        $(base64 "${nodedir}/hosts/${node}" | \
+        $(base64 "${nodefile}" | \
           tac | \
           sed -e 's/^/<txt-record>/' \
               -e 's/$/<\/txt-record>/')
@@ -72,7 +74,7 @@ else
   avahi-publish -s "${node}@${NETWORK}" \
                 _${NETWORK}._udp \
                 ${nodeport:-655} \
-                $(base64 "${nodedir}/hosts/${node}" | tac | tr "\n" ' ') \
+                $(base64 "${nodefile}" | tac | tr "\n" ' ') \
                 1>/dev/null 2>&1 &
   echo $! >"${PIDFILE}"
 fi
