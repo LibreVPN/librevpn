@@ -6,6 +6,8 @@
 #	Basado en los ejemplos de graphviz 
 #		http://graphviz.org/content/psg
 #		http://graphviz.org/content/fsm
+#
+# Documentación: http://lab.hackcoop.com.ar/projects/librevpn/wiki/Tinc2dot
 
 DIA=$(date)
 NODOS=$( cat /tmp/lab.dot | grep ">" )
