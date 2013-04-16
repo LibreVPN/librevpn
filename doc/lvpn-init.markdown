@@ -1,6 +1,6 @@
 # Crea un nuevo nodo
 
-Los nodos se guardan en el directorio $LVPN\_DIR/nodos/ 
+Los nodos se guardan en el directorio nodos/ 
 
     -h  Esta ayuda
     -v  Modo verborrágico
