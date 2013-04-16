@@ -31,6 +31,10 @@ comandos.
 
 * KEYSIZE: Tamaño por defecto de las llaves.
 
+* LVPN\_SUBNET: El rango de IPv4
+
+* LVPN\_SUBNET6: El rango de IPv6
+
 
 ## Dónde va la documentación
 
