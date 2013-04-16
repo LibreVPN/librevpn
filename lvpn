@@ -29,12 +29,23 @@ export TINC NETWORK LVPN \
 
 . "${LVPN_LIBDIR}/common"
 
-while getopts "h" arg; do
+list_commands() {
+  pushd "${LVPN_LIBDIR}" &>/dev/null
+
+  echo lvpn-* | tr " " "\n" | sed "s/^lvpn-//"
+
+  popd &>/dev/null
+}
+
+while getopts "hc" arg; do
     case $arg in
         h) help lvpn ; exit 0;;
+        c) list_commands ; exit 0;;
     esac
 done
 let OPTIND--; shift ${OPTIND}
+
+test -z "$@" && help lvpn && exit 0
 
 # El comando
 command=$1; shift

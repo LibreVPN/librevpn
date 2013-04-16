@@ -1,12 +1,13 @@
-Usar algun parametro:
+# LibreVPN
+
+  -h Esta ayuda
+  -c Lista de comandos
+
+Uso:
+
+  lvpn comando -opciones parametros
+
+Consultar la ayuda de cada comando usando la opción -h luego del nombre de
+comando:
+
 	lvpn add-host -h
-	lvpn announce -h
-	lvpn connectto -h
-	lvpn d3 -h
-	lvpn discover -h
-	lvpn h -h
-	lvpn init -h
-	lvpn install -h
-	lvpn peers -h
-	lvpn push -h
-	lvpn send-email -h
