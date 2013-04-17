@@ -28,6 +28,10 @@ ${STOP} && kill $(cat "${PIDFILE}") 2>/dev/null && rm "${PIDFILE}" && exit
 node="$1"; shift
 nodefile="${LVPN_HOSTS}/${node}"
 
+if ${BEADLE} ; then
+	nodefile="${LVPN_BEADLE}/${node}"
+fi
+
 test -f "${nodefile}" || fatal_warning "No existe ese nodo"
 
 nodeport="$(grep "^\s*Port" "${nodefile}" | \
@@ -57,16 +61,6 @@ if ${PERMANENT} ; then
     </service>
 </service-group>
 EOF
-
-else if ${BEADLE} ; then
-
-# Anuncia las llaves tipo conserje
-  avahi-publish -s "${node}@${NETWORK}" \
-             _${NETWORK}._udp \
-              ${nodeport:-655} \
-              $(base64 "${nodedir}/beadle/${node}" | tac | tr "\n" ' ') \
-              1>/dev/null 2>&1 &
-  echo $! >"${PIDFILE}"
 
 else
 
