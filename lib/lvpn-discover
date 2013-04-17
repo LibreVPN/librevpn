@@ -24,12 +24,16 @@ while getopts "hc:fi:a:b:A" arg; do
         c) CONNECTTO=true; ADD=true; NODE=${OPTARG} ;;
         f) FORCE=true ;;
         i) IFACE+="${OPTARG} " ;;
-        b) CONNECTTO=true; ADD=true; NODO_ESPECIFICO="${OPTARG}" ;;
+        b) ALL=true; NODE_ACEPT=true; CONNECTTO=true; ADD=true; NODE="${OPTARG}" ;;
         a) ADD=true ; NODE=${OPTARG};;
         A) ALL=true ;;
     esac
 done
 let OPTIND--; shift ${OPTIND}
+
+if [ ! "$NODE_ACEPT" = "" ]; then
+	NODE_ACEPT=$1
+fi
 
 test -n "${NODE}" && NODEDIR="$(get_node_dir "${NODE}")"
 
@@ -40,7 +44,8 @@ avahi-browse --terminate \
              --parsable \
              --resolve \
              _${NETWORK}._udp | grep "^=" | \
-grep "${NODO_ESPECIFIO}" | while read _s; do
+grep "$NODO_ACEPT" |\
+ while read _s; do
 # Interfaz descubierta
     _iface="$(echo "$_s" | cut -d';' -f2)"
 
