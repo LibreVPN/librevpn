@@ -41,7 +41,7 @@ comandos.
 
 * LVPN\_HOSTS: Path completo del directorio de hosts.
 
-* LVPN\_LLAVERO: Path completo del directorio de llaves anunciables.
+* LVPN\_BEADLE: Path completo del directorio de llaves anunciables nuevas de desconocidos.
 
 * KEYSIZE: Tamaño por defecto de las llaves.
 

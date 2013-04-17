@@ -18,12 +18,13 @@ ALL=false
 ADD=false
 NODES=""
 NODE=""
-while getopts "hc:fi:a:A" arg; do
+while getopts "hc:fi:a:b:A" arg; do
     case $arg in
         h) help ${self} ; exit 0;;
         c) CONNECTTO=true; ADD=true; NODE=${OPTARG} ;;
         f) FORCE=true ;;
         i) IFACE+="${OPTARG} " ;;
+        b) CONNECTTO=true; ADD=true; NODO_ESPECIFICO="${OPTARG}" ;;
         a) ADD=true ; NODE=${OPTARG};;
         A) ALL=true ;;
     esac
@@ -39,7 +40,7 @@ avahi-browse --terminate \
              --parsable \
              --resolve \
              _${NETWORK}._udp | grep "^=" | \
-  while read _s; do
+grep "${NODO_ESPECIFIO}" | while read _s; do
 # Interfaz descubierta
     _iface="$(echo "$_s" | cut -d';' -f2)"
 
