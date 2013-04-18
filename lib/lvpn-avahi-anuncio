@@ -23,9 +23,9 @@ fatal_error "No se puede escribir el archivo de pid: %s" "${PIDFILE}"
 <service-group>
     <name replace-wildcards="yes">${1} ${node}@${NETWORK}</name>
     <service>
-        <type>_${NETWORK}._udp</type>
-        <port>${nodeport:-655}</port>
-        $(cat $3 | base64 | \
+        <type>_${NETWORK}._$3</type>
+        <port>${nodeport:-$4}</port>
+        $(cat $5 | base64 | \
           tac | \
           sed -e 's/^/<txt-record>/' \
               -e 's/$/<\/txt-record>/')
