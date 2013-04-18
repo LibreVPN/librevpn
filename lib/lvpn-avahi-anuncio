@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Anuncia o desanuncia la llave del nodo en la red local
+
+
+. "${LVPN_LIBDIR}"/common
+
+PIDFILE=${PIDFILE:-/tmp/${NETWORK}-announce.pid}
+SERVICE=${SERVICE:-/etc/avahi/services/${2}.service}
+SERVICE="${2}.service"
+
+node=$1
+
+touch "${PIDFILE}" 2>/dev/null || \
+fatal_error "No se puede escribir el archivo de pid: %s" "${PIDFILE}"
+
+  touch "${SERVICE}" 2>/dev/null ||
+  fatal_error "No se puede escribir el archivo %s" "${SERVICE}"
+
+  cat >"${SERVICE}" <<EOF
+
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+    <name replace-wildcards="yes">${1} ${node}@${NETWORK}</name>
+    <service>
+        <type>_${NETWORK}._udp</type>
+        <port>${nodeport:-655}</port>
+        $(cat $3 | base64 | \
+          tac | \
+          sed -e 's/^/<txt-record>/' \
+              -e 's/$/<\/txt-record>/')
+    </service>
+</service-group>
+EOF
+
+
+exit $?

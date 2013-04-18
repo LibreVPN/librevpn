@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# Anuncia o desanuncia la llave del nodo en la red local
+
+. "${LVPN_LIBDIR}"/common
+
+PERMANENT=false
+STOP=false
+PIDFILE=${PIDFILE:-/tmp/${NETWORK}-announce.pid}
+SERVICE=${SERVICE:-/etc/avahi/services/${NETWORK}.service}
+
+touch "${PIDFILE}" 2>/dev/null || \
+fatal_error "No se puede escribir el archivo de pid: %s" "${PIDFILE}"
+
+while getopts "hpbs" arg; do
+    case $arg in
+        h) help ${self} ; exit 0;;
+        p) PERMANENT=true ;;
+        b) BEADLE=true ;;
+        s) STOP=true ;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+# Dejar de anunciar
+${STOP} && ${PERMANENT} && ${sudo} rm "${SERVICE}" "${PIDFILE}" && exit
+${STOP} && kill $(cat "${PIDFILE}") 2>/dev/null && rm "${PIDFILE}" && exit
+
+node="$1"; shift
+nodefile="${LVPN_HOSTS}/${node}"
+
+if ${BEADLE} ; then
+	nodefile="${LVPN_BEADLE}/${node}"
+fi
+
+test -f "${nodefile}" || fatal_warning "No existe ese nodo"
+
+nodeport="$(grep "^\s*Port" "${nodefile}" | \
+            cut -d'=' -f2 | \
+            tr -d ' ')"
+
+# Publicar la llave como txt-record en base64
+# Es necesario invertirla porque avahi-browse muestra los txt-record invertidos
+
+if ${PERMANENT} ; then
+
+  touch "${SERVICE}" 2>/dev/null ||
+  fatal_error "No se puede escribir el archivo %s" "${SERVICE}"
+
+  cat >"${SERVICE}" <<EOF
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+    <name replace-wildcards="yes">${node}@${NETWORK}</name>
+    <service>
+        <type>_${NETWORK}._udp</type>
+        <port>${nodeport:-655}</port>
+        $(base64 "${nodefile}" | \
+          tac | \
+          sed -e 's/^/<txt-record>/' \
+              -e 's/$/<\/txt-record>/')
+    </service>
+</service-group>
+EOF
+
+else
+
+# Anunciar como usuario y pasar a segundo plano
+  avahi-publish -s "${node}@${NETWORK}" \
+                _${NETWORK}._udp \
+                ${nodeport:-655} \
+                $(base64 "${nodefile}" | tac | tr "\n" ' ') \
+                1>/dev/null 2>&1 &
+  echo $! >"${PIDFILE}"
+fi
+
+exit $?

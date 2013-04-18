@@ -3,14 +3,19 @@
 #       grafico tinc2dot version 0.2.1
 #       Ernesto bazzano (c) Liberado bajo licencia AGPL
 #
-#	Basado en los ejemplos de graphviz 
+#	Basado en los ejemplos de graphviz
 #		http://graphviz.org/content/psg
 #		http://graphviz.org/content/fsm
 #
 # Documentación: http://lab.hackcoop.com.ar/projects/librevpn/wiki/Tinc2dot
+#
+#	requiere: graphviz
+#	optativo avahi-browse
+
+DOT="/tmp/lvpn.dot"
 
 DIA=$(date)
-NODOS=$( cat /tmp/lab.dot | grep ">" )
+NODOS=$( cat $DOT | grep ">" )
 SERVICIOS=$(avahi-browse --all -t -p | sort -u | sed 's/\ /-/g' )
 
 echo "digraph Lab {

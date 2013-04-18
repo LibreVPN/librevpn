@@ -11,7 +11,7 @@ LVPN="$(readlink -f $0)"
 LVPN_DIR="${LVPN_DIR:-$(dirname "$LVPN")}"
 LVPN_LIBDIR="${LVPN_LIBDIR:-${LVPN_DIR}/lib}"
 LVPN_HOSTS="${LVPN_HOSTS:-${LVPN_DIR}/hosts}"
-LVPN_HOSTS="${LVPN_HOSTS:-${LVPN_DIR}/beadle}"
+LVPN_BEADLE="${LVPN_HOSTS:-${LVPN_DIR}/beadle}"
 KEYSIZE=${KEYSIZE:-4096}
 
 # Para gettext

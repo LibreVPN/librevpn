@@ -58,3 +58,9 @@ como argumento para mostrar la ayuda.
 
 Además, toma la variable de entorno _PAGER_ para paginar la salida, por defecto
 se usa _less_.
+
+
+## Los commandos
+
+La mayoria de los comandos solo configuran, luego hay que enviar los cambios a directorio de instalación con el comando `lvpn init 
+install`

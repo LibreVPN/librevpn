@@ -1,0 +1,11 @@
+
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+    <name replace-wildcards="yes">@lvpn</name>
+    <service>
+        <type>_lvpn._udp</type>
+        <port>655</port>
+        <txt-record>aG9sYQo=</txt-record>
+    </service>
+</service-group>
