@@ -60,7 +60,17 @@ Además, toma la variable de entorno _PAGER_ para paginar la salida, por defecto
 se usa _less_.
 
 
-## Los commandos
+## Flags y parámetros
 
-La mayoria de los comandos solo configuran, luego hay que enviar los cambios a directorio de instalación con el comando `lvpn init 
-install`
+> lvpn comando -flags nodolocal parametros extra
+
+Seguido de `lvpn` viene el comando, al que se le pasan en orden las flags (con
+sus opciones).  El primer parámetro siempre tiene que ser el nodo local en el
+que se realiza la acción.  Luego vienen los parámetros extra (nombres de otros
+nodos, por ejemplo).
+
+
+## Los comandos
+
+La mayoria de los comandos solo configuran, luego hay que enviar los cambios a
+directorio de instalación con el comando `lvpn init install`
