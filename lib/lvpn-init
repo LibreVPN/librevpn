@@ -148,6 +148,7 @@ $verbose && msg "Este nodo es un %s" "${mode}"
 $verbose && msg "Generando %s..." "${conffile}"
 add_to_file "${conffile}" "Name = ${nodename}"
 add_to_file "${conffile}" "Mode = ${mode}"
+add_to_file "${conffile}" "GraphDumpFile = /tmp/${NETWORK}.dot"
 
 $verbose && msg "Añadiendo hosts..."
 if [ -n "${connectto}" ]; then
