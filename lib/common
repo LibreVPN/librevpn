@@ -57,3 +57,16 @@ get_node_file() {
 
     echo "${file}"
 }
+
+# Encontrar el tipo de init que se va a usar para tinc
+# Devuelve "tipo ubicacion"
+# Ver lib/lvpn-install
+find_init_system() {
+  if [ -f /etc/debian_version ]; then
+    echo "deb /etc/tinc/nets.boot"
+  elif [ -f /etc/os-release ]; then
+    echo "systemd /etc/systemd/system/multi-user.target.wants/tincd@${NETWORK}.service"
+  else
+    echo "unknown unknown"
+  fi
+}
