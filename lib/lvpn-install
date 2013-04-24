@@ -45,4 +45,16 @@ find_init_system | while read init_system init_file; do
   esac
 done
 
+# Agregar avahi en nsswitch.conf
+if [ -f /lib/libnss_mdns.so.2 ]; then
+  grep -q "mdns" /etc/nsswitch.conf } || \
+  $sudo sed -e "s/^hosts:.*$/#&\nhosts: files mdns_minimal [NOTFOUND=return] dns mdns/" \
+            -i /etc/nsswitch.conf
+else
+  warning "Es necesario instalar nss-mdns para poder resolver nombres .local"
+fi
+
+$sudo which avahi-daemon &>/dev/null || \
+  warning "Se recomienda instalar avahi-daemon"
+
 exit $?
