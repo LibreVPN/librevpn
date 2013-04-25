@@ -13,10 +13,10 @@ while getopts "hc" arg; do
 done
 let OPTIND--; shift ${OPTIND}
 
-log="${1:-/var/log/tinc.$(basename "${TINC}").log}"
+log="${1:-/var/log/tinc.${NETWORK}.log}"
 
 if [ ! -f "${log}" ]; then
-    fatal_error "El archivo de log no existe."
+    fatal_error "El archivo de log no existe.  Tip: hay que iniciar tinc con --logfile"
 fi
 
 grep "Peer .* had unknown identity " ${log} 2>/dev/null | \

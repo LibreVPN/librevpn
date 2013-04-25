@@ -57,3 +57,31 @@ get_node_file() {
 
     echo "${file}"
 }
+
+# Limpia el hostname, convierte todo lo no alfanumérico a _
+# Ver tincd.conf(5)
+get_node_name() {
+  echo "$1" | sed -e "s/[^a-z_]/_/g"
+}
+
+# Encontrar el tipo de init que se va a usar para tinc
+# Devuelve "tipo ubicacion"
+# Ver lib/lvpn-install
+find_init_system() {
+  if [ -f /etc/debian_version ]; then
+    echo "deb /etc/tinc/nets.boot"
+  elif [ -f /etc/os-release ]; then
+    echo "systemd /etc/systemd/system/multi-user.target.wants/tincd@${NETWORK}.service"
+  else
+    echo "unknown unknown"
+  fi
+}
+
+# Obtiene la id del responsable del nodo
+get_id() {
+  if [ -z "$(git config --get user.name)" ]; then
+    echo "# $(git config --get user.name) <$(git config --get user.email)>"
+  else
+    echo "# $USER@$HOSTNAME"
+  fi
+}

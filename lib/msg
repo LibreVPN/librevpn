@@ -28,12 +28,3 @@ fatal_error() {
 help() {
     ${PAGER:-less -niSFX} "${LVPN_DIR}/doc/$1.markdown" 2>/dev/null || true
 }
-
-# Obtiene la id del responsable del nodo
-get_id() {
-    if which git >/dev/null; then
-        echo "# $(git config --get user.name) <$(git config --get user.email)>"
-    else
-        echo "# $USER@$HOSTNAME"
-    fi
-}

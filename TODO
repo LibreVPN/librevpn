@@ -7,9 +7,6 @@
 * lvpn-check. Chequear errores comunes (falta tinc.conf, hosts/minodo,
   hosts/conectara)
 
-* Tomar los nodos a los que se esta rechazando conexion (es decir, tienen al
-  nodo local en ConnectTo) y actualiza o informa cuáles son.
-
 * Bash completion
 
 * Publicar los nodos con git-daemon ad-hoc (en un puerto especial)
@@ -19,8 +16,10 @@
 * Usar script host-{up,down} para saber cuales son los nodos disponibles
 
 * Autenticar amigo - F2F - key signing party - agrega mi nodo como amigo (en
-  persona)
+  persona) -- keyserver y announce/discover
 
 * Usar miniupnpc/natpmp para pedir un puerto en los nodos portatiles
+
+* Que connectto le mande la llave al otro nodo de alguna forma
 
 vim:set ts=2 sw=2 et syntax=markdown:
