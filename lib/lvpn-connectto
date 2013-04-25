@@ -24,7 +24,7 @@ ${LVPN} add-host ${node} ${hosts} || \
 
 # Recorrer todos los host que se pasaron
 for _connectto in ${hosts}; do
-  if ! grep -q "^Address" "$(get_node_file ${_connectto})"; then
+  if ! grep -q "^Address" "$(get_host_file ${_connectto})"; then
     warning "El nodo %s no tiene una ubicación pública, no será posible conectarse" ${_connectto}
     continue
   fi

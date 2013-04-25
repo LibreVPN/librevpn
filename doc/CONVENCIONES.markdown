@@ -100,6 +100,8 @@ al principio del script.
 
 * get_node_name(): Limpia el nombre del nodo de caracteres inválidos
 
+* get_host_file(): Obtiene el archivo del nodo en $LVPN\_HOSTS
+
 * find_init_system(): Encuentra el tipo de inicio de tinc.  Ver
   _lib/lvpn-install_.
 
