@@ -76,7 +76,7 @@ while getopts 'vhirfp:a:c:s:l:' arg; do
         f) force=true ;;
         p) port="$OPTARG" ;;
         l) localnet="$OPTARG" ;;
-        a) address="$OPTARG" ;;
+        a) address="${address} $OPTARG" ;;
         c) connectto="$connectto $OPTARG" ;;
         s) subnets="$subnets $OPTARG" ;;
     esac
@@ -115,7 +115,9 @@ $verbose && msg "Generando %s..." "${nodefile}"
 get_id >>"${nodefile}"
 
 if [ ! -z "${address}" ]; then
-    add_to_file "${nodefile}" "Address = ${address}"
+  for _a in ${address}; do
+    add_to_file "${nodefile}" "Address = ${_a}"
+  done
 fi
 
 if [ ! -z "${port}" ]; then
