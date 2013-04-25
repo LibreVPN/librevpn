@@ -83,8 +83,8 @@ while getopts 'vhirfp:a:c:s:l:' arg; do
 done ;
 let OPTIND--; shift $OPTIND
 
-# Sólo permitir letras y números
-nodename="$(echo "${1}" | sed "s/[^a-z0-9\_]/_/gi")"
+# Obtener el nombre del host
+nodename="$(get_node_name "${1:-$HOSTNAME}")"
 
 if [ -z "${nodename}" ]; then
     fatal_error "Se necesita un nombre de nodo"

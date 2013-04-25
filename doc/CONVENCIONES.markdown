@@ -98,6 +98,8 @@ al principio del script.
 * get_node_file(): Encuentra el archivo de host de un nodo dentro del
   directorio del nodo.  `node_file="$(get_node_file ${node})"`
 
+* get_node_name(): Limpia el nombre del nodo de caracteres inválidos
+
 * find_init_system(): Encuentra el tipo de inicio de tinc.  Ver
   _lib/lvpn-install_.
 

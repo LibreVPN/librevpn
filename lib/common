@@ -58,6 +58,12 @@ get_node_file() {
     echo "${file}"
 }
 
+# Limpia el hostname, convierte todo lo no alfanumérico a _
+# Ver tincd.conf(5)
+get_node_name() {
+  echo "$1" | sed -e "s/[^a-z_]/_/g"
+}
+
 # Encontrar el tipo de init que se va a usar para tinc
 # Devuelve "tipo ubicacion"
 # Ver lib/lvpn-install
