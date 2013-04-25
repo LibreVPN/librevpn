@@ -16,7 +16,7 @@
 * Usar script host-{up,down} para saber cuales son los nodos disponibles
 
 * Autenticar amigo - F2F - key signing party - agrega mi nodo como amigo (en
-  persona)
+  persona) -- keyserver y announce/discover
 
 * Usar miniupnpc/natpmp para pedir un puerto en los nodos portatiles
 
