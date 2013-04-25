@@ -30,7 +30,7 @@ for _connectto in ${hosts}; do
   fi
 
 # No es necesario agregarlo dos veces
-  grep -q "^ConnectTo = ${_connectto}$" && continue
+  grep -q "^ConnectTo = ${_connectto}$" "${nodedir}/tinc.conf" && continue
 
 # Agregar la linea ConnectTo = nodo a tinc.conf
   msg "Conectar a %s" "${_connectto}"
