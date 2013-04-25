@@ -20,4 +20,6 @@
 
 * Usar miniupnpc/natpmp para pedir un puerto en los nodos portatiles
 
+* Que connectto le mande la llave al otro nodo de alguna forma
+
 vim:set ts=2 sw=2 et syntax=markdown:
