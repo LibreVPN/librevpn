@@ -76,3 +76,12 @@ find_init_system() {
     echo "unknown unknown"
   fi
 }
+
+# Obtiene la id del responsable del nodo
+get_id() {
+  if [ -z "$(git config --get user.name)" ]; then
+    echo "# $(git config --get user.name) <$(git config --get user.email)>"
+  else
+    echo "# $USER@$HOSTNAME"
+  fi
+}

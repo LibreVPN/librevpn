@@ -103,6 +103,9 @@ al principio del script.
 * find_init_system(): Encuentra el tipo de inicio de tinc.  Ver
   _lib/lvpn-install_.
 
+* get\_id(): Obtiene nombre y mail del responsable del nodo usando git o
+  usuario@hostname.
+
 
 ## Mensajes
 
