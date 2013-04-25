@@ -49,6 +49,8 @@ comandos.
 
 * LVPN\_SUBNET6: El rango de IPv6
 
+* TINCD\_FLAGS: Flags para el demonio `tincd`.
+
 
 ## Dónde va la documentación
 

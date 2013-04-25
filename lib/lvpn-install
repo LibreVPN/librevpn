@@ -37,9 +37,18 @@ find_init_system | while read init_system init_file; do
   case $init_system in
     deb)
       grep -q ${NETWORK} "${init_file}" || \
-      $sudo sh -c "echo ${NETWORK} >>${init_file}" ;;
+      $sudo sh -c "echo ${NETWORK} >>${init_file}"
+
+# Habilitar el log y cambiar a un usuario sin privilegios
+      grep -q "^EXTRA=" /etc/default/tinc || \
+      $sudo sh -c "echo 'EXTRA=\"${TINCD_FLAGS}\"' >>/etc/default/tinc"
+      ;;
     systemd)
-      $sudo cp -f ${VERBOSE} ${LVPN_LIBDIR}/skel/tincd@.service ${init_file} ;;
+# Instalar el .service desde el skel
+      $sudo sed "s/{{TINCD_FLAGS}}/${TINCD_FLAGS}/g" \
+                ${LVPN_LIBDIR}/skel/tincd@.service \
+                >${init_file}
+      ;;
     unknown)
       warning "Tu sistema de inicio de tinc es desconocido, tenés que habilitar el demonio a mano o reportar un bug :)" ;;
   esac
