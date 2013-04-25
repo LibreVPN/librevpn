@@ -7,9 +7,6 @@
 * lvpn-check. Chequear errores comunes (falta tinc.conf, hosts/minodo,
   hosts/conectara)
 
-* Tomar los nodos a los que se esta rechazando conexion (es decir, tienen al
-  nodo local en ConnectTo) y actualiza o informa cuáles son.
-
 * Bash completion
 
 * Publicar los nodos con git-daemon ad-hoc (en un puerto especial)
