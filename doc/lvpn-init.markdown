@@ -1,17 +1,17 @@
 # Crea un nuevo nodo
 
-Los nodos se guardan en el directorio $LVPN\_DIR/nodos/ 
+Los nodos se guardan en el directorio nodos/ 
 
     -h  Esta ayuda
     -v  Modo verborrágico
+    -a  Ubicación pública del nodo (dominio o IP) [múltiple]
+    -c  Conectar a este nodo [múltiple]
     -i  Instalar al finalizar (requiere root)
     -f  Forzar la creación de un nodo
     -p  Número de puerto (655)
     -l  IP en la VPN (se adivina)
     -s  Anunciar otra subred
     -r  Aceptar otras subredes remotas
-    -a  Ubicación pública del nodo (dominio o IP)
-    -c  Conectar a este nodo
 
 Uso: 
 lvpn init [-f] [-v] [-p 655] [-l 192.168.9.202/32] [-s 10.4.24.128/27] [-r] [-a dominio.eninternet.tld] [-c otronodo] nodo 
@@ -21,7 +21,7 @@ Ejemplos:
 
   lvpn init -c trululu guachiguau
  
-* Crear un nodo publico con una conexion e instalarlo localmente
+* Crear un nodo público con una conexión e instalarlo localmente
 
   lvpn init -i -a guachiguau.org -c trululu guachiguau
 

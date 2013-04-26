@@ -11,6 +11,7 @@ Con la opción `-f` se confía en todos.
   -c Conectarse a los nodos (implica -a)
   -f Confiar en las llaves de la red en lugar de las locales
   -A Usar todas las interfaces (incluso la de la VPN, ¡no usar con -c!)
+  -b Agrega una llave anunciada en la LibreVPN
 
 Uso:
 
@@ -42,3 +43,6 @@ Uso:
 
   lvpn discover -c ponape -A
 
+* Conecta a una llave anunciada en la VPN
+
+  lvpn discover -b ponape nuevo_nodo

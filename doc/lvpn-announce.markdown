@@ -16,6 +16,10 @@ Uso:
 
   lvpn announce -p noanoa
 
+* Anuncia una llaves tipo conserje
+
+  lvpn announce -b amigo
+
 * Dejar de anunciar un nodo
 
   lvpn announce -s
@@ -23,3 +27,4 @@ Uso:
 * Dejar de anunciar un nodo permanente
 
   lvpn announce -sp
+

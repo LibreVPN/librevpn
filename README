@@ -29,4 +29,5 @@ Ver _doc/CONVENCIONES.markdown_.
 
 ## Ideas
 
-https://pad.riseup.net/p/lvpn
+- https://pad.riseup.net/p/lvpn
+- falta generar el `/etc/tinc/nets.boot`
