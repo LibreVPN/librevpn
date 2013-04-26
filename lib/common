@@ -67,7 +67,8 @@ get_node_name() {
 
 get_host_file() {
   test -f "${LVPN_DIR}/hosts/${1}" || \
-    fatal_error "El archivo host de %s no existe" "$1"
+    error "El archivo host de %s no existe" "$1" || \
+    return 1
 
   echo "${LVPN_HOSTS}/${1}"
 }
@@ -87,7 +88,7 @@ find_init_system() {
 
 # Obtiene la id del responsable del nodo
 get_id() {
-  if [ -z "$(git config --get user.name)" ]; then
+  if [ -n "$(git config --get user.name)" ]; then
     echo "# $(git config --get user.name) <$(git config --get user.email)>"
   else
     echo "# $USER@$HOSTNAME"
