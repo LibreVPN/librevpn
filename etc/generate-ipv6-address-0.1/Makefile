@@ -9,7 +9,7 @@ CFLAGS = $(CDEBUGFLAGS) $(DEFINES) $(EXTRA_DEFINES)
 all: generate-ipv6-address
 
 generate-ipv6-address: generate-ipv6-address.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o generate-ipv6-address generate-ipv6-address.o $(LDLIBS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o `uname -m`-generate-ipv6-address generate-ipv6-address.o $(LDLIBS)
 
 .SUFFIXES: .man .html
 
@@ -26,9 +26,9 @@ generate-ipv6-address.html: generate-ipv6-address.man
 
 install.minimal: all
 	mkdir -p $(TARGET)$(PREFIX)/bin/
-	-rm -f $(TARGET)$(PREFIX)/bin/generate-ipv6-address
-	cp generate-ipv6-address $(TARGET)$(PREFIX)/bin/
-	chmod +x $(TARGET)$(PREFIX)/bin/generate-ipv6-address
+	-rm -f $(TARGET)$(PREFIX)/bin/`uname -m`-generate-ipv6-address
+	cp `uname -m`-generate-ipv6-address $(TARGET)$(PREFIX)/bin/
+	chmod +x $(TARGET)$(PREFIX)/bin/`uname -m`-generate-ipv6-address
 
 install: all install.minimal
 	mkdir -p $(TARGET)$(PREFIX)/man/man8/
