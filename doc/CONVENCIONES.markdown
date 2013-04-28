@@ -134,6 +134,7 @@ Por ejemplo: `msg "Procesando el nodo %s..." "$node"`
 * _warning()_: Alerta
 * fatal\_error(): Imprime un mensaje de error y termina el programa
   inmediatamente
+* tip(): Recomendaciones, por ejemplo, cual comando correr a continuación.
 
 ## Los comandos
 
