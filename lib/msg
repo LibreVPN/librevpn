@@ -3,24 +3,30 @@
 # La base para todos los mensajes, se imprime en stderr
 msg() {
     msg="$1"; shift
-    printf "> $msg\n" "$@" 1>&2
+    printf "> $msg\n" $@ 1>&2
 }
 
 error() {
     msg="$(gettext "$1")"; shift
-    msg "$(gettext "ERROR:") ${msg}" "$@"
+    msg "$(gettext "ERROR:") ${msg}" $@
 }
 
 warning() {
     msg="$(gettext "$1")"; shift
-    msg "$(gettext "ALERTA:") ${msg}" "$@"
+    msg "$(gettext "ALERTA:") ${msg}" $@
 }
 
 # Mensaje de error y salir
 fatal_error() {
     msg="$(gettext "$1")"; shift
-    error "${msg}" "$@"
+    error "${msg}" $@
     exit 1
+}
+
+# Sugerir algo
+tip() {
+  msg="$(gettext "$1")"; shift
+  msg "Tip: ${msg}" $@
 }
 
 # Toma la ayuda desde doc/$comando

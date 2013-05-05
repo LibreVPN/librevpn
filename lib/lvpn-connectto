@@ -24,13 +24,13 @@ ${LVPN} add-host ${node} ${hosts} || \
 
 # Recorrer todos los host que se pasaron
 for _connectto in ${hosts}; do
-  if ! grep -q "^Address" "$(get_node_file ${_connectto})"; then
+  if ! grep -q "^Address" "$(get_host_file ${_connectto})"; then
     warning "El nodo %s no tiene una ubicación pública, no será posible conectarse" ${_connectto}
     continue
   fi
 
 # No es necesario agregarlo dos veces
-  grep -q "^ConnectTo = ${_connectto}$" && continue
+  grep -q "^ConnectTo = ${_connectto}$" "${nodedir}/tinc.conf" && continue
 
 # Agregar la linea ConnectTo = nodo a tinc.conf
   msg "Conectar a %s" "${_connectto}"

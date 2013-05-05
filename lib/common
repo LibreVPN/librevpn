@@ -47,6 +47,7 @@ get_node_dir() {
     echo "${dir}"
 }
 
+# Obtiene el archivo del nodo en el directorio del nodo
 get_node_file() {
     dir="$(get_node_dir $1)"
     file="${dir}/hosts/$1"
@@ -64,6 +65,14 @@ get_node_name() {
   echo "$1" | sed -e "s/[^a-z_]/_/g"
 }
 
+get_host_file() {
+  test -f "${LVPN_DIR}/hosts/${1}" || \
+    error "El archivo host de %s no existe" "$1" || \
+    return 1
+
+  echo "${LVPN_HOSTS}/${1}"
+}
+
 # Encontrar el tipo de init que se va a usar para tinc
 # Devuelve "tipo ubicacion"
 # Ver lib/lvpn-install
@@ -79,9 +88,56 @@ find_init_system() {
 
 # Obtiene la id del responsable del nodo
 get_id() {
-  if [ -z "$(git config --get user.name)" ]; then
+  if [ -n "$(git config --get user.name)" ]; then
     echo "# $(git config --get user.name) <$(git config --get user.email)>"
   else
     echo "# $USER@$HOSTNAME"
   fi
+}
+
+# Encuentra una IP libre entre los archivos de host
+get_ipv4() {
+# Las subnets encontradas
+  local subnets=/tmp/$$.subnets
+  local ip=""
+  local fourth=0
+  local tries=0
+
+# Armar la lista de IPs
+  grep -i "subnet\s*=" ${LVPN_HOSTS}/* | cut -d'=' -f2 | sort > ${subnets}
+
+# Fallar si hay 250 nodos...
+  if [ $(wc -l ${subnets} | cut -d' ' -f1 2>/dev/null) -ge 250 ]; then
+# No detecta si hay varios rangos en uso pero por ahora sirve
+    error "Este rango está agotado"
+    return 1
+  fi
+
+# Hasta que encontremos una IP libre elegir el cuarto octeto al azar
+  until [ -n "${ip}" ]; do
+    let fourth=${RANDOM}%250
+    local tmpip="${LVPN_SUBNET%.*}.${fourth}/32"
+
+# Está en la lista?
+    if ! grep -q "${tmpip}" "${subnets}"; then
+      ip="${tmpip}"
+    fi
+
+# Aumentar la cantidad de intentos
+# Por alguna razon let devuelve 1
+    let tries++ || true
+
+    if [ ${tries} -ge 250 ]; then
+      error "No hay IPs libres"
+      return 1
+    fi
+  done
+
+  echo "${ip}"
+}
+
+# Genera una dirección IPv6 /128
+get_ipv6() {
+  ipv6="$(${LVPN_DIR}/bin/$(uname -m)-generate-ipv6-address ${LVPN_SUBNET6%/*})/128"
+  echo ${ipv6}
 }

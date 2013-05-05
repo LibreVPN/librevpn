@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=forking
-ExecStart=/usr/sbin/tincd -n %i --logfile -U nobody
+ExecStart=/usr/sbin/tincd -n %i {{TINCD_FLAGS}}
 
 [Install]
 WantedBy=multi-user.target

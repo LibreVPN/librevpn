@@ -22,4 +22,7 @@
 
 * Que connectto le mande la llave al otro nodo de alguna forma
 
+* Deprecar -l o -s de lvpn-init.  Además el modo router no funciona como
+  se esperaba
+
 vim:set ts=2 sw=2 et syntax=markdown:

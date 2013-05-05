@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Agrega una subnet
+
+. "${LVPN_LIBDIR}"/common
+
+VERBOSE=false
+GENERATE=false
+IPV4=false
+IPV6=true
+while getopts "vg46" arg; do
+    case $arg in
+      h) help ${self} ; exit 0;;
+      v) VERBOSE=true ;;
+      g) GENERATE=true ;;
+      4) IPV4=true ; IPV6=false ;;
+      6) IPV6=true ; IPV4=false ;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+# Obtener el nombre del nodo o adivinarlo
+node="$(get_node_name "${1:-${HOSTNAME}}")" ; shift || true
+# Si no estamos generando una subnet, buscarla en el argumento
+${GENERATE} || subnet="$1" ; shift || true
+hostfile="$(get_host_file "${node}")"
+
+test -f "${hostfile}" || fatal_error "No se encuentra el archivo del nodo %s" ${node}
+test -n "${subnet}" || GENERATE=true
+
+# Generar IPs
+${GENERATE} && ${IPV4} && subnet="$(get_ipv4)"
+${GENERATE} && ${IPV6} && subnet="$(get_ipv6)"
+
+# Volver a probar por las dudas
+test -n "${subnet}" || fatal_error "No se pudo generar la IP"
+
+${VERBOSE} && ${GENERATE} && ${IPV4} && msg "Generada IPv4 %s" "${subnet}"
+${VERBOSE} && ${GENERATE} && ${IPV6} && msg "Generada IPv6 %s" "${subnet}"
+
+# Agregar la subnet al archivo justo encima de la llave
+sed -e "s,^-----BEGIN RSA PUBLIC KEY-----$,Subnet = ${subnet}\n\n&," \
+    -i "${hostfile}" || \
+    warning "No se pudo agregar %s al archivo %s" \
+            "${subnet}" \
+            "${hostfile}"
+
+tip 'Correr `lvpn add-host -u %s` para actualizar el archivo de host' "${node}"

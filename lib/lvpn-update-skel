@@ -14,20 +14,26 @@ let OPTIND--; shift ${OPTIND}
 
 # Para cada nodo
 for _node in $@; do
+# Limpiar los nombres
+  _node="$(get_node_name "${_node}")"
+  _d="$(date +%Y.%m.%d)"
+
   ${VERBOSE} && msg "Actualizando archivos del nodo %s" ${_node}
+
 # Obtener el directorio local
   nodedir="$(get_node_dir ${_node})"
 
 # Por cada archivo del skel
-  for _skelfile in ${LVPN_LIBDIR}/skel/*; do
+  for _destfile in ${nodedir}/*; do
 # Generar el skel local
-    _destfile="${nodedir}/$(basename "${_skelfile}")"
+    _skelfile="${LVPN_LIBDIR}/skel/${_destfile##*/}"
+
+# Saltearse los archivos que no existan
+    test -f "${_skelfile}" || continue
+
     ${VERBOSE} && msg "Archivo: %s" "${_destfile}"
 
-    _d=$(date +%s)
-
 # Guardar un backup
-    test -f "${_destfile}" && \
     mv "${_destfile}" "${_destfile}.${_d}.backup"
 
 # Aplicar el "template"
@@ -37,7 +43,8 @@ for _node in $@; do
 
   done
 
-  ${VERBOSE} && msg "Backups guardados en %s" "$(pushd "${nodedir}" &>/dev/null; echo *.${_d}.backup; popd &>/dev/null)"
+  ${VERBOSE} && \
+    msg "Backups guardados en %s" "$(pushd "${nodedir}" &>/dev/null; echo *.${_d}.backup; popd &>/dev/null)"
 
 done
 
