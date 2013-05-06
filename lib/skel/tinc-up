@@ -23,9 +23,13 @@ sysctl -w net.ipv6.conf.${INTERFACE}.accept_ra=0
 if which ip &>/dev/null; then
   test ! -z "${LVPN_SUBNET6}" && ip address add ${LVPN_SUBNET6} dev ${INTERFACE}
   test ! -z "${LVPN_SUBNET}"  && ip address add ${LVPN_SUBNET}  dev ${INTERFACE}
+
+  ip link set ${INTERFACE} up
 else
   test ! -z "${LVPN_SUBNET6}" && ifconfig ${INTERFACE} ${LVPN_SUBNET6}
   test ! -z "${LVPN_SUBNET}"  && ifconfig ${INTERFACE} ${LVPN_SUBNET%%/*}/24
+
+  ifconfig ${INTERFACE} up
 fi
 
 # Controlar esto desde /etc/babeld.conf
