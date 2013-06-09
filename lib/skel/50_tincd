@@ -1,0 +1,19 @@
+#!/bin/sh
+# Resetea las conexiones de tincd cuando vuelve la conexión
+# Instalar en /etc/NetworkManager/dispatcher.d/
+
+# ver tincd(8), NetworkManager(8)
+# WINCH - borra la información de los nodos que se no pueden alcanzar
+# HUP - recargar la información
+# ALRM - conectarse inmediatamente
+case $2 in
+  'up')
+     for signal in WINCH HUP ALRM; do
+       sleep 1s
+       killall -SIG${signal} tincd
+     done
+    ;;
+  'down') ;;
+esac
+
+exit $?
