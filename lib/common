@@ -62,7 +62,7 @@ get_node_file() {
 # Limpia el hostname, convierte todo lo no alfanumérico a _
 # Ver tincd.conf(5)
 get_node_name() {
-  echo "$1" | sed -e "s/[^a-z_]/_/g"
+  echo "$1" | sed -e "s/[^a-z0-9_]/_/g"
 }
 
 get_host_file() {
