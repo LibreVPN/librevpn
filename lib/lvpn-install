@@ -71,15 +71,15 @@ fi
 
 # Instalar logrotate
 test -d /etc/logrotate.d && \
-  cp ${LVPN_LIBDIR}/skel/logrotate.conf /etc/logrotate.d/tincd.conf
+  ${sudo} cp ${LVPN_LIBDIR}/skel/logrotate.conf /etc/logrotate.d/tincd.conf
 
 # Instalar el script de reconexión de tincd
 test -d /etc/NetworkManager/dispatcher.d && \
-  cp ${LVPN_LIBDIR}/skel/50_tincd /etc/NetworkManager/dispatcher.d/
+  ${sudo} cp ${LVPN_LIBDIR}/skel/50_tincd /etc/NetworkManager/dispatcher.d/
 
 # Recargar los cambios en la configuración
 msg "Recargando tincd..."
-/etc/NetworkManager/dispatcher.d/50_tincd up || killall -SIGHUP tincd
+${sudo} /etc/NetworkManager/dispatcher.d/50_tincd up || ${sudo} killall -SIGHUP tincd
 
 $sudo which avahi-daemon &>/dev/null || \
   tip "Se recomienda instalar avahi-daemon"
