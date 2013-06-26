@@ -22,50 +22,6 @@ subnetup=false
 verbose=false
 force=false
 
-# Encuentra una IP libre entre los archivos de host
-get_ip() {
-# Las subnets encontradas
-    local subnets=/tmp/$$.subnets
-    local ip=""
-    local fourth=0
-    local tries=0
-
-# Armar la lista de IPs
-    grep -i "subnet\s*=" ${LVPN_HOSTS}/* | cut -d'=' -f2 | sort > ${subnets}
-
-# Fallar si hay 250 nodos...
-    if [ $(wc -l ${subnets} | cut -d' ' -f1 2>/dev/null) -ge 250 ]; then
-# No detecta si hay varios rangos en uso pero por ahora sirve
-        error "Este rango está agotado"
-        return 1
-    fi
-
-# Hasta que encontremos una IP libre elegir el cuarto octeto al azar
-    until [ -n "${ip}" ]; do
-        let fourth=${RANDOM}%250
-# TODO no hardcodear el rango
-        local tmpip="192.168.9.${fourth}/32"
-
-# Está en la lista?
-        if ! grep -q "${tmpip}" "${subnets}"; then
-            ip="${tmpip}"
-        fi
-
-# Aumentar la cantidad de intentos
-# Por alguna razon let devuelve 1
-        let tries++ || true
-
-        if [ ${tries} -ge 250 ]; then
-            error "No hay IPs libres"
-            return 1
-        fi
-    done
-
-    $verbose && msg "Obtenida IP libre en %s intentos" ${tries}
-    echo "${ip}"
-    return 0
-}
-
 # Procesar los flags (ver doc)
 while getopts 'vhirfp:a:c:s:l:' arg; do
     case $arg in
@@ -75,7 +31,7 @@ while getopts 'vhirfp:a:c:s:l:' arg; do
         i) install=true;;
         f) force=true ;;
         p) port="$OPTARG" ;;
-        l) localnet="$OPTARG" ;;
+        l) localnet="${localnet} $OPTARG" ;;
         a) address="${address} $OPTARG" ;;
         c) connectto="$connectto $OPTARG" ;;
         s) subnets="$subnets $OPTARG" ;;
@@ -112,6 +68,7 @@ fi
 mkdir -p ${nodedir}/hosts || fatal_error "No se pudo crear el directorio"
 
 $verbose && msg "Generando %s..." "${nodefile}"
+add_to_file "${nodefile}" "# ${nodename}"
 get_id >>"${nodefile}"
 
 if [ ! -z "${address}" ]; then
@@ -120,18 +77,21 @@ if [ ! -z "${address}" ]; then
   done
 fi
 
-if [ ! -z "${port}" ]; then
-    add_to_file "${nodefile}" "Port = ${port}"
+add_to_file "${nodefile}" "Port = ${port:-655}"
+
+if [ ! -z "${LVPN_SUBNET}" ]; then
+  $verbose && msg "Determinando la IPv4 del nodo..."
+  if [ -z "${localnet}" ] ; then
+      localnet="${localnet} $(get_ipv4)"
+
+      if [ $? -ne 0 ]; then
+          fatal_error "No se pudo determinar una IPv4 para este nodo"
+      fi
+  fi
 fi
 
-$verbose && msg "Determinando la IP del nodo..."
-if [ -z "${localnet}" ] ; then
-    localnet=$(get_ip)
-
-    if [ $? -ne 0 ]; then
-        fatal_error "No se pudo determinar una IP para este nodo"
-    fi
-fi
+$verbose && msg "Generando IPv6..."
+localnet="${localnet} $(${LVPN_DIR}/bin/$(uname -m)-generate-ipv6-address ${LVPN_SUBNET6%/*})/128"
 
 $verbose && msg "Añadiendo subredes..."
 for _subnet in ${localnet} ${subnets}; do

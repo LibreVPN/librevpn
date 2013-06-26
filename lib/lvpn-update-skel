@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Actualiza el skel
+
+. "${LVPN_LIBDIR}"/common
+
+VERBOSE=false
+while getopts "hv" arg; do
+    case $arg in
+      h) help ${self} ; exit 0;;
+      v) VERBOSE=true ;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+# Para cada nodo
+for _node in $@; do
+# Limpiar los nombres
+  _node="$(get_node_name "${_node}")"
+  _d="$(date +%Y.%m.%d)"
+
+  ${VERBOSE} && msg "Actualizando archivos del nodo %s" ${_node}
+
+# Obtener el directorio local
+  nodedir="$(get_node_dir ${_node})"
+
+# Por cada archivo del skel
+  for _destfile in ${nodedir}/*; do
+# Generar el skel local
+    _skelfile="${LVPN_LIBDIR}/skel/${_destfile##*/}"
+
+# Saltearse los archivos que no existan
+    test -f "${_skelfile}" || continue
+
+    ${VERBOSE} && msg "Archivo: %s" "${_destfile}"
+
+# Guardar un backup
+    mv "${_destfile}" "${_destfile}.${_d}.backup"
+
+# Aplicar el "template"
+# TODO encontrar un mustache liviano
+    sed -e "s,{{LVPN_SUBNET}},${LVPN_SUBNET},g" \
+        -e "s,{{LVPN_SUBNET6}},${LVPN_SUBNET6},g" "${_skelfile}" >"${_destfile}"
+
+  done
+
+  ${VERBOSE} && \
+    msg "Backups guardados en %s" "$(pushd "${nodedir}" &>/dev/null; echo *.${_d}.backup; popd &>/dev/null)"
+
+done
+
+exit $?

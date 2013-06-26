@@ -1,5 +1,7 @@
-# fauno
+# noanoa
+# fauno <fauno@endefensadelsl.org>
 Subnet = 192.168.9.203/32
+Subnet = 2001:1291:200:83ab:3096:fa90:4df6:7a11/128
 
 -----BEGIN RSA PUBLIC KEY-----
 MIICCgKCAgEA8GdZTnwbTappcdfg9Eg5eGlyZPVU4obb/MLunbKCG7zi45w1zs0D

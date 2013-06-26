@@ -110,6 +110,9 @@ al principio del script.
 * get\_id(): Obtiene nombre y mail del responsable del nodo usando git o
   usuario@hostname.
 
+* get\_ipv4(): Genera una dirección IPv4 a partir de LVPN_SUBNET.
+
+* get\_ipv6(): Genera una dirección IPv6 a partir de LVPN_SUBNET6.
 
 ## Mensajes
 
@@ -131,6 +134,7 @@ Por ejemplo: `msg "Procesando el nodo %s..." "$node"`
 * _warning()_: Alerta
 * fatal\_error(): Imprime un mensaje de error y termina el programa
   inmediatamente
+* tip(): Recomendaciones, por ejemplo, cual comando correr a continuación.
 
 ## Los comandos
 

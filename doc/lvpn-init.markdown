@@ -6,10 +6,10 @@ Los nodos se guardan en el directorio nodos/
     -v  Modo verborrágico
     -a  Ubicación pública del nodo (dominio o IP) [múltiple]
     -c  Conectar a este nodo [múltiple]
+    -l  IP en la VPN (se adivina) [múltiple]
     -i  Instalar al finalizar (requiere root)
     -f  Forzar la creación de un nodo
     -p  Número de puerto (655)
-    -l  IP en la VPN (se adivina)
     -s  Anunciar otra subred
     -r  Aceptar otras subredes remotas
 
