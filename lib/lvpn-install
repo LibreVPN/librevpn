@@ -79,7 +79,7 @@ test -d /etc/NetworkManager/dispatcher.d && \
 
 # Recargar los cambios en la configuración
 msg "Recargando tincd..."
-${sudo} /etc/NetworkManager/dispatcher.d/50_tincd up || ${sudo} killall -SIGHUP tincd
+${sudo} /etc/NetworkManager/dispatcher.d/50_tincd ${NETWORK} up || ${sudo} killall -SIGHUP tincd
 
 $sudo which avahi-daemon &>/dev/null || \
   tip "Se recomienda instalar avahi-daemon"
