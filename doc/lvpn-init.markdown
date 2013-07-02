@@ -12,9 +12,10 @@ Los nodos se guardan en el directorio nodos/
     -p  Número de puerto (655)
     -s  Anunciar otra subred
     -r  Aceptar otras subredes remotas
+    -A  Crear un nodo para sistemas Android
 
 Uso: 
-lvpn init [-f] [-v] [-p 655] [-l 192.168.9.202/32] [-s 10.4.24.128/27] [-r] [-a dominio.eninternet.tld] [-c otronodo] nodo 
+lvpn init [-A] [-f] [-v] [-p 655] [-l 192.168.9.202/32] [-s 10.4.24.128/27] [-r] [-a dominio.eninternet.tld] [-c otronodo] nodo 
 
 Ejemplos:
 * Uso básico con una sola conexión
@@ -37,3 +38,6 @@ Ejemplos:
 
   lvpn init -r -s 10.4.23.224/27 guachiguau
 
+* Crear el nodo rapanui para sistemas android (necesita Tinc GUI for Android)
+
+  lvpn init -A -c ponape rapanui

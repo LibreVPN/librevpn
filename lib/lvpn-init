@@ -21,9 +21,11 @@ subnetup=false
 # Modo verborrágico
 verbose=false
 force=false
+# Soporte para android
+android=false
 
 # Procesar los flags (ver doc)
-while getopts 'vhirfp:a:c:s:l:' arg; do
+while getopts 'vhirfp:a:c:s:l:A' arg; do
     case $arg in
         h) help $self; exit 0 ;;
         v) verbose=true ;;
@@ -35,6 +37,7 @@ while getopts 'vhirfp:a:c:s:l:' arg; do
         a) address="${address} $OPTARG" ;;
         c) connectto="$connectto $OPTARG" ;;
         s) subnets="$subnets $OPTARG" ;;
+        A) android=true ;;
     esac
 done ;
 let OPTIND--; shift $OPTIND
@@ -79,6 +82,12 @@ fi
 
 add_to_file "${nodefile}" "Port = ${port:-655}"
 
+# Tinc para android necesita especificar la shell con la que se corren los
+# scripts
+${android} && add_to_file "${nodefile}" "ScriptsInterpreter = /system/bin/sh"
+# Y además el dispositivo tun
+${android} && add_to_file "${nodefile}" "Device = /dev/tun"
+
 if [ ! -z "${LVPN_SUBNET}" ]; then
   $verbose && msg "Determinando la IPv4 del nodo..."
   if [ -z "${localnet}" ] ; then
@@ -117,8 +126,15 @@ if [ -n "${connectto}" ]; then
     ${LVPN} connectto ${nodename} ${connectto}
 fi
 
+# Copiar los scripts de inicio
 $verbose && msg "Copiando el resto de archivos..."
-cp "${LVPN_LIBDIR}"/skel/tinc-{up,down} "${nodedir}"
+${android} || cp "${LVPN_LIBDIR}"/skel/tinc-{up,down} "${nodedir}"
+# El sistema por defecto de Android es muy limitado, si no tiene busybox no hay
+# prácticamente nada
+${android} && cp "${LVPN_LIBDIR}"/skel/android/tinc-up "${nodedir}"
+# Hardcodear la primera subnet sin notación cidr
+${android} && sed -e "s/{{LVPN_SUBNET}}/${localnet%%/*}/g" \
+                  -i "${nodedir}/tinc-up"
 
 if ${subnetup} ; then
     cp "${LVPN_LIBDIR}"/skel/subnet-{up,down} "${nodedir}"
