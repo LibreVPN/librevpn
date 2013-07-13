@@ -27,7 +27,7 @@ if which ip &>/dev/null; then
   ip link set ${INTERFACE} up
 else
   test ! -z "${LVPN_SUBNET6}" && ifconfig ${INTERFACE} ${LVPN_SUBNET6}
-  test ! -z "${LVPN_SUBNET}"  && ifconfig ${INTERFACE} ${LVPN_SUBNET%%/*}/24
+  test ! -z "${LVPN_SUBNET}"  && ifconfig ${INTERFACE} ${LVPN_SUBNET}
 
   ifconfig ${INTERFACE} up
 fi
