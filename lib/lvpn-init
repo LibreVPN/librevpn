@@ -77,7 +77,7 @@ if [ ! -z "${address}" ]; then
   done
 fi
 
-add_to_file "${nodefile}" "Port = ${port:-655}"
+add_to_file "${nodefile}" "Port = ${port:-${PORT}}"
 
 if [ ! -z "${LVPN_SUBNET}" ]; then
   $verbose && msg "Determinando la IPv4 del nodo..."
