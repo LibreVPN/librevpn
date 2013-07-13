@@ -53,7 +53,7 @@ if ${PERMANENT} ; then
     <name replace-wildcards="yes">${node}@${NETWORK}</name>
     <service>
         <type>_${NETWORK}._udp</type>
-        <port>${nodeport:-655}</port>
+        <port>${nodeport:-${PORT}}</port>
         $(base64 "${nodefile}" | \
           tac | \
           sed -e 's/^/<txt-record>/' \
@@ -67,7 +67,7 @@ else
 # Anunciar como usuario y pasar a segundo plano
   avahi-publish -s "${node}@${NETWORK}" \
                 _${NETWORK}._udp \
-                ${nodeport:-655} \
+                ${nodeport:-${PORT}} \
                 $(base64 "${nodefile}" | tac | tr "\n" ' ') \
                 1>/dev/null 2>&1 &
   echo $! >"${PIDFILE}"

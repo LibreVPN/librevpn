@@ -51,6 +51,8 @@ comandos.
 
 * TINCD\_FLAGS: Flags para el demonio `tincd`.
 
+* PORT: Puerto por defecto
+
 
 ## Dónde va la documentación
 
