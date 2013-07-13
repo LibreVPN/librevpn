@@ -12,12 +12,13 @@ Para obtener ayuda, ejecutar `lvpn -h`.  Cada comando tiene su -h tambien.
 
 ## Requisitos
 
-tinc, avahi-daemon, bash.
+tinc (1 o 1.1), avahi-daemon, bash.
 
-Además los scripts informan sobre otros comandos que pueden llegar a necesitar.
+Además los scripts informan sobre otros comandos que pueden llegar a
+necesitar.
 
 
-## Desarrolladores
+## Desarrollador*s
 
 Ver _doc/CONVENCIONES.markdown_.
 
@@ -30,4 +31,3 @@ Ver _doc/CONVENCIONES.markdown_.
 ## Ideas
 
 - https://pad.riseup.net/p/lvpn
-- falta generar el `/etc/tinc/nets.boot`
