@@ -119,6 +119,9 @@ fi
 
 $verbose && msg "Copiando el resto de archivos..."
 cp "${LVPN_LIBDIR}"/skel/tinc-{up,down} "${nodedir}"
+sed -e "s,{{LVPN_SUBNET}},${LVPN_SUBNET},g" \
+    -e "s,{{LVPN_SUBNET6}},${LVPN_SUBNET6},g" \
+    -i "${nodedir}/tinc-up"
 
 if ${subnetup} ; then
     cp "${LVPN_LIBDIR}"/skel/subnet-{up,down} "${nodedir}"
