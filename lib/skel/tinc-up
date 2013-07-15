@@ -8,13 +8,13 @@ HOST_FILE="/etc/tinc/${NETNAME}/hosts/${NAME}"
 # Tomar la IP desde el archivo de configuración y descartar el prefijo
 get_ip() {
   grep "Subnet" "${HOST_FILE}" | \
-    grep "${1}" | cut -d"=" -f2 | cut -d"/" -f"1" | tr -d " "
+    grep -m 1 "${1}" | cut -d"=" -f2 | cut -d"/" -f"1" | tr -d " "
 }
 
 # Obtener las IPs del archivo de conf y agregar los prefijos de subnet
 # originales
-LVPN_SUBNET6="$(get_ip "${LVPN_SUBNET6%%::*}")/${LVPN_SUBNET6##*/}"
-LVPN_SUBNET="$(get_ip "${LVPN_SUBNET%.*}")/${LVPN_SUBNET##*/}"
+LVPN_SUBNET6="$(get_ip "${LVPN_SUBNET6%%::*}:.*/128")/${LVPN_SUBNET6##*/}"
+LVPN_SUBNET="$(get_ip "${LVPN_SUBNET%%.*}\..*/32")/${LVPN_SUBNET##*/}"
 
 # No aceptar IPv6 desde otro lado
 sysctl -w net.ipv6.conf.${INTERFACE}.accept_ra=0
@@ -27,7 +27,7 @@ if which ip &>/dev/null; then
   ip link set ${INTERFACE} up
 else
   test ! -z "${LVPN_SUBNET6}" && ifconfig ${INTERFACE} ${LVPN_SUBNET6}
-  test ! -z "${LVPN_SUBNET}"  && ifconfig ${INTERFACE} ${LVPN_SUBNET%%/*}/24
+  test ! -z "${LVPN_SUBNET}"  && ifconfig ${INTERFACE} ${LVPN_SUBNET}
 
   ifconfig ${INTERFACE} up
 fi
