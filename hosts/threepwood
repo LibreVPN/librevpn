@@ -1,6 +1,7 @@
 # fauno <fauno@parabola.nu>
 Address = 5.39.12.1
 Subnet = 192.168.9.170/32
+Subnet = 2001:1291:200:83ab:98c6:70d9:93c5:32be/128
 
 -----BEGIN RSA PUBLIC KEY-----
 MIICCgKCAgEA5OunOqcUfzQ8Z+XVyKDsAYRjNP9ZuF8jiJC+yDxn7NHXkx4l8XmZ
