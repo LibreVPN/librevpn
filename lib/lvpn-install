@@ -3,18 +3,12 @@
 # Necesita acceso SSH, pensado para sincronizar nodos en un router con *WRT
 # No usamos rsync porque no existe
 
+# Este script necesita root (ver common)
+root=true
+
 . "${LVPN_LIBDIR}"/common
 
 requires rsync
-
-# Salir si no se es root y no existe sudo, sino usarlo
-if [ ! -w / ]; then
-  if ! which sudo >/dev/null 2>&1; then
-    fatal_error "Correr como root"
-  else
-    sudo=sudo
-  fi
-fi
 
 while getopts "hvdn" arg; do
   case $arg in
@@ -51,9 +45,9 @@ find_init_system | while read init_system init_file; do
       ;;
     systemd)
 # Instalar el .service desde el skel
-      $sudo sed "s/{{TINCD_FLAGS}}/${TINCD_FLAGS}/g" \
-                ${LVPN_LIBDIR}/skel/tincd@.service \
-                >${init_file}
+      sed "s/{{TINCD_FLAGS}}/${TINCD_FLAGS}/g" \
+           ${LVPN_LIBDIR}/skel/tincd@.service | \
+           ${sudo} tee ${init_file} >/dev/null
       ;;
     unknown)
       warning "Tu sistema de inicio de tinc es desconocido, tenés que habilitar el demonio a mano o reportar un bug :)" ;;
@@ -79,7 +73,7 @@ test -d /etc/NetworkManager/dispatcher.d && \
 
 # Recargar los cambios en la configuración
 msg "Recargando tincd..."
-${sudo} /etc/NetworkManager/dispatcher.d/50_tincd ${NETWORK} up || ${sudo} killall -SIGHUP tincd
+${sudo} ${LVPN_LIBDIR}/skel/50_tincd ${NETWORK} up
 
 $sudo which avahi-daemon &>/dev/null || \
   tip "Se recomienda instalar avahi-daemon"

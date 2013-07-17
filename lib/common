@@ -141,3 +141,14 @@ get_ipv6() {
   ipv6="$(${LVPN_DIR}/bin/$(uname -m)-generate-ipv6-address ${LVPN_SUBNET6%/*})/128"
   echo ${ipv6}
 }
+
+if $root ; then
+# Salir si no se es root y no existe sudo, sino usarlo
+  if [ ! -w / ]; then
+    if ! which sudo >/dev/null 2>&1; then
+      fatal_error "Correr como root"
+    else
+      export sudo=sudo
+    fi
+  fi
+fi

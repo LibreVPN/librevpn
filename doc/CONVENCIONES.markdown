@@ -53,6 +53,10 @@ comandos.
 
 * PORT: Puerto por defecto
 
+* sudo: Usar esta variable delante de cualquier comando que deba correr
+  con privilegios de root, ej: `${sudo} rsync`.  Requiere "root=true" al
+  principio del script.
+
 
 ## Dónde va la documentación
 
@@ -76,11 +80,14 @@ nodos, por ejemplo).
 ## Funciones comunes
 
 En el archivo _lib/common_ se almacenan las funciones de uso común entre todos
-los comandos.  Se la puede incluir en un script añadiendo la línea 
+los comandos.  Se la puede incluir en un script añadiendo la línea
 
     . "${LVPN_LIBDIR}"/common
 
 al principio del script.
+
+Nota: Agregar `root=true` antes de common para poder correr funciones de
+root.
 
 ### Variables
 
