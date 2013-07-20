@@ -1,0 +1,7 @@
+#!/bin/sh
+# No acepta /24 para netmask
+# TODO calcular a partir de la notación CIDR
+ifconfig tap0 {{LVPN_SUBNET}} 255.255.255.0
+netcfg tap0 up
+
+# TODO IPv6
