@@ -1,4 +1,27 @@
 #!/usr/bin/env bash
+#
+# lvpn
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
+# Versión autónoma
 # Wrapper para correr los comandos al estilo `git comando parametros`
 # Hay que crearlos en libdir/lvpn-comando
 
@@ -9,8 +32,8 @@ TINC=${TINC:-/etc/tinc/lvpn}
 NETWORK="$(basename "${TINC}")"
 LVPN="$(readlink -f $0)"
 LVPN_DIR="${LVPN_DIR:-$(dirname "$LVPN")}"
-LVPN_BIN="${LVPN_BIN:-${LVPN_DIR}/bin}"
 LVPN_LIBDIR="${LVPN_LIBDIR:-${LVPN_DIR}/lib}"
+LVPN_DOC="${LVPN_DOC:-${LVPN_DIR}/doc}"
 LVPN_HOSTS="${LVPN_HOSTS:-${LVPN_DIR}/hosts}"
 LVPN_BEADLE="${LVPN_HOSTS:-${LVPN_DIR}/beadle}"
 KEYSIZE=${KEYSIZE:-4096}
@@ -27,7 +50,7 @@ TEXTDOMAINDIR=${TEXTDOMAINDIR:-"/usr/share/locale"}
 TEXTDOMAIN="$(basename "${LVPN}")"
 
 export TINC NETWORK LVPN \
-       LVPN_DIR LVPN_LIBDIR LVPN_HOSTS LVPN_BIN \
+       LVPN_DIR LVPN_LIBDIR LVPN_HOSTS LVPN_DOC \
        KEYSIZE TEXTDOMAINDIR TEXTDOMAIN \
        LVPN_SUBNET LVPN_SUBNET6 TINCD_FLAGS PORT
 
