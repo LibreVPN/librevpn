@@ -122,7 +122,7 @@ if [ ! -z "${LVPN_SUBNET}" ]; then
 fi
 
 $verbose && msg "Generando IPv6..."
-localnet="${localnet} $(${LVPN_DIR}/bin/$(uname -m)-generate-ipv6-address ${LVPN_SUBNET6%/*})/128"
+localnet="${localnet} $(get_ipv6)"
 
 $verbose && msg "Añadiendo subredes..."
 for _subnet in ${localnet} ${subnets}; do

@@ -160,7 +160,14 @@ get_ipv4() {
 
 # Genera una dirección IPv6 /128
 get_ipv6() {
-  ipv6="$(${LVPN_DIR}/bin/$(uname -m)-generate-ipv6-address ${LVPN_SUBNET6%/*})/128"
+# Compabilidad para versión standalone
+  if command -v generate-ipv6-address ; then
+    gia="${LVPN_DIR}/bin/$(uname -m)-generate-ipv6-address"
+  else
+    gia=generate-ipv6-address
+  fi
+
+  ipv6="$(${gia} ${LVPN_SUBNET6%/*})/128"
   echo ${ipv6}
 }
 
