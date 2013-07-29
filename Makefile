@@ -1,7 +1,7 @@
 PREFIX?= /usr/local
 # Agregar otros directorios acá para incluir natpmp, etc.
 DIRS=etc/generate-ipv6-address-0.1
-# DIRS+= etc/libnatpmp etc/miniupnp/miniupnpc
+DIRS+= etc/libnatpmp etc/miniupnp/miniupnpc
 
 # Nombre de la red
 NETWORK?= lvpn
@@ -88,9 +88,9 @@ install: all
 	              $(TARGET)$(PREFIX)/bin/natpmpc
 
 # Opcional
-	-test -f etc/etc/miniupnp/miniupnpc/miniupnpc && \
-	install -m755 etc/miniupnp/miniupnpc/miniupnpc \
-	              $(TARGET)$(PREFIX)/bin/miniupnpc
+	-test -f etc/miniupnp/miniupnpc/upnpc-shared && \
+	install -m755 etc/miniupnp/miniupnpc/upnpc-shared \
+	              $(TARGET)$(PREFIX)/bin/upnpc
 ##
 
 clean:
