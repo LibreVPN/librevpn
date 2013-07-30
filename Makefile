@@ -36,6 +36,8 @@ TEXTDOMAIN?= $(NETWORK)
 # Encontrar dinámicamente todos los .in
 SOURCES=$(wildcard *.in **/*.in)
 OBJECTS=$(patsubst %.in,%.out,$(SOURCES))
+DOC=$(wildcard doc/*.markdown)
+MAN=$(patsubst %.markdown,%.1,$(DOC))
 
 all: $(OBJECTS) $(DIRS)
 
@@ -61,6 +63,15 @@ $(OBJECTS):
 			-e "s,@TEXTDOMAINDIR@,$(TEXTDOMAINDIR),g" \
 			-e "s/@TEXTDOMAIN@/$(TEXTDOMAIN)/g" \
 			$(patsubst %.out,%.in,$@) > $@
+
+# Generar los manuales
+$(MAN):
+	pandoc --standalone \
+	       --output="$@" \
+				 --to=man \
+				 $(patsubst %.1,%.markdown,$@)
+
+man: $(MAN)
 
 install: all
 	mkdir -p $(TARGET)$(PREFIX)/bin \
@@ -95,3 +106,6 @@ install: all
 
 clean:
 	rm -rf $(OBJECTS)
+
+man-clean:
+	rm -rf $(MAN)
