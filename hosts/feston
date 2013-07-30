@@ -1,6 +1,6 @@
-# feston
-# fer@sion.duvium.com
-Port = 655
+Address = sion.local
+Address = sion.duvium.com
+
 Subnet = 192.168.9.43/32
 Subnet = 2001:1291:200:83ab:802b:a485:3112:a2e3/128
 

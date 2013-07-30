@@ -1,6 +1,5 @@
-# susa
-# matus <matus@riseup.net>
-Port = 655
+Address = susa.local
+
 Subnet = 192.168.9.183/32
 Subnet = 2001:1291:200:83ab:f877:3997:2834:f8cc/128
 
