@@ -36,7 +36,7 @@ TEXTDOMAIN?= $(NETWORK)
 # Encontrar dinámicamente todos los .in
 SOURCES=$(wildcard *.in **/*.in)
 OBJECTS=$(patsubst %.in,%.out,$(SOURCES))
-DOC=$(wildcard doc/*.markdown)
+DOC=$(wildcard doc/**/*.markdown)
 MAN=$(patsubst %.markdown,%.1,$(DOC))
 
 all: $(OBJECTS) $(DIRS)

@@ -1,3 +1,7 @@
+% LVPN-AVAHI-ANUNCIO.MARKDOWN(1) Manual de LibreVPN | lvpn
+% fauno <fauno@endefensadelsl.org>
+% 2013
+
 # lvpn-announce
 
 Anunciar la llave en la red local usando avahi. 
