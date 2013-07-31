@@ -1,0 +1,57 @@
+.TH LVPN\-ANNOUNCE 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+\f[I]lvpn announce\f[] Anunciar la llave en la red local usando avahi.
+.SH SINOPSIS
+.PP
+\f[I]lvpn announce\f[] [\-h][\-sp] nodo\-local
+.SH DESCRIPCION
+.PP
+Facilita el intercambio de llaves en una red local anunciando el host
+local en mDNS.
+Usar en conjunto con \f[I]lvpn discover\f[].
+.SH OPCIONES
+.TP
+.B \-h
+Ayuda
+.RS
+.RE
+.TP
+.B \-s
+Dejar de anunciar, junto con \f[I]\-p\f[] elimina el archivo
+\f[I]lvpn.service\f[], sino, detiene \f[I]avahi\-publish\f[].
+.RS
+.RE
+.TP
+.B \-p
+Anunciar permanentemente (requiere root).
+Instala \f[I]lvpn.service\f[] de forma que \f[I]avahi\-daemon\f[]
+anuncie la llave cada vez que se inicia el servicio.
+.RS
+.RE
+.SH EJEMPLOS
+.SS Anunciar un nodo
+.PP
+lvpn announce noanoa
+.SS Anunciar un nodo permanentemente
+.PP
+lvpn announce \-p noanoa
+.PP
+Instala el host \f[I]noanoa\f[] en /etc/avahi/services/lvpn.service.
+.SS Anuncia una llaves tipo conserje (?)
+.PP
+lvpn announce \-b amigo
+.SS Dejar de anunciar un nodo
+.PP
+lvpn announce \-s
+.PP
+Detiene \f[I]avahi\-publish\f[] para esta sesión.
+.SS Dejar de anunciar un nodo permanente
+.PP
+lvpn announce \-sp
+.SH VER TAMBIEN
+.PP
+\f[I]avahi.service(5)\f[], \f[I]avahi\-publish(1)\f[],
+\f[I]lvpn\-discover(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

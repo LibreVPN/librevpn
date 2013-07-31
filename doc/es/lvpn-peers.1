@@ -1,0 +1,32 @@
+.TH LVPN\-PEERS 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+Lista los pares desconocidos
+.SH SINOPSIS
+.PP
+\f[I]lvpn peers\f[] [/var/log/tinc.lvpn.log]
+.SH OPCIONES
+.TP
+.B \-h
+Esta ayuda
+.RS
+.RE
+.TP
+.B \-c
+Contar los intentos de conexión fallidos.
+Muestra una cuenta de las conexiones sin éxito de cada par.
+.RS
+.RE
+.SH DESCRIPCION
+.PP
+Busca los nodos que intentan conectarse con el nodo local pero son
+rechazados porque la llave no está accesible.
+.PP
+El demonio tincd debe iniciarse con la opción \f[I]\-\-logfile\f[].
+.PP
+Útil para usar en conjunto con \f[I]lvpn add\-host\f[].
+.SH VER TAMBIEN
+.PP
+\f[I]lvpn\-add\-host(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

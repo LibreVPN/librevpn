@@ -1,0 +1,46 @@
+.TH LVPN 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+LibreVPN
+.SS SINOPSIS
+.PP
+lvpn comando \-opciones parametros
+.SH OPCIONES
+.TP
+.B \-h
+Ayuda
+.RS
+.RE
+.TP
+.B \-c
+Lista de comandos disponibles
+.RS
+.RE
+.SH DESCRIPCION
+.SS ¿Cómo empiezo?
+.PP
+Leyendo el sitio http://librevpn.org.ar o la ayuda de \f[I]lvpn init\f[]
+:)
+.SS ¿Donde está mi nodo?
+.PP
+El comando \f[I]lvpn init\f[] crea tu nodo dentro del directorio
+\f[I]nodos/\f[].
+Podés tener varios nodos pero instalar uno por sistema (usando \f[I]lvpn
+install tunodo\f[]).
+.PP
+Cualquier comando que aplique cambios en tu nodo, debe instalarse luego
+usando el comando \f[I]lvpn install tunodo\f[].
+.PP
+Consultar la ayuda de cada comando usando la opción \-h luego del nombre
+de comando:
+.IP
+.nf
+\f[C]
+lvpn\ add\-host\ \-h
+\f[]
+.fi
+.SH VER TAMBIEN
+.PP
+\f[I]lvpn\-init(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.
