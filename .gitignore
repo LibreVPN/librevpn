@@ -2,4 +2,3 @@ rsa_key.priv
 *.backup
 *.out
 nodos/*
-*.1
