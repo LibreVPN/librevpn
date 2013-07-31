@@ -76,14 +76,16 @@ man: $(MAN)
 install: all
 	mkdir -p $(TARGET)$(PREFIX)/bin \
 	         $(TARGET)$(LIBDIR) \
-	         $(TARGET)$(DOC) \
 	         $(TARGET)$(HOSTS) \
 	         $(TARGET)$(BEADLE) \
-	         $(TARGET)$(TEXTDOMAINDIR)/$(TEXTDOMAIN)
+	         $(TARGET)$(TEXTDOMAINDIR)/$(TEXTDOMAIN) \
+					 $(TARGET)$(PREFIX)/share/man1
 
 	cp    hosts/* $(TARGET)$(HOSTS)/
 	cp -r lib/* $(TARGET)$(LIBDIR)/
-	cp -r doc/* $(TARGET)$(DOC)/
+
+# TODO instalar todas las páginas man para distintos idiomas
+	cp $(MAN) $(TARGET)$(PREFIX)/share/man1/
 
 # TODO instalar automáticamente los .out en sus destinos
 	install -D -m755 lvpn.out $(TARGET)$(PREFIX)/bin/lvpn
