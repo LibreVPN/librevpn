@@ -46,7 +46,7 @@ ${UPDATE} && hosts="$(shopt -s nullglob; echo "${nodedir}"/hosts/* | sed "s,${no
 # Recorrer todos los host que se pasaron
 for _host in ${hosts}; do
 # Generar el archivo y encontrarlo, saltear si no existe
-    _hostfile="$(get_host_file "${_host}" || true)"
+    _hostfile="$(get_host_file "${_host}")"
     _hostdest="${nodedir}/hosts/${_host}"
 
     if [ ! -f "${_hostfile}" ]; then
