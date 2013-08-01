@@ -161,7 +161,7 @@ get_ipv4() {
 # Genera una dirección IPv6 /128
 get_ipv6() {
 # Compabilidad para versión standalone
-  if command -v generate-ipv6-address ; then
+  if ! command -v generate-ipv6-address &>/dev/null; then
     gia="${LVPN_DIR}/bin/$(uname -m)-generate-ipv6-address"
   else
     gia=generate-ipv6-address
