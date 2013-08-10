@@ -55,6 +55,13 @@ ${NODE_ACEPT} && NODE_ACEPT=$1
 
 test -n "${NODE}" && NODEDIR="$(get_node_dir "${NODE}")"
 
+# Si estamos agregando el host pero no tenemos permisos de escritura en
+# hosts/, pedimos sudo
+if ${ADD} && test ! -w "${LVPN_HOSTS}" ; then
+  root=true
+  . "${LVPN_LIBDIR}"/common
+fi
+
 # Encontrar todas las llaves en _lvpn._udp
 # TODO hacer terminate opcional y mantenerlo como un daemon?
 avahi-browse --terminate \
@@ -95,7 +102,7 @@ grep "$NODE_ACEPT" |\
       _host_file="$(get_host_file "${_node}")"
       if [ $? -ne 0 ] || ${FORCE} ; then
         msg "Agregando %s" "${_node}"
-        cat "${TMPDIR}/${_node}" | sudo tee "${LVPN_HOSTS}/${_node}"
+        cat "${TMPDIR}/${_node}" | ${sudo} tee "${LVPN_HOSTS}/${_node}"
       fi
 
 # CONNECTTO incluye ADD
