@@ -1,13 +1,12 @@
+# Si estamos empaquetando, definir el directorio de compilación
+TARGET?=
 PREFIX?= /usr/local
-# Agregar otros directorios acá para incluir natpmp, etc.
-DIRS=etc/generate-ipv6-address-0.1
-#DIRS+= etc/libnatpmp etc/miniupnp/miniupnpc
-
 # Nombre de la red
 NETWORK?= lvpn
 
-# Si estamos empaquetando, definir el directorio de compilación
-TARGET?=
+# Agregar otros directorios acá para incluir natpmp, etc.
+DIRS=etc/generate-ipv6-address-0.1
+#DIRS+= etc/libnatpmp etc/miniupnp/miniupnpc
 
 LIBDIR?= $(PREFIX)/lib/$(NETWORK)
 DOC?= $(PREFIX)/share/$(NETWORK)/doc
