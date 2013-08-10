@@ -167,7 +167,7 @@ get_ipv6() {
     gia=generate-ipv6-address
   fi
 
-  ${gia} ${LVPN_SUBNET6%/*})/128
+  echo $(${gia} ${LVPN_SUBNET6%/*})/128
 }
 
 if $root ; then
