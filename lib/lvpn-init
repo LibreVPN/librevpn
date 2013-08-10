@@ -40,8 +40,8 @@ subnets=""
 install=false
 # Habilitar subnet-up (-r)
 subnetup=false
-# Modo verborrágico
-verbose=false
+# Modo verborrágico por defecto
+verbose=true
 force=false
 # Soporte para android
 android=false
@@ -50,7 +50,7 @@ android=false
 while getopts 'vhirfp:a:c:s:l:A' arg; do
     case $arg in
         h) help $self; exit 0 ;;
-        v) verbose=true ;;
+        q) verbose=false ;;
         r) subnetup=true ;;
         i) install=true;;
         f) force=true ;;
@@ -71,6 +71,7 @@ if [ -z "${nodename}" ]; then
     fatal_error "Se necesita un nombre de nodo"
 fi
 
+# Podríamos usar get_node_dir pero chequea si ya existe, cosa que no
 nodedir="${LVPN_DIR}/nodos/${nodename}"
 nodefile="${nodedir}/hosts/${nodename}"
 conffile="${nodedir}/tinc.conf"

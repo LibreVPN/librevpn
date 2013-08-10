@@ -9,7 +9,7 @@ Crea un nuevo nodo
 
 # SINOPSIS
 
-lvpn init [-A] [-f] [-v] [-p 655] [-l 192.168.9.202/32] [-s 10.4.24.128/27] [-r] [-a dominio.eninternet.tld] [-c otronodo] nodo
+lvpn init [-A] [-f] [-q] [-p 655] [-l 192.168.9.202/32] [-s 10.4.24.128/27] [-r] [-a dominio.eninternet.tld] [-c otronodo] nodo
 
 
 # OPCIONES
@@ -17,8 +17,8 @@ lvpn init [-A] [-f] [-v] [-p 655] [-l 192.168.9.202/32] [-s 10.4.24.128/27] [-r]
 -h
 :    Ayuda
 
--v
-:    Modo verborrágico
+-q
+:    Modo silencioso
 
 -a ejemplo.org
 :    Ubicación pública del nodo (dominio o IP).  Puede especificarse
