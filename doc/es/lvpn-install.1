@@ -1,0 +1,45 @@
+.TH LVPN\-INSTALL 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+Instala o sincroniza el nodo en el sistema.
+.SH SINOPSIS
+.PP
+\f[I]lvpn install\f[] [\-hvdn] nodo\-local
+.SH OPCIONES
+.TP
+.B \-h
+Esta ayuda
+.RS
+.RE
+.TP
+.B \-v
+Modo verborrágico
+.RS
+.RE
+.TP
+.B \-d
+Eliminar archivos extra, copiar tal cual se ve en nodos/nodo\-local
+.RS
+.RE
+.TP
+.B \-n
+Mostrar los cambios sin realizarlos (usar con \-v)
+.RS
+.RE
+.SH DESCRIPCION
+.PP
+Sincroniza \f[I]nodos/nodo\-local\f[] con \f[I]/etc/tinc/lvpn\f[].
+.PP
+Es necesario correrlo luego de cada cambio.
+.PP
+Además, configura el sistema para el inicio automático de la VPN y si se
+usa NetworkManager, la reconexión inmediata al conectarse a una red.
+.PP
+Si el paquete que provee \f[I]nss\-mdns\f[] se encuentra instalado,
+modificar el archivo \f[I]/etc/nsswitch.conf\f[] para resolver
+direcciones \f[I]hostname.local\f[].
+.SH VER TAMBIEN
+.PP
+\f[I]rsync(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

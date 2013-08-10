@@ -1,4 +1,26 @@
 #!/usr/bin/env bash
+#
+# lib/lvpn-add-host
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
 # Agrega valores connectto a un nodo
 
 . "${LVPN_LIBDIR}"/common
@@ -24,7 +46,7 @@ ${UPDATE} && hosts="$(shopt -s nullglob; echo "${nodedir}"/hosts/* | sed "s,${no
 # Recorrer todos los host que se pasaron
 for _host in ${hosts}; do
 # Generar el archivo y encontrarlo, saltear si no existe
-    _hostfile="$(get_host_file "${_host}" || true)"
+    _hostfile="$(get_host_file "${_host}")"
     _hostdest="${nodedir}/hosts/${_host}"
 
     if [ ! -f "${_hostfile}" ]; then

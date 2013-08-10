@@ -1,11 +1,30 @@
 #!/usr/bin/env bash
+#
+# lib/lvpn-discover
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
 # Descubre nodos en la red local y opcionalmente los agrega a connectto
 #set -x
 
 . "${LVPN_LIBDIR}"/common
-
-# Principio de mínima autoridad
-[ -w / ] && fatal_error "Correr como usuario normal"
 
 requires avahi-browse base64
 
@@ -31,11 +50,17 @@ while getopts "hc:fi:a:b:A" arg; do
 done
 let OPTIND--; shift ${OPTIND}
 
-if [ ! "$NODE_ACEPT" = "" ]; then
-	NODE_ACEPT=$1
-fi
+# WTF - estoy arreglando esto aunque no se que carajo hace -- fauno
+${NODE_ACEPT} && NODE_ACEPT=$1
 
 test -n "${NODE}" && NODEDIR="$(get_node_dir "${NODE}")"
+
+# Si estamos agregando el host pero no tenemos permisos de escritura en
+# hosts/, pedimos sudo
+if ${ADD} && test ! -w "${LVPN_HOSTS}" ; then
+  root=true
+  . "${LVPN_LIBDIR}"/common
+fi
 
 # Encontrar todas las llaves en _lvpn._udp
 # TODO hacer terminate opcional y mantenerlo como un daemon?
@@ -44,7 +69,7 @@ avahi-browse --terminate \
              --parsable \
              --resolve \
              _${NETWORK}._udp | grep "^=" | \
-grep "$NODO_ACEPT" |\
+grep "$NODE_ACEPT" |\
  while read _s; do
 # Interfaz descubierta
     _iface="$(echo "$_s" | cut -d';' -f2)"
@@ -74,10 +99,10 @@ grep "$NODO_ACEPT" |\
       msg "Obteniendo host %s" "${_node}"
 
 # Comprobar si ya tenemos la llave o vamos a confiar en la LAN
-      if [ ! -f "${LVPN_DIR}/hosts/${_node}" ] || ${FORCE} ; then
+      _host_file="$(get_host_file "${_node}")"
+      if [ $? -ne 0 ] || ${FORCE} ; then
         msg "Agregando %s" "${_node}"
-# Nunca me acuerdo cómo hacer esto sin cat
-        cat "${TMPDIR}/${_node}" >"${LVPN_DIR}/hosts/${_node}"
+        cat "${TMPDIR}/${_node}" | ${sudo} tee "${LVPN_HOSTS}/${_node}"
       fi
 
 # CONNECTTO incluye ADD

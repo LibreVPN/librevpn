@@ -1,0 +1,89 @@
+.TH LVPN\-DISCOVER 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+Descubrir nodos en la red local usando Avahi y opcionalmente agregarlos.
+.SH SINOPSIS
+.PP
+\f[I]lvpn discover\f[] [\-h][\-i if|\-A] [\-a|\-c][\-f] [\-b]
+nodo\-local [nodo\-remoto]
+.SH OPCIONES
+.TP
+.B \-h
+Ayuda
+.RS
+.RE
+.TP
+.B \-i
+Filtrar por interface de red
+.RS
+.RE
+.TP
+.B \-a
+Agregar los nodos, reconocerlos.
+Descarga el archivo de host del nodo y lo agrega usando \f[I]lvpn
+add\-host\f[].
+.RS
+.RE
+.TP
+.B \-c
+Conectarse a los nodos (implica \-a).
+Luego de correr \f[I]\-a\f[], se conecta a los nodos como si se corriera
+\f[I]lvpn connectto\f[].
+.RS
+.RE
+.TP
+.B \-f
+Confiar en las llaves de la red en lugar de las locales.
+Cuando ya se posee una copia del archivo de host, se utiliza esa copia.
+Con esta opción siempre se usa el host anunciado.
+.RS
+.RE
+.TP
+.B \-A
+Usar todas las interfaces (incluso la de la VPN, ¡no usar con
+\f[I]\-c\f[]!)
+.RS
+.RE
+.TP
+.B \-b
+Agrega una llave anunciada en la LibreVPN (?)
+.RS
+.RE
+.SH DESCRIPCION
+.PP
+Facilita el intercambio de archivos de nodo en una red local.
+.PP
+Usado en conjunto con \f[I]lvpn announce\f[] para descubrir nodos
+anunciados en la red local de esta forma.
+.PP
+Por seguridad, si el archivo del nodo ya existe localmente, se utiliza
+ese.
+Con la opción \f[I]\-f\f[] se confía en todos.
+.SH EJEMPLOS
+.SS Listar los nodos encontrados en la LAN
+.PP
+lvpn discover
+.SS Encontrar todos los nodos anunciados, incluida la VPN
+.PP
+lvpn discover \-A
+.SS Agregar los nodos encontrados a ponape
+.PP
+lvpn discover \-a ponape
+.SS Conectarse a los nodos encontrados por ponape
+.PP
+lvpn discover \-c ponape
+.SS La red local es de confianza
+.PP
+lvpn discover \-f \-c ponape
+.SS Si estamos conectados a varias redes, sólo buscar en una:
+.PP
+lvpn discover \-i eth0 \-c ponape
+.SS Conectarse a todos los nodos anunciados, incluida la VPN (¡nunca
+hacer esto!)
+.PP
+lvpn discover \-c ponape \-A
+.SS Conecta a una llave anunciada en la VPN
+.PP
+lvpn discover \-b ponape nuevo\-nodo
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

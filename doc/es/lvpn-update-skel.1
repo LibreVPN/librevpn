@@ -1,0 +1,23 @@
+.TH LVPN\-UPDATE\-SKEL 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+Actualizar los archivos base.
+.SH SINOPSIS
+.PP
+\f[I]lvpn update\-skel\f[] [\-v] nodo1 [nodo2 ...]
+.SH OPCIONES
+.TP
+.B \-v
+Modo verborrágico
+.RS
+.RE
+.SH DESCRIPCION
+.PP
+El "skel" de \f[I]lvpn\f[] incluye los scripts que inician y configuran
+la red (\f[I]tinc\-up\f[], \f[I]tinc\-down\f[], etc.).
+Este comando actualiza esos scripts en los nodos especificados.
+.PP
+Si los archivos ya existen se guardan backups con la extensión
+\f[I]\&.backup\f[].
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.
