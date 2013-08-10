@@ -179,6 +179,7 @@ $install && ${LVPN} install ${nodename}
 msg "El nodo se ha creado con éxito"
 msg "*Importante*: "
 msg "* Envíe el archivo que representa su nodo a vpn@hackcoop.com.ar (%s), o" "${nodefile}"
+msg "* Comparta su nodo en la red local con \`%s\`" "lvpn announce"
 msg "* Agregue %s al repositorio git y publíquelo." "${nodefile}"
 
 exit 0
