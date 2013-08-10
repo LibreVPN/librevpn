@@ -31,7 +31,8 @@
 TINC="${TINC:-"@TINC@"}"
 NETWORK="${NETWORK:-"@NETWORK@"}"
 LVPN="@LVPN@"
-LVPN_DIR="${PWD}"
+# Guardar todo en el ~/.config del usuario local
+LVPN_DIR="${XDG_CONFIG_HOME:-~/.config}/${LVPN}"
 LVPN_LIBDIR="${LVPN_LIBDIR:-"@LIBDIR@"}"
 LVPN_HOSTS="${LVPN_HOSTS:-"@HOSTS@"}"
 LVPN_BEADLE="${LVPN_HOSTS:-"@BEADLE@"}"
