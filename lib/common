@@ -161,20 +161,19 @@ get_ipv4() {
 # Genera una dirección IPv6 /128
 get_ipv6() {
 # Compabilidad para versión standalone
-  if ! command -v generate-ipv6-address &>/dev/null; then
-    gia="${LVPN_DIR}/bin/$(uname -m)-generate-ipv6-address"
+  if ! type generate-ipv6-address &>/dev/null; then
+    gia=$(uname -m)-generate-ipv6-address
   else
     gia=generate-ipv6-address
   fi
 
-  ipv6="$(${gia} ${LVPN_SUBNET6%/*})/128"
-  echo ${ipv6}
+  ${gia} ${LVPN_SUBNET6%/*})/128
 }
 
 if $root ; then
 # Salir si no se es root y no existe sudo, sino usarlo
   if [ ! -w / ]; then
-    if ! which sudo >/dev/null 2>&1; then
+    if ! type sudo &>/dev/null; then
       fatal_error "Correr como root"
     else
       export sudo=sudo
