@@ -26,6 +26,7 @@
 . "${LVPN_LIBDIR}"/common
 
 PERMANENT=false
+BEADLE=false
 STOP=false
 PIDFILE=${PIDFILE:-/tmp/${NETWORK}-announce.pid}
 SERVICE=${SERVICE:-/etc/avahi/services/${NETWORK}.service}
@@ -54,7 +55,7 @@ if ${BEADLE} ; then
 	nodefile="${LVPN_BEADLE}/${node}"
 fi
 
-test -f "${nodefile}" || fatal_warning "No existe ese nodo"
+test -f "${nodefile}" || fatal_error "No existe ese nodo"
 
 nodeport="$(grep "^\s*Port" "${nodefile}" | \
             cut -d'=' -f2 | \
