@@ -96,10 +96,10 @@ grep "$NODO_ACEPT" |\
       msg "Obteniendo host %s" "${_node}"
 
 # Comprobar si ya tenemos la llave o vamos a confiar en la LAN
-      if [ ! -f "${LVPN_DIR}/hosts/${_node}" ] || ${FORCE} ; then
+      _host_file="$(get_host_file "${_node}")"
+      if [ $? -ne 0 ] || ${FORCE} ; then
         msg "Agregando %s" "${_node}"
-# Nunca me acuerdo cómo hacer esto sin cat
-        cat "${TMPDIR}/${_node}" >"${LVPN_DIR}/hosts/${_node}"
+        cat "${TMPDIR}/${_node}" >"${_host_file}"
       fi
 
 # CONNECTTO incluye ADD
