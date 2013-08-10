@@ -26,9 +26,6 @@
 
 . "${LVPN_LIBDIR}"/common
 
-# Principio de mínima autoridad
-[ -w / ] && fatal_error "Correr como usuario normal"
-
 requires avahi-browse base64
 
 TMPDIR="$(mktemp -d /tmp/${NETWORK}-discover-XXXX)"
@@ -53,9 +50,8 @@ while getopts "hc:fi:a:b:A" arg; do
 done
 let OPTIND--; shift ${OPTIND}
 
-if [ ! "$NODE_ACEPT" = "" ]; then
-	NODE_ACEPT=$1
-fi
+# WTF - estoy arreglando esto aunque no se que carajo hace -- fauno
+${NODE_ACEPT} && NODE_ACEPT=$1
 
 test -n "${NODE}" && NODEDIR="$(get_node_dir "${NODE}")"
 
@@ -66,7 +62,7 @@ avahi-browse --terminate \
              --parsable \
              --resolve \
              _${NETWORK}._udp | grep "^=" | \
-grep "$NODO_ACEPT" |\
+grep "$NODE_ACEPT" |\
  while read _s; do
 # Interfaz descubierta
     _iface="$(echo "$_s" | cut -d';' -f2)"
@@ -99,7 +95,7 @@ grep "$NODO_ACEPT" |\
       _host_file="$(get_host_file "${_node}")"
       if [ $? -ne 0 ] || ${FORCE} ; then
         msg "Agregando %s" "${_node}"
-        cat "${TMPDIR}/${_node}" >"${_host_file}"
+        cat "${TMPDIR}/${_node}" | sudo tee "${LVPN_HOSTS}/${_node}"
       fi
 
 # CONNECTTO incluye ADD
