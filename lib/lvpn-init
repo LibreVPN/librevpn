@@ -172,8 +172,11 @@ fi
 $verbose && msg "Generando llaves..."
 echo -e "\n" | tincd -c "${nodedir}" --generate-keys=${KEYSIZE}
 
-$verbose && msg "Guardando el archivo de host con los demás nodos"
-cp "${nodefile}" "${LVPN_HOSTS}"
+# Sólo guardar el host si podemos escribir en hosts
+if test -w "${LVPN_HOSTS}"; then
+  $verbose && msg "Guardando el archivo de host con los demás nodos"
+  cp "${nodefile}" "${LVPN_HOSTS}"
+fi
 
 $install && ${LVPN} install ${nodename}
 
