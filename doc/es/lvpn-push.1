@@ -1,0 +1,20 @@
+.TH LVPN\-PUSH 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+Sincronizar un nodo en otro sistema
+.SH SINOPSIS
+.PP
+\f[I]lvpn push\f[] nodo user\@host [directorio de tinc]
+.SH DESCRIPCION
+.PP
+Este comando permite instalar o actualizar un nodo en otro sistema.
+Está pensado para poder trabajar con nodos embebidos, como los
+instalados en routers con OpenWRT.
+.PP
+Necesita acceso SSH.
+.SH EJEMPLOS
+.SS Sincronizar un nodo
+.PP
+\f[I]lvpn push\f[] guachiguau root\@10.4.23.225
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

@@ -1,0 +1,115 @@
+.TH LVPN\-INIT 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+Crea un nuevo nodo
+.SH SINOPSIS
+.PP
+lvpn init [\-A][\-f] [\-q][\-p 655] [\-l
+192.168.9.202/32][\-s 10.4.24.128/27] [\-r][\-a dominio.eninternet.tld]
+[\-c otronodo] nodo
+.SH OPCIONES
+.TP
+.B \-h
+Ayuda
+.RS
+.RE
+.TP
+.B \-q
+Modo silencioso
+.RS
+.RE
+.TP
+.B \-a ejemplo.org
+Ubicación pública del nodo (dominio o IP).
+Puede especificarse varias veces en el orden en que se quiera que los
+demás nodos intenten conectarse.
+Si no se especifica esta opción se entiende que el nodo no es accesible
+públicamente y no acepta conexiones (sólo cliente).
+.RS
+.RE
+.TP
+.B \-c nodo\-remoto
+Conectar a este nodo.
+Versión rápida de \f[I]lvpn connectto\f[].
+Puede especificarse varias veces.
+.RS
+.RE
+.TP
+.B \-l 192.168.9.0
+Usar esta dirección IP.
+Si no se especifica, la dirección es generada automáticamente.
+.RS
+.RE
+.TP
+.B \-i
+Instalar al finalizar (requiere root).
+Es lo mismo que correr \f[I]lvpn install\f[] más tarde.
+.RS
+.RE
+.TP
+.B \-f
+Forzar la creación de un nodo.
+Útil si se canceló previamente o se quiere comenzar desde cero.
+Se pierden todos los datos!
+.RS
+.RE
+.TP
+.B \-p 655
+Número de puerto, por defecto 655 o la variable de entorno
+\f[I]LVPN_PORT\f[].
+.RS
+.RE
+.TP
+.B \-s 10.0.0.0
+Anunciar otra subred (\f[I]opción no funcional\f[]).
+.RS
+.RE
+.TP
+.B \-r
+Aceptar otras subredes remotas (\f[I]opción no funcional\f[]).
+.RS
+.RE
+.TP
+.B \-A
+Crear un nodo para sistemas Android.
+Dado que el sistema puede no contener utilidades avanzadas de
+configuración, esta opción instala una versión mínima de
+\f[I]tinc\-up\f[].
+.RS
+.RE
+.SH DESCRIPCION
+.PP
+Genera la configuración básica de un nodo y lo almacena en el directorio
+\f[I]nodos/nombre\-del\-nodo\f[].
+.PP
+Se puede correr varias veces con diferentes nombres de nodo para tener
+configuraciones separadas (un sólo host, varios nodos) o unidas (un nodo
+para cada host local o remoto).
+.PP
+Por ejemplo, los dispositivos embebidos pueden no soportar las
+herramientas de \f[I]lvpn\f[], pero desde un sistema GNU/Linux se puede
+generar la configuración y luego copiarla al host que corresponda (al
+celular o tablet Android, router con OpenWrt, etc.)
+.SH EJEMPLOS
+.SS Uso básico con una sola conexión
+.PP
+lvpn init \-c trululu guachiguau
+.SS Crear un nodo público con una conexión e instalarlo localmente
+.PP
+lvpn init \-i \-a guachiguau.org \-c trululu guachiguau
+.SS Crear un nodo con una IP predeterminada en la red
+.PP
+lvpn init \-l 192.168.9.202/32 guachiguau
+.SS Crear un nodo que acepte otras redes
+.PP
+lvpn init \-r guachiguau
+.SS Crear un nodo que acepte otras redes y sea puente de otra red
+.PP
+lvpn init \-r \-s 10.4.23.224/27 guachiguau
+.SS Crear el nodo rapanui para sistemas android
+.PP
+Necesita Tinc GUI for Android (http://tinc_gui.poirsouille.org/)
+.PP
+lvpn init \-A \-c ponape rapanui
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

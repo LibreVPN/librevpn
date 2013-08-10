@@ -1,4 +1,26 @@
 #!/usr/bin/env bash
+#
+# lib/common
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
 
 # Terminar ante el menor error
 set -e
@@ -66,7 +88,7 @@ get_node_name() {
 }
 
 get_host_file() {
-  test -f "${LVPN_DIR}/hosts/${1}" || \
+  test -f "${LVPN_HOSTS}/${1}" || \
     error "El archivo host de %s no existe" "$1" || \
     return 1
 
@@ -138,6 +160,23 @@ get_ipv4() {
 
 # Genera una dirección IPv6 /128
 get_ipv6() {
-  ipv6="$(${LVPN_DIR}/bin/$(uname -m)-generate-ipv6-address ${LVPN_SUBNET6%/*})/128"
-  echo ${ipv6}
+# Compabilidad para versión standalone
+  if ! type generate-ipv6-address &>/dev/null; then
+    gia=$(uname -m)-generate-ipv6-address
+  else
+    gia=generate-ipv6-address
+  fi
+
+  echo $(${gia} ${LVPN_SUBNET6%/*})/128
 }
+
+if $root ; then
+# Salir si no se es root y no existe sudo, sino usarlo
+  if [ ! -w / ]; then
+    if ! type sudo &>/dev/null; then
+      fatal_error "Correr como root"
+    else
+      export sudo=sudo
+    fi
+  fi
+fi

@@ -1,4 +1,26 @@
 #!/usr/bin/env bash
+#
+# lib/lvpn-init
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
 # Crea un nuevo nodo
 
 . "${LVPN_LIBDIR}"/common
@@ -18,15 +40,17 @@ subnets=""
 install=false
 # Habilitar subnet-up (-r)
 subnetup=false
-# Modo verborrágico
-verbose=false
+# Modo verborrágico por defecto
+verbose=true
 force=false
+# Soporte para android
+android=false
 
 # Procesar los flags (ver doc)
-while getopts 'vhirfp:a:c:s:l:' arg; do
+while getopts 'vhirfp:a:c:s:l:A' arg; do
     case $arg in
         h) help $self; exit 0 ;;
-        v) verbose=true ;;
+        q) verbose=false ;;
         r) subnetup=true ;;
         i) install=true;;
         f) force=true ;;
@@ -35,6 +59,7 @@ while getopts 'vhirfp:a:c:s:l:' arg; do
         a) address="${address} $OPTARG" ;;
         c) connectto="$connectto $OPTARG" ;;
         s) subnets="$subnets $OPTARG" ;;
+        A) android=true ;;
     esac
 done ;
 let OPTIND--; shift $OPTIND
@@ -46,6 +71,7 @@ if [ -z "${nodename}" ]; then
     fatal_error "Se necesita un nombre de nodo"
 fi
 
+# Podríamos usar get_node_dir pero chequea si ya existe, cosa que no
 nodedir="${LVPN_DIR}/nodos/${nodename}"
 nodefile="${nodedir}/hosts/${nodename}"
 conffile="${nodedir}/tinc.conf"
@@ -79,6 +105,12 @@ fi
 
 add_to_file "${nodefile}" "Port = ${port:-${PORT}}"
 
+# Tinc para android necesita especificar la shell con la que se corren los
+# scripts
+${android} && add_to_file "${nodefile}" "ScriptsInterpreter = /system/bin/sh"
+# Y además el dispositivo tun
+${android} && add_to_file "${nodefile}" "Device = /dev/tun"
+
 if [ ! -z "${LVPN_SUBNET}" ]; then
   $verbose && msg "Determinando la IPv4 del nodo..."
   if [ -z "${localnet}" ] ; then
@@ -91,7 +123,7 @@ if [ ! -z "${LVPN_SUBNET}" ]; then
 fi
 
 $verbose && msg "Generando IPv6..."
-localnet="${localnet} $(${LVPN_DIR}/bin/$(uname -m)-generate-ipv6-address ${LVPN_SUBNET6%/*})/128"
+localnet="${localnet} $(get_ipv6)"
 
 $verbose && msg "Añadiendo subredes..."
 for _subnet in ${localnet} ${subnets}; do
@@ -117,11 +149,21 @@ if [ -n "${connectto}" ]; then
     ${LVPN} connectto ${nodename} ${connectto}
 fi
 
+# Copiar los scripts de inicio
 $verbose && msg "Copiando el resto de archivos..."
-cp "${LVPN_LIBDIR}"/skel/tinc-{up,down} "${nodedir}"
-sed -e "s,{{LVPN_SUBNET}},${LVPN_SUBNET},g" \
-    -e "s,{{LVPN_SUBNET6}},${LVPN_SUBNET6},g" \
-    -i "${nodedir}/tinc-up"
+if ${android} ; then
+# El sistema por defecto de Android es muy limitado, si no tiene busybox no hay
+# prácticamente nada
+  cp "${LVPN_LIBDIR}"/skel/android/tinc-up "${nodedir}"
+# Hardcodear la primera subnet sin notación cidr
+  sed -e "s/{{LVPN_SUBNET}}/${localnet%%/*}/g" \
+      -i "${nodedir}/tinc-up"
+else
+  cp "${LVPN_LIBDIR}"/skel/tinc-{up,down} "${nodedir}"
+  sed -e "s,{{LVPN_SUBNET}},${LVPN_SUBNET},g" \
+      -e "s,{{LVPN_SUBNET6}},${LVPN_SUBNET6},g" \
+      -i "${nodedir}/tinc-up"
+fi
 
 if ${subnetup} ; then
     cp "${LVPN_LIBDIR}"/skel/subnet-{up,down} "${nodedir}"
@@ -130,14 +172,18 @@ fi
 $verbose && msg "Generando llaves..."
 echo -e "\n" | tincd -c "${nodedir}" --generate-keys=${KEYSIZE}
 
-$verbose && msg "Guardando el archivo de host con los demás nodos"
-cp "${nodefile}" "${LVPN_HOSTS}"
+# Sólo guardar el host si podemos escribir en hosts
+if test -w "${LVPN_HOSTS}"; then
+  $verbose && msg "Guardando el archivo de host con los demás nodos"
+  cp "${nodefile}" "${LVPN_HOSTS}"
+fi
 
 $install && ${LVPN} install ${nodename}
 
 msg "El nodo se ha creado con éxito"
 msg "*Importante*: "
 msg "* Envíe el archivo que representa su nodo a vpn@hackcoop.com.ar (%s), o" "${nodefile}"
+msg "* Comparta su nodo en la red local con \`lvpn announce\`"
 msg "* Agregue %s al repositorio git y publíquelo." "${nodefile}"
 
 exit 0

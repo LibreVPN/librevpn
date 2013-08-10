@@ -1,0 +1,47 @@
+.TH LVPN\-SEND\-EMAIL 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+Envía un nodo por correo
+.TP
+.B \-h
+Ayuda
+.RS
+.RE
+.TP
+.B \-t
+Destinatario, por defecto es la lista vpn\@hackcoop.com.ar
+.RS
+.RE
+.TP
+.B \-f
+Remitente, por defecto email de git o usuario\@hostname
+.RS
+.RE
+.TP
+.B \-s
+Asunto alternativo
+.RS
+.RE
+.TP
+.B \-m
+Mensaje alternativo
+.RS
+.RE
+.SS Variables de entorno:
+.TP
+.B SENDMAIL
+Programa alternativo a sendmail
+.RS
+.RE
+.SH DESCRIPCION
+.PP
+Genera un email con el archivo de host del nodo especificado y lo envía
+al destinatario.
+.PP
+Necesita la utilidad \f[I]sendmail\f[] o compatible configurada en el
+sistema.
+.SH VER TAMBIEN
+.PP
+\f[I]sendmail(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

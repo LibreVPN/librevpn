@@ -1,0 +1,38 @@
+.TH LVPN\-CONNECTTO 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+Agregar otros nodos a los que conectarse
+.SH SINOPSIS
+.PP
+\f[I]lvpn connectto\f[] nodo\-local [nodo\-remoto nodo\-remoto2...]
+.SH DESCRIPCION
+.PP
+Configura el nodo local para conectarse a los nodos remotos
+especificados.
+Para poder ingresar a una red tinc, hay que copiar el archivo de host
+del nodo remoto en el directorio hosts/ y agregar la línea
+\f[I]ConnectTo = nodo\-remoto\f[] en \f[I]tinc.conf\f[].
+Este script automatiza este paso.
+.PP
+Los nodos remotos deben ejecutar el comando \f[I]lvpn add\-host\f[] con
+el nombre del nodo local.
+.SH EJEMPLOS
+.SS Listar los nodos a los que noanoa se conecta
+.IP
+.nf
+\f[C]
+lvpn\ connectto\ noanoa
+\f[]
+.fi
+.SS Agregar los nodos ponape y medieval al nodo noanoa
+.IP
+.nf
+\f[C]
+lvpn\ connectto\ noanoa\ ponape\ medieval
+\f[]
+.fi
+.SH VER TAMBIEN
+.PP
+\f[I]tinc.conf(5)\f[], \f[I]lvpn\-add\-host(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

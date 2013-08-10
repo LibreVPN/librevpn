@@ -1,0 +1,42 @@
+.TH LVPN_TINCD 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+LibreVPN
+.SH OPCIONES
+.PP
+Las flags recomendadas para correr \f[I]tincd\f[] son:
+.SS Seguridad
+.TP
+.B \-U nobody
+No correr con privilegios de root
+.RS
+.RE
+.TP
+.B \-R
+Chroot al directorio de configuración
+.RS
+.RE
+.TP
+.B \-L
+Poner tincd en memoria protegida.
+Esta opción protege mejor los parámetros de cifrado pero en mi
+experiencia hace que \f[I]tincd\f[] se cierre inesperadamente.
+Usar con precaución.
+.RS
+.RE
+.SS Log
+.TP
+.B \-\-logfile
+Crea /var/log/tinc.vpn.log
+.RS
+.RE
+.TP
+.B \-d 1
+Informa las conexiones
+.RS
+.RE
+.SH VER TAMBIEN
+.PP
+\f[I]tincd(8)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

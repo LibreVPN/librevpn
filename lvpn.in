@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# lvpn
+# lvpn.in
 #
 # Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
 #
@@ -21,41 +21,38 @@
 # <http://www.gnu.org/licenses/>.
 #
 #
-# Versión autónoma
+# Versión autogenerada
 # Wrapper para correr los comandos al estilo `git comando parametros`
 # Hay que crearlos en libdir/lvpn-comando
 
 # ENV
 # Tomar las variables de entorno (por ejemplo de un archivo de configuración
 # o de la shell) o usar directorios locales
-TINC=${TINC:-/etc/tinc/lvpn}
-NETWORK="$(basename "${TINC}")"
-LVPN="$(readlink -f $0)"
-LVPN_DIR="${LVPN_DIR:-$(dirname "$LVPN")}"
-LVPN_LIBDIR="${LVPN_LIBDIR:-${LVPN_DIR}/lib}"
-LVPN_HOSTS="${LVPN_HOSTS:-${LVPN_DIR}/hosts}"
-LVPN_BEADLE="${LVPN_HOSTS:-${LVPN_DIR}/beadle}"
-KEYSIZE=${KEYSIZE:-4096}
+TINC="${TINC:-"@TINC@"}"
+NETWORK="${NETWORK:-"@NETWORK@"}"
+LVPN="@LVPN@"
+# Guardar todo en el ~/.config del usuario local
+LVPN_DIR="${XDG_CONFIG_HOME:-${HOME}/.config}/${NETWORK}"
+LVPN_LIBDIR="${LVPN_LIBDIR:-"@LIBDIR@"}"
+LVPN_HOSTS="${LVPN_HOSTS:-"@HOSTS@"}"
+LVPN_BEADLE="${LVPN_HOSTS:-"@BEADLE@"}"
+KEYSIZE=${KEYSIZE:-@KEYSIZE@}
 # Flags para 
-TINCD_FLAGS="${TINCD_FLAGS:-"--logfile -U nobody"}"
-PORT=${PORT:-655}
+TINCD_FLAGS="${TINCD_FLAGS:-"@FLAGS@"}"
+PORT=${PORT:-@PORT@}
 
 # Subnets
-LVPN_SUBNET="${LVPN_SUBNET:-192.168.9.0/24}"
-LVPN_SUBNET6="${LVPN_SUBNET6:-2001:1291:200:83ab::/64}"
+LVPN_SUBNET="${LVPN_SUBNET:-"@SUBNET@"}"
+LVPN_SUBNET6="${LVPN_SUBNET6:-"@SUBNET6@"}"
 
 # Para gettext
-TEXTDOMAINDIR=${TEXTDOMAINDIR:-"/usr/share/locale"}
-TEXTDOMAIN="$(basename "${LVPN}")"
-
-# Incluir los binarios locales
-PATH=${LVPN_DIR}/bin:${PATH}
+TEXTDOMAINDIR=${TEXTDOMAINDIR:-"@TEXTDOMAINDIR@"}
+TEXTDOMAIN="@TEXTDOMAIN@"
 
 export TINC NETWORK LVPN \
        LVPN_DIR LVPN_LIBDIR LVPN_HOSTS \
        KEYSIZE TEXTDOMAINDIR TEXTDOMAIN \
-       LVPN_SUBNET LVPN_SUBNET6 TINCD_FLAGS PORT \
-       PATH
+       LVPN_SUBNET LVPN_SUBNET6 TINCD_FLAGS PORT
 
 . "${LVPN_LIBDIR}/common"
 
