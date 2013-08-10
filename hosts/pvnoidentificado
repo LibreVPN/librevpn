@@ -1,7 +1,7 @@
 # Web del proyecto LibreVPN http://librevpn.org.ar/
 # nodo pvnoidentificado
 # otharwa
-Address = pvnoidentificado.ponape.com.ar
+Address = www.orod.com.ar
 Subnet = 192.168.9.235/32
 
 -----BEGIN RSA PUBLIC KEY-----

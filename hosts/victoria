@@ -1,0 +1,20 @@
+# victoria
+# secret@victoria
+Port = 655
+Subnet = 192.168.9.28/32
+Subnet = 2001:1291:200:83ab:d006:e242:5aeb:256/128
+Address = bazza.com.ar
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAvR82q/S3ItsuLIvOpMofDyNAJt9BThkS8p1dRYcfXluP7GEba5oc
+8H3LlJ/qrjXE5ggtH+mp7ZGncOZdPNZyvVzaIER9uF2VD5qxM161brOX1k8E3pKv
+5Vuo5p3lHSG04QFIejhjdAOyyBX5eB+hqfh1YSDcokG7zDqERCBtas8hd+ejqCJU
+uLJrB6pkel1D6ZkOpa2g56qfTeDD8qAXEuAqZYqCJB6bKOVUNA/kRE3ne8leGreq
+1vq/0fw6YtgnXE+HTBe/yD83l2zJmjYoHKyml247jxa+58EBUsIDEwF9yQjSzOrS
+lg3kwgKjQQTG+ug3SHtE6DzTgRZrAKMhE+8AC31crpgcAb1HEnoovRweC0x6h+e+
+RCeac8C5Q8tgX0a0qlgeFK0UTgPIITWSzuDO2im0SnFeQfZU1UqjoCy6JVrTfJ7r
+gGRXdiVnmrOjklb2wwty6GDfJPIvEGs4NtMEknlLdX+v2Xn2JGMchPvO6+4Bj7lW
+fcOw+pAX+XVvntXeVcPfPBjA1KwUTfDO8Hzw6JNCmTo22QI/YMFkkB91UxapH1az
+/GqgPzTfRbkm4ITV7gpc6XxtDDpZR3Xrq4dGhemVcZCmmRNQZLnbkdsTL/LIdjPD
+oDotL515Z6mkUO/f6D+Bf/D6D22efxR5Gw7mRewFmPTHCXW+ThEGX0sCAwEAAQ==
+-----END RSA PUBLIC KEY-----
