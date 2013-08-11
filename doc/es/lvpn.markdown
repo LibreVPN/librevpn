@@ -28,15 +28,18 @@ Leyendo el sitio http://librevpn.org.ar o la ayuda de _lvpn init_ :)
 
 ## ¿Donde está mi nodo?
 
-El comando _lvpn init_ crea tu nodo dentro del directorio _nodos/_.
+El comando _lvpn init_ crea tu nodo dentro del directorio _nodos/_
+si se está corriendo _lvpn_ desde el directorio de desarrollo, o en
+_~/.config/lvpn/nodos_ si se encuentra instalado en el sistema.
+
 Podés tener varios nodos pero instalar uno por sistema (usando _lvpn
 install tunodo_).
 
 Cualquier comando que aplique cambios en tu nodo, debe instalarse luego
 usando el comando _lvpn install tunodo_.
 
-Consultar la ayuda de cada comando usando la opción -h luego del nombre de
-comando:
+Consultar la ayuda de cada comando usando la opción -h luego del nombre
+de comando:
 
 	lvpn add-host -h
 
