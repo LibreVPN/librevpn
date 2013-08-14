@@ -94,8 +94,10 @@ test -d /etc/NetworkManager/dispatcher.d && \
   ${sudo} cp ${LVPN_LIBDIR}/skel/50_tincd /etc/NetworkManager/dispatcher.d/
 
 # Recargar los cambios en la configuración
-msg "Recargando tincd..."
-${sudo} ${LVPN_LIBDIR}/skel/50_tincd ${NETWORK} up
+if pgrep tincd &>/dev/null; then
+  msg "Recargando tincd..."
+  ${sudo} ${LVPN_LIBDIR}/skel/50_tincd ${NETWORK} up
+fi
 
 $sudo which avahi-daemon &>/dev/null || \
   tip "Se recomienda instalar avahi-daemon"
