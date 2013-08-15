@@ -49,26 +49,26 @@ $(DIRS):
 $(OBJECTS):
 	sed -e "s/@NETWORK@/$(NETWORK)/g" \
 	    -e "s,@LIBDIR@,$(LIBDIR),g" \
-			-e "s,@DOC@,$(DOC),g" \
-			-e "s,@HOSTS@,$(HOSTS),g" \
-			-e "s,@BEADLE@,$(BEADLE),g" \
-			-e "s,@TINC@,$(TINC),g" \
-			-e "s,@LVPN@,$(LVPN),g" \
-			-e "s/@FLAGS@/$(FLAGS)/g" \
-			-e "s/@KEYSIZE@/$(KEYSIZE)/g" \
-			-e "s/@PORT@/$(PORT)/g" \
-			-e "s,@SUBNET@,$(SUBNET),g" \
-			-e "s,@SUBNET6@,$(SUBNET6),g" \
-			-e "s,@TEXTDOMAINDIR@,$(TEXTDOMAINDIR),g" \
-			-e "s/@TEXTDOMAIN@/$(TEXTDOMAIN)/g" \
-			$(patsubst %.out,%.in,$@) > $@
+	    -e "s,@DOC@,$(DOC),g" \
+	    -e "s,@HOSTS@,$(HOSTS),g" \
+	    -e "s,@BEADLE@,$(BEADLE),g" \
+	    -e "s,@TINC@,$(TINC),g" \
+	    -e "s,@LVPN@,$(LVPN),g" \
+	    -e "s/@FLAGS@/$(FLAGS)/g" \
+	    -e "s/@KEYSIZE@/$(KEYSIZE)/g" \
+	    -e "s/@PORT@/$(PORT)/g" \
+	    -e "s,@SUBNET@,$(SUBNET),g" \
+	    -e "s,@SUBNET6@,$(SUBNET6),g" \
+	    -e "s,@TEXTDOMAINDIR@,$(TEXTDOMAINDIR),g" \
+	    -e "s/@TEXTDOMAIN@/$(TEXTDOMAIN)/g" \
+	    $(patsubst %.out,%.in,$@) > $@
 
 # Generar los manuales
 $(MAN):
 	pandoc --standalone \
 	       --output="$@" \
-				 --to=man \
-				 $(patsubst %.1,%.markdown,$@)
+	       --to=man \
+	       $(patsubst %.1,%.markdown,$@)
 
 man: $(MAN)
 
@@ -78,7 +78,7 @@ install: all
 	         $(TARGET)$(HOSTS) \
 	         $(TARGET)$(BEADLE) \
 	         $(TARGET)$(TEXTDOMAINDIR)/$(TEXTDOMAIN) \
-					 $(TARGET)$(PREFIX)/share/man1/{en,es}
+	         $(TARGET)$(PREFIX)/share/man1/{en,es}
 
 	cp    hosts/* $(TARGET)$(HOSTS)/
 	cp -r lib/* $(TARGET)$(LIBDIR)/
