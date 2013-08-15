@@ -37,8 +37,12 @@ SOURCES=$(wildcard *.in **/*.in)
 OBJECTS=$(patsubst %.in,%.out,$(SOURCES))
 DOC=$(wildcard doc/**/*.markdown)
 MAN=$(patsubst %.markdown,%.1,$(DOC))
+PO=$(wildcard locale/**/LC_MESSAGES/*.po)
+MO=$(patsubst %.po,%.mo,$(PO))
 
-all: $(OBJECTS) $(DIRS)
+RSYNC=rsync -av --no-owner --no-group
+
+all: $(OBJECTS) $(DIRS) locale
 
 # Compilar los etc/
 .PHONY: $(DIRS)
@@ -72,20 +76,24 @@ $(MAN):
 
 man: $(MAN)
 
+$(MO):
+	msgfmt -o $@ $(patsubst %.mo,%.po,$@)
+
+locale: $(MO)
+
 install: all
 	mkdir -p $(TARGET)$(PREFIX)/bin \
 	         $(TARGET)$(LIBDIR) \
 	         $(TARGET)$(HOSTS) \
 	         $(TARGET)$(BEADLE) \
-	         $(TARGET)$(TEXTDOMAINDIR)/$(TEXTDOMAIN) \
-	         $(TARGET)$(PREFIX)/share/man1/{en,es}
+	         $(TARGET)$(TEXTDOMAINDIR)/$(TEXTDOMAIN)/en/LC_MESSAGES \
+	         $(TARGET)$(PREFIX)/share/man1/
 
 	cp    hosts/* $(TARGET)$(HOSTS)/
 	cp -r lib/* $(TARGET)$(LIBDIR)/
 
-# TODO usar $MAN
-	cp doc/en/* $(TARGET)$(PREFIX)/share/man1/en/
-	cp doc/es/* $(TARGET)$(PREFIX)/share/man1/es/
+	$(RSYNC) --exclude="*.markdown" doc/ $(TARGET)$(PREFIX)/share/man1/
+	$(RSYNC) --exclude="*.po" locale/ $(TARGET)$(TEXTDOMAINDIR)/$(TEXTDOMAIN)/
 
 # TODO instalar automáticamente los .out en sus destinos
 	install -D -m755 lvpn.out $(TARGET)$(PREFIX)/bin/lvpn
@@ -111,3 +119,8 @@ clean:
 
 man-clean:
 	rm -rf $(MAN)
+
+locale-clean:
+	rm -rf $(MO)
+
+clean-all: clean man-clean locale-clean
