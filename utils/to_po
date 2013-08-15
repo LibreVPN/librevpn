@@ -3,4 +3,4 @@
 
 grep -EHon "(msg|error|warning|fatal_error|tip) [\"'][^\"']+[\"']" \
      lvpn* lib/lvpn-* lib/common | \
-     sed "s/^\([^:]\+\):\([0-9]\+\):\(msg\|error\|warning\|fatal_error\|tip\) \(.*\)/# \1#\2 \3\nmsgid: \4\nmsgstr: \4\n/"
+     sed "s/^\([^:]\+\):\([0-9]\+\):\(msg\|error\|warning\|fatal_error\|tip\) \(.*\)/# \1#\2 \3\nmsgid \4\nmsgstr \4\n/"
