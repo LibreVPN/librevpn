@@ -1,0 +1,32 @@
+.TH LVPN\-PEERS 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+Lists unknown peers
+.SH SYNOPSIS
+.PP
+\f[I]lvpn peers\f[] [/var/log/tinc.lvpn.log]
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-c
+Count failed connection attempts.
+Shows a numeric summary of the failed connections.
+.RS
+.RE
+.SH DESCRIPTION
+.PP
+Searchs the logfile for nodes which connection attempts are denied
+because their host files aren\[aq]t available.
+.PP
+Tincd must be started with \f[I]\-\-logfile\f[]_.
+.PP
+Useful with \f[I]lvpn add\-host\f[]
+.SH SEE ALSO
+.PP
+\f[I]lvpn\-add\-host(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.
