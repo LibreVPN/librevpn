@@ -1,6 +1,7 @@
 # dojonet
 # server@eden
 Port = 655
+Address = quanticapc.no-ip.org
 Subnet = 192.168.9.228/32
 Subnet = 2001:1291:200:83ab:ecbb:1107:abb2:c485/128
 
