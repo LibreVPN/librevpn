@@ -48,7 +48,7 @@ $(DIRS):
 # Reemplazar todas las variables en los .in y pasarlas a los .out
 $(OBJECTS):
 	sed -e "s/@NETWORK@/$(NETWORK)/g" \
-      -e "s,@LIBDIR@,$(LIBDIR),g" \
+	    -e "s,@LIBDIR@,$(LIBDIR),g" \
 			-e "s,@DOC@,$(DOC),g" \
 			-e "s,@HOSTS@,$(HOSTS),g" \
 			-e "s,@BEADLE@,$(BEADLE),g" \
@@ -78,13 +78,14 @@ install: all
 	         $(TARGET)$(HOSTS) \
 	         $(TARGET)$(BEADLE) \
 	         $(TARGET)$(TEXTDOMAINDIR)/$(TEXTDOMAIN) \
-					 $(TARGET)$(PREFIX)/share/man1
+					 $(TARGET)$(PREFIX)/share/man1/{en,es}
 
 	cp    hosts/* $(TARGET)$(HOSTS)/
 	cp -r lib/* $(TARGET)$(LIBDIR)/
 
-# TODO instalar todas las páginas man para distintos idiomas
-	cp $(MAN) $(TARGET)$(PREFIX)/share/man1/
+# TODO usar $MAN
+	cp doc/en/* $(TARGET)$(PREFIX)/share/man1/en/
+	cp doc/es/* $(TARGET)$(PREFIX)/share/man1/es/
 
 # TODO instalar automáticamente los .out en sus destinos
 	install -D -m755 lvpn.out $(TARGET)$(PREFIX)/bin/lvpn
