@@ -3,9 +3,6 @@
 msgid "%s no existe, tal vez te gustaría implementarlo :D"
 msgstr "%s doesn't exist, maybe you'd like to implement it :D"
 
-msgid "%s no existe, tal vez te gustaría implementarlo :D"
-msgstr "%s no existe, tal vez te gustaría implementarlo :D"
-
 # lib/lvpn-add-host#53 error
 msgid "El archivo host de %s no existe, salteando..."
 msgstr "Host file for %s doesn't exist, skipping..."
@@ -150,8 +147,8 @@ msgid "* Envíe el archivo que representa su nodo a vpn@hackcoop.com.ar (%s), o"
 msgstr "* Send the host file for your node to vpn@hackcoop.com.ar (%s), or"
 
 # lib/lvpn-init#186 msg
-msgid "* Comparta su nodo en la red local con \`lvpn announce\`"
-msgstr "* Share your node on the local network with \`lvpn announce\`"
+msgid "* Comparta su nodo en la red local con `lvpn announce`"
+msgstr "* Share your node on the local network with `lvpn announce`"
 
 # lib/lvpn-init#187 msg
 msgid "* Agregue %s al repositorio git y publíquelo."
