@@ -83,6 +83,6 @@ if [ ! -x "${LVPN_LIBDIR}/lvpn-${command}" ]; then
 fi
 
 # Correr el comando
-exec ${LVPN_LIBDIR}/lvpn-${command} $@
+exec ${LVPN_LIBDIR}/lvpn-${command} "$@"
 
 exit $?
