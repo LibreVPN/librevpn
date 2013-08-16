@@ -59,7 +59,7 @@ export TINC NETWORK LVPN \
 list_commands() {
   pushd "${LVPN_LIBDIR}" &>/dev/null
 
-  echo lvpn-* | tr " " "\n" | sed "s/^lvpn-//"
+  printf '%s\n' lvpn-* | sed "s/^lvpn-//"
 
   popd &>/dev/null
 }
