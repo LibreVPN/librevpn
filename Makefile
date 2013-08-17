@@ -1,56 +1,147 @@
-# Si estamos empaquetando, definir el directorio de compilación
-TARGET?=
-PREFIX?= /usr/local
-# Nombre de la red
-NETWORK?= lvpn
+# The default target is the first target listed.  We declare 'default' first
+# thing, so we don't have to worry about the order later
+default: all
 
-# Agregar otros directorios acá para incluir natpmp, etc.
-DIRS=etc/generate-ipv6-address-0.1
-#DIRS+= etc/libnatpmp etc/miniupnp/miniupnpc
+# Configuration ################################################################
 
-LIBDIR?= $(PREFIX)/lib/$(NETWORK)
-DOC?= $(PREFIX)/share/$(NETWORK)/doc
-HOSTS?= $(PREFIX)/share/$(NETWORK)/hosts
-BEADLE?= $(PREFIX)/share/$(NETWORK)/beadle
-# La configuración de tinc
-TINC?= /etc/tinc/$(NETWORK)
-# `lvpn`
-LVPN?= $(PREFIX)/bin/$(NETWORK)
+# Where to install to.
+# PREFIX is the install prefix, most programs on a system are "/" or "/usr"
+# TARGET is a staging directory to install to, a sort of 'root' directory
+TARGET ?=
+PREFIX ?= /usr/local
+# If this were a GNU package, 'TARGET' would be called 'DESTDIR', and 'PREFIX'
+# would be 'prefix'
 
-# Flags por defecto para el daemon
-FLAGS?= --logfile -U nobody
-# Tamaño de las llaves
-KEYSIZE?= 4096
-# Puerto por defecto
-PORT?= 655
-
-# Las subredes
-SUBNET?= 192.168.9.0/24
-SUBNET6?= 2001:1291:200:83ab::/64
+# Supplemental/derived install directories.  Again, if we wanted to be
+# consistent with GNU, they would have different names.
+LIBDIR ?= $(PREFIX)/lib/$(NETWORK)
+DOC ?= $(PREFIX)/share/$(NETWORK)/doc
+HOSTS ?= $(PREFIX)/share/$(NETWORK)/hosts
+BEADLE ?= $(PREFIX)/share/$(NETWORK)/beadle
 
 # Gettext
-TEXTDOMAINDIR?= $(PREFIX)/share/locale
-TEXTDOMAIN?= $(NETWORK)
+TEXTDOMAINDIR ?= $(PREFIX)/share/locale
+TEXTDOMAIN ?= $(NETWORK)
 
-# Encontrar dinámicamente todos los .in
-SOURCES=$(wildcard *.in **/*.in)
-OBJECTS=$(patsubst %.in,%.out,$(SOURCES))
-DOC=$(wildcard doc/**/*.markdown)
-MAN=$(patsubst %.markdown,%.1,$(DOC))
-PO=$(wildcard locale/**/LC_MESSAGES/*.po)
-MO=$(patsubst %.po,%.mo,$(PO))
+# Nombre de la red
+NETWORK ?= lvpn
+# La configuración de tinc
+TINC ?= /etc/tinc/$(NETWORK)
+# `lvpn`
+LVPN ?= $(PREFIX)/bin/$(NETWORK)
 
-RSYNC=rsync -av --no-owner --no-group
+# Flags por defecto para el daemon
+FLAGS ?= --logfile -U nobody
+# Tamaño de las llaves
+KEYSIZE ?= 4096
+# Puerto por defecto
+PORT ?= 655
 
-all: $(OBJECTS) $(DIRS) locale
+# Las subredes
+SUBNET ?= 192.168.9.0/24
+SUBNET6 ?= 2001:1291:200:83ab::/64
 
-# Compilar los etc/
-.PHONY: $(DIRS)
-$(DIRS):
-	$(MAKE) -C $@
+# Sub-projects to optionally build
+#BUILD_UPNPC = true
+#BUILD_LIBNATPMP = true
+BUILD_GEN_IPV6 = true
+
+# Set up some runtime variables ################################################
+
+# The language that the messages in the source are.
+native_lang = es
+# Detect available translations
+langs = $(sort $(native_lang) $(notdir $(wildcard doc/* locale/*)))
+
+arch := $(shell uname -m)
+
+# The source and output files of our 'compile' routines
+src_sh = lvpn.in
+out_sh = $(patsubst %.in,%.out,$(src_sh))
+src_po = $(wildcard locale/*/LC_MESSAGES/*.po)
+out_po = $(patsubst %.po,%.mo,$(src_po))
+src_man = $(wildcard doc/*/*.markdown)
+out_man = $(patsubst %.markdown,%.1,$(src_man))
+
+# List of host names that we have files for
+hosts = $(notdir $(wildcard hosts/*))
+# List of man pages to install, structured like relative directories to /usr/share/man
+mans = $(patsubst en/%,./%,$(subst /,/man1/,$(patsubst doc/%,%,$(out_man))))
+# The list of programs to install to $(PREFIX)/bin
+bins = lvpn
+
+# List of subdirectories to recurse into
+SUBDIRS =
+
+# Add the hooks for optionally compiled sub-projects ###########################
+
+ifdef BUILD_UPNPC
+bins += upnpc
+SUBDIRS += etc/miniupnpc
+$(TARGET)$(PREFIX)/bin/%: etc/miniupnpc/%-shared
+	install -Dm755 '$<' '$@'
+endif
+
+ifdef BUILD_LIBNATPMP
+bins += natpmpc
+SUBDIRS += etc/libnatpmp
+$(TARGET)$(PREFIX)/bin/%: etc/libnatpmp/%-shared
+	install -Dm755 '$<' '$@'
+endif
+
+ifdef BUILD_GEN_IPV6
+bins += $(arch)-generate-ipv6-address
+SUBDIRS += etc/generate-ipv6-address-0.1
+$(TARGET)$(PREFIX)/bin/%: etc/generate-ipv6-address-0.1/%
+	install -Dm755 '$<' '$@'
+endif
+
+# All the high-level 'phony' targets ###########################################
+
+all: PHONY build man locale
+clean-all: PHONY clean man-clean locale-clean
+
+build: PHONY $(out_sh) $(addsuffix /all,$(SUBDIRS))
+clean: PHONY $(addsuffix /clean,$(SUBDIRS))
+	rm -rf $(out_sh)
+
+man: PHONY $(out_man)
+man-clean: PHONY
+	rm -rf $(out_man)
+
+locale: PHONY $(out_po)
+locale-clean: PHONY
+	rm -rf $(out_po)
+
+# This loops over the configured sub-projects to proxy targets to them.
+# '${subdirectory}/${target}' runs 'make ${target}' in that subdirectory.
+$(foreach subdir,$(SUBDIRS),$(eval \
+$(subdir)/%: ; \
+	$$(MAKE) -C '$(subdir)' '$$*' \
+))
+
+# If we wanted to run 'make install' in each of the sub-projects, we would have
+# 'install' depend on this:
+#      $(addsuffix /install,$(SUBDIRS))
+# However, instead we've added rules to know how to find programs named in
+# $(bin) from the relevent sub-directories, so 'install-bin' installs them, and
+# we don't have to recurse. This is a questionable move, but it works for now.
+
+# List of all the files to be created during install, as absolute paths
+inst_progs = $(addprefix $(TARGET)$(PREFIX)/bin/,$(bins))
+inst_hosts = $(addprefix $(TARGET)$(HOSTS)/,$(hosts))
+inst_man   = $(addprefix $(TARGET)$(PREFIX)/share/man/,$(mans))
+inst_trans = $(patsubst locale/%,$(TARGET)$(TEXTDOMAINDIR)/%,$(out_po))
+# And now, the 'install' target, depending on all of those files
+install: PHONY all $(inst_progs) $(inst_hosts) $(inst_man) $(inst_trans)
+# Except that listing all the files in lib would be a pain, so just cp -r it
+	mkdir -p $(TARGET)$(LIBDIR)/
+	cp -r lib/* $(TARGET)$(LIBDIR)/
+
+# Actual make rules ############################################################
 
 # Reemplazar todas las variables en los .in y pasarlas a los .out
-$(OBJECTS):
+%.out: %.in
 	sed -e "s/@NETWORK@/$(NETWORK)/g" \
 	    -e "s,@LIBDIR@,$(LIBDIR),g" \
 	    -e "s,@DOC@,$(DOC),g" \
@@ -65,62 +156,42 @@ $(OBJECTS):
 	    -e "s,@SUBNET6@,$(SUBNET6),g" \
 	    -e "s,@TEXTDOMAINDIR@,$(TEXTDOMAINDIR),g" \
 	    -e "s/@TEXTDOMAIN@/$(TEXTDOMAIN)/g" \
-	    $(patsubst %.out,%.in,$@) > $@
+	    '$<' > '$@'
+$(TARGET)$(PREFIX)/bin/%: %.out
+	install -Dm755 '$<' '$@'
 
-# Generar los manuales
-$(MAN):
+# How to generate man pages
+%.1: %.markdown
 	pandoc --standalone \
-	       --output="$@" \
+	       --output='$@' \
 	       --to=man \
-	       $(patsubst %.1,%.markdown,$@)
+	       '$<'
+# How to install man pages. We have to loop over the supported languages to
+# create a rule for each language.
+$(foreach lang,$(langs),$(eval \
+$$(TARGET)$$(PREFIX)/share/man/$(patsubst en,.,$(lang))/man1/%.1: doc/$(lang)/%.1; \
+	install -Dm644 '$$<' '$$@' \
+))
 
-man: $(MAN)
+# Gettext translation files
+%.mo: %.po
+	msgfmt -o '$@' '$<'
+$(TARGET)$(TEXTDOMAINDIR)/%/LC_MESSAGES/$(TEXTDOMAIN).mo: locale/%/LC_MESSAGES/$(TEXTDOMAIN).mo
+	install -Dm644 '$<' '$@'
 
-$(MO):
-	msgfmt -o $@ $(patsubst %.mo,%.po,$@)
+# Host configuration files
+$(TARGET)$(HOSTS)/%: hosts/%
+	install -Dm644 '$<' '$@'
 
-locale: $(MO)
+# Boilerplate ##################################################################
 
-install: all
-	mkdir -p $(TARGET)$(PREFIX)/bin \
-	         $(TARGET)$(LIBDIR) \
-	         $(TARGET)$(HOSTS) \
-	         $(TARGET)$(BEADLE) \
-	         $(TARGET)$(TEXTDOMAINDIR)/$(TEXTDOMAIN)/en/LC_MESSAGES \
-	         $(TARGET)$(PREFIX)/share/man1/
-
-	cp    hosts/* $(TARGET)$(HOSTS)/
-	cp -r lib/* $(TARGET)$(LIBDIR)/
-
-	$(RSYNC) --exclude="*.markdown" doc/ $(TARGET)$(PREFIX)/share/man1/
-	$(RSYNC) --exclude="*.po" locale/ $(TARGET)$(TEXTDOMAINDIR)/$(TEXTDOMAIN)/
-
-# TODO instalar automáticamente los .out en sus destinos
-	install -D -m755 lvpn.out $(TARGET)$(PREFIX)/bin/lvpn
-
-## TODO encontrar los bundled automáticamente
-	test -f etc/generate-ipv6-address-0.1/`uname -m`-generate-ipv6-address && \
-	install -m755 etc/generate-ipv6-address-0.1/`uname -m`-generate-ipv6-address \
-	              $(TARGET)$(PREFIX)/bin/generate-ipv6-address
-
-# Opcional
-	-test -f etc/libnatpmp/natpmpc-shared && \
-	install -m755 etc/libnatpmp/natpmpc-shared \
-	              $(TARGET)$(PREFIX)/bin/natpmpc
-
-# Opcional
-	-test -f etc/miniupnp/miniupnpc/upnpc-shared && \
-	install -m755 etc/miniupnp/miniupnpc/upnpc-shared \
-	              $(TARGET)$(PREFIX)/bin/upnpc
-##
-
-clean:
-	rm -rf $(OBJECTS)
-
-man-clean:
-	rm -rf $(MAN)
-
-locale-clean:
-	rm -rf $(MO)
-
-clean-all: clean man-clean locale-clean
+# You might have noticed that all of the targets that aren't actually files
+# depend on 'PHONY'.  This declares them as phony targets to make; it says
+# "don't look at the filesystem for this on, it's a high-level rule, not a file"
+# GNU Make does this by having a special target, '.PHONY' which you set to
+# depend on all of your phony targets.  I don't think that's very elegant.
+# Because anything depending on a phony target becomes a phony target itself,
+# I like to declare one phony target to make, 'PHONY', and have the rest of my
+# phony targets depend on it.
+PHONY:
+.PHONY: PHONY

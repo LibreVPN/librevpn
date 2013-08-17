@@ -6,14 +6,14 @@ DEFINES = $(PLATFORM_DEFINES)
 
 CFLAGS = $(CDEBUGFLAGS) $(DEFINES) $(EXTRA_DEFINES)
 
-all: generate-ipv6-address
+arch := $(shell uname -m)
 
-generate-ipv6-address: generate-ipv6-address.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o `uname -m`-generate-ipv6-address generate-ipv6-address.o $(LDLIBS)
+all: $(arch)-generate-ipv6-address
 
-.SUFFIXES: .man .html
+$(arch)-generate-ipv6-address: generate-ipv6-address.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $<
 
-.man.html:
+%.html: %.man
 	rman -f html $< | \
 	sed -e "s|<a href='babel.8'|<a href=\"../babel/babel.html\"|" \
             -e "s|<a href='\\(ahcp[-a-z]*\\).8'|<a href=\"\1.html\"|" \
@@ -26,9 +26,9 @@ generate-ipv6-address.html: generate-ipv6-address.man
 
 install.minimal: all
 	mkdir -p $(TARGET)$(PREFIX)/bin/
-	-rm -f $(TARGET)$(PREFIX)/bin/`uname -m`-generate-ipv6-address
-	cp `uname -m`-generate-ipv6-address $(TARGET)$(PREFIX)/bin/
-	chmod +x $(TARGET)$(PREFIX)/bin/`uname -m`-generate-ipv6-address
+	-rm -f $(TARGET)$(PREFIX)/bin/generate-ipv6-address
+	cp generate-ipv6-address $(TARGET)$(PREFIX)/bin/
+	chmod +x $(TARGET)$(PREFIX)/bin/generate-ipv6-address
 
 install: all install.minimal
 	mkdir -p $(TARGET)$(PREFIX)/man/man8/
@@ -43,6 +43,6 @@ uninstall:
 .PHONY: clean
 
 clean:
-	-rm -f generate-ipv6-address
+	-rm -f *generate-ipv6-address
 	-rm -f *.o *~ core TAGS gmon.out
 	-rm -f generate-ipv6-address.html
