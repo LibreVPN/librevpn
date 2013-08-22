@@ -1,0 +1,229 @@
+# lvpn#85 fatal_error
+# lvpn.in#82 fatal_error
+msgid "%s no existe, tal vez te gustaría implementarlo :D"
+msgstr "%s doesn't exist, maybe you'd like to implement it :D"
+
+# lib/lvpn-add-host#53 error
+msgid "El archivo host de %s no existe, salteando..."
+msgstr "Host file for %s doesn't exist, skipping..."
+
+# lib/lvpn-add-host#62 msg
+msgid "Copiando el archivo host de %s"
+msgstr "Copying host file for %s"
+
+# lib/lvpn-add-subnet#49 fatal_error
+msgid "No se encuentra el archivo del nodo %s"
+msgstr "Can't find host file for %s"
+
+# lib/lvpn-add-subnet#57 fatal_error
+msgid "No se pudo generar la IP"
+msgstr "Couldn't generate IP address"
+
+# lib/lvpn-add-subnet#59 msg
+msgid "Generada IPv4 %s"
+msgstr "Generated IPv4 %s"
+
+# lib/lvpn-add-subnet#60 msg
+msgid "Generada IPv6 %s"
+msgstr "Generated IPv6 %s"
+
+# lib/lvpn-add-subnet#65 warning
+msgid "No se pudo agregar %s al archivo %s"
+msgstr "Can't add %s to %s"
+
+# lib/lvpn-add-subnet#69 tip
+msgid "Correr `lvpn add-host -u %s` para actualizar el archivo de host"
+msgstr "Run `lvpn add-host -u %s` to update the host file"
+
+# lib/lvpn-announce#35 fatal_error
+# lib/lvpn-avahi-anuncio#36 fatal_error
+# lib/lvpn-avatar#34 fatal_error
+msgid "No se puede escribir el archivo de pid: %s"
+msgstr "Can't write the pidfile: %s"
+
+# lib/lvpn-announce#58 fatal_error
+# lib/lvpn-avatar#57 warning
+msgid "No existe ese nodo"
+msgstr "Node doesn't exist"
+
+# lib/lvpn-announce#70 fatal_error
+# lib/lvpn-avahi-anuncio#39 fatal_error
+# lib/lvpn-avatar#69 fatal_error
+msgid "No se puede escribir el archivo %s"
+msgstr "Couldn't write file %s"
+
+# lib/lvpn-connectto#45 fatal_error
+msgid "No se pudieron agregar los archivos de host"
+msgstr "Couldn't add host files"
+
+# lib/lvpn-connectto#50 warning
+msgid "El nodo %s no tiene una ubicación pública, no será posible conectarse"
+msgstr "Node %s doesn't provide a public address, it won't be reachable"
+
+# lib/lvpn-connectto#58 msg
+msgid "Conectar a %s"
+msgstr "Connect to %s"
+
+# lib/lvpn-discover#99 msg
+msgid "Obteniendo host %s"
+msgstr "Obtaining host %s"
+
+# lib/lvpn-discover#104 msg
+msgid "Agregando %s"
+msgstr "Adding %s"
+
+# lib/lvpn-init#71 fatal_error
+msgid "Se necesita un nombre de nodo"
+msgstr "Missing node name"
+
+# lib/lvpn-init#84 msg
+# lib/lvpn-init#89 msg
+msgid "Creando %s..."
+msgstr "Creating %s..."
+
+# lib/lvpn-init#86 fatal_error
+msgid "El nodo ya existe! Utilice -f para re-crearlo"
+msgstr "Node already exists! Use -f to re-create it"
+
+# lib/lvpn-init#91 fatal_error
+msgid "El directorio del nodo ya existe"
+msgstr "Node directory already exists"
+
+# lib/lvpn-init#94 fatal_error
+msgid "No se pudo crear el directorio"
+msgstr "Couldn't create directory"
+
+# lib/lvpn-init#96 msg
+# lib/lvpn-init#142 msg
+msgid "Generando %s..."
+msgstr "Generating %s..."
+
+# lib/lvpn-init#115 msg
+msgid "Determinando la IPv4 del nodo..."
+msgstr "Determining IPv4 address for the node..."
+
+# lib/lvpn-init#120 fatal_error
+msgid "No se pudo determinar una IPv4 para este nodo"
+msgstr "Couldn't determine IPv4 address for this node"
+
+# lib/lvpn-init#125 msg
+msgid "Generando IPv6..."
+msgstr "Generating IPv6..."
+
+# lib/lvpn-init#128 msg
+msgid "Añadiendo subredes..."
+msgstr "Adding subnets..."
+
+# lib/lvpn-init#140 msg
+msgid "Este nodo es un %s"
+msgstr "This node is a %s"
+
+# lib/lvpn-init#147 msg
+msgid "Añadiendo hosts..."
+msgstr "Adding hosts..."
+
+# lib/lvpn-init#153 msg
+msgid "Copiando el resto de archivos..."
+msgstr "Copying remaining files..."
+
+# lib/lvpn-init#172 msg
+msgid "Generando llaves..."
+msgstr "Generating keys..."
+
+# lib/lvpn-init#177 msg
+msgid "Guardando el archivo de host con los demás nodos"
+msgstr "Saving host file with the other nodes"
+
+# lib/lvpn-init#183 msg
+msgid "El nodo se ha creado con éxito"
+msgstr "Node has been succesfully created"
+
+# lib/lvpn-init#184 msg
+msgid "*Importante*: "
+msgstr "*Important*: "
+
+# lib/lvpn-init#185 msg
+msgid "* Envíe el archivo que representa su nodo a vpn@hackcoop.com.ar (%s), o"
+msgstr "* Send the host file for your node to vpn@hackcoop.com.ar (%s), or"
+
+# lib/lvpn-init#186 msg
+msgid "* Comparta su nodo en la red local con `lvpn announce`"
+msgstr "* Share your node on the local network with `lvpn announce`"
+
+# lib/lvpn-init#187 msg
+msgid "* Agregue %s al repositorio git y publíquelo."
+msgstr "* Add %s to the git repository and push it."
+
+# lib/lvpn-install#34 fatal_error
+msgid "La variable TINC está vacía"
+msgstr "TINC env var is empty"
+
+# lib/lvpn-install#52 msg
+msgid "Instalando en el sistema..."
+msgstr "Installing on system..."
+
+# lib/lvpn-install#61 msg
+msgid "Chequeando permisos..."
+msgstr "Checking permissions..."
+
+# lib/lvpn-install#85 warning
+msgid "Tu sistema de inicio de tinc es desconocido, tenés que habilitar el demonio a mano o reportar un bug :)"
+msgstr "Your init system is unknown, you'll have to enable tinc manually or report a bug :)"
+
+# lib/lvpn-install#95 tip
+msgid "Es necesario instalar nss-mdns para poder resolver nombres .local"
+msgstr "nss-mdns is needed to resolve .local addresses"
+
+# lib/lvpn-install#108 msg
+msgid "Recargando tincd..."
+msgstr "Reloading tincd..."
+
+# lib/lvpn-install#113 tip
+msgid "Se recomienda instalar avahi-daemon"
+msgstr "avahi-daemon is recommended"
+
+# lib/lvpn-peers#41 fatal_error
+msgid "El archivo de log no existe.  Tip: hay que iniciar tinc con --logfile"
+msgstr "Log file doesn't exist.  Tipo: start tincd with --logfile"
+
+# lib/lvpn-update-skel#43 msg
+msgid "Actualizando archivos del nodo %s"
+msgstr "Updating files for the node %s"
+
+# lib/lvpn-update-skel#56 msg
+msgid "Archivo: %s"
+msgstr "File: %s"
+
+# lib/lvpn-update-skel#69 msg
+msgid "Backups guardados en %s"
+msgstr "Backups saved on %s"
+
+# lib/common#28 msg
+msgid "ARGH! Algo pasó"
+msgstr "ARGH! Something happened"
+
+# lib/common#55 fatal_error
+msgid "Los siguientes programas no se encuentran en PATH:%s"
+msgstr "Following programs couldn't be found in PATH:%s"
+
+# lib/common#66 fatal_error
+msgid "El nodo no existe o es inválido"
+msgstr "Node doesn't exist or it's invalid"
+
+# lib/common#78 fatal_error
+# lib/common#92 error
+msgid "El archivo host de %s no existe"
+msgstr "Host file for %s doesn't exist"
+
+# lib/common#134 error
+msgid "Este rango está agotado"
+msgstr "This subnet is depleted"
+
+# lib/common#153 error
+msgid "No hay IPs libres"
+msgstr "No IPs left"
+
+# lib/common#177 fatal_error
+msgid "Correr como root"
+msgstr "Run as root"
+

@@ -1,0 +1,45 @@
+.TH LVPN\-INSTALL 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+Installs or synchronizes a node on the system.
+.SH SYNOPSIS
+.PP
+\f[I]lvpn install\f[] [\-hvdn] local\-node
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-v
+Verbose mode
+.RS
+.RE
+.TP
+.B \-d
+Remove extra files, pristine copy of \f[I]nodos/local\-node\f[]
+.RS
+.RE
+.TP
+.B \-n
+Dry\-run, use it with \f[I]\-v\f[].
+.RS
+.RE
+.SH DESCRIPTION
+.PP
+Syncs \f[I]nodos/local\-node\f[] to \f[I]/etc/tinc/lvpn\f[].
+.PP
+It\[aq]s required to run it after any change on the config.
+.PP
+Also, it configures the system to run the VPN after reboot, and if
+NetworkManager is used, automatic reconnection after a succesful
+connection.
+.PP
+If the package providing \f[I]nss\-mdns\f[] is installed, edits
+\f[I]/etc/nsswitch.conf\f[] so it can solve .local addresses.
+.SH SEE ALSO
+.PP
+\f[I]rsync(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

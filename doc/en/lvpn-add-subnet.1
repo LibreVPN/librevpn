@@ -1,0 +1,51 @@
+.TH LVPN\-ADD\-SUBNET 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+\f[I]lvpn add\-subnet\f[] adds an IP address to a node
+.SH SYNOPSIS
+.PP
+\f[I]lvpn add\-subnet\f[] [\-hvg] \-[4|6][local\-node] [address]
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-v
+Verbose mode, informs everything
+.RS
+.RE
+.TP
+.B \-g
+Generate the IP address instead of waiting for a manually assigned one.
+This is the default behavior if nothing is specified.
+.RS
+.RE
+.TP
+.B \-4
+Generate an IPv4 address
+.RS
+.RE
+.TP
+.B \-6
+Generate an IPv6 address.
+This is the default behavior.
+.RS
+.RE
+.SH DESCRIPTION
+.PP
+Adds or generates an IP address to the specified host file.
+It can be either an IPv4 (with \f[I]\-4\f[]) or an IPv6 (with
+\f[I]\-6\f[]) address.
+.PP
+Useful for migrating to IPv6.
+.PP
+This command guesses the node\[aq]s name from the $HOSTNAME if none is
+specified.
+.SH EXAMPLES
+.SS Generate and add an IPv6 to the local node
+.PP
+\f[I]lvpn add\-subnet\f[] \-v
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

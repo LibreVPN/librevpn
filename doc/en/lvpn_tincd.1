@@ -1,0 +1,41 @@
+.TH LVPN_TINCD 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+LibreVPN
+.SH OPTIONS
+.PP
+Recommended flags to run \f[I]tincd\f[]:
+.SS Security
+.TP
+.B \-U nobody
+Root privileges are dropped
+.RS
+.RE
+.TP
+.B \-R
+Chroots to the config dir
+.RS
+.RE
+.TP
+.B \-L
+Put tincd in protected memory.
+This option protects the encryption keys but it makes tincd unstabled.
+Use with precaution.
+.RS
+.RE
+.SS Log
+.TP
+.B \-\-logfile
+Logs to /var/log/tinc.vpn.log
+.RS
+.RE
+.TP
+.B \-d 1
+Logs connections
+.RS
+.RE
+.SH SEE ALSO
+.PP
+\f[I]tincd(8)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

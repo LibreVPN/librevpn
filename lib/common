@@ -39,21 +39,22 @@ self="$(basename $0)"
 add_to_file(){
     f=$1; shift
 
-    echo "$@" >>$f
+    echo "$*" >>"$f"
 }
 
 # Comprueba si los programas necesarios existen en el sistema
 requires() {
-    local missing=""
-    for _bin in $@; do
-        if ! which $_bin >/dev/null 2>&1; then
-            missing+=" $_bin"
+    local missing=()
+    local bin
+    for bin in "$@"; do
+        if ! type "$bin" &>/dev/null; then
+            missing+=("$bin")
         fi
     done
 
-    if [ ${#missing} -ne 0 ]; then
-        fatal_error "Los siguientes programas no se encuentran en PATH:%s" "${missing}"
-   fi
+    if [[ ${#missing[@]} -ne 0 ]]; then
+        fatal_error "Los siguientes programas no se encuentran en PATH:%s" "${missing[*]}"
+    fi
 }
 
 # Obtiene el directorio del nodo
@@ -75,7 +76,7 @@ get_node_file() {
     file="${dir}/hosts/$1"
 
     if [ ! -f "${file}" ]; then
-        fatal_error "El archivo host de %s no existe" $1
+        fatal_error "El archivo host de %s no existe" "$1"
     fi
 
     echo "${file}"

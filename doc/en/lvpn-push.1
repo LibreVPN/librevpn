@@ -1,0 +1,19 @@
+.TH LVPN\-PUSH 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+Push a node to a remote host
+.SH SYNOPSIS
+.PP
+\f[I]lvpn push\f[] nodo user\@host [remote tinc dir]
+.SH DESCRIPTION
+.PP
+This command allows to install or update a node on a remote host.
+It\[aq]s designed to work with embedded systems, like OpenWrts routers.
+.PP
+Requires SSH access.
+.SH EXAMPLES
+.SS Sync a node
+.PP
+\f[I]lvpn push\f[] guachiguau root\@10.4.23.225
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

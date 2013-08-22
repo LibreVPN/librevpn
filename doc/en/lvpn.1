@@ -1,0 +1,47 @@
+.TH LVPN 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+LibreVPN
+.SS SYNOPSIS
+.PP
+lvpn command \-options parameters
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-c
+Available commands
+.RS
+.RE
+.SH DESCRIPTION
+.SS How do I start?
+.PP
+By reading http://librevpn.org.ar o \f[I]lvpn init\f[]\[aq]s help :)
+.SS Where\[aq]s my node?
+.PP
+The \f[I]lvpn init\f[] command creates your node on the \f[I]nodos/\f[]
+directory if running \f[I]lvpn\f[] from the development clone, or to
+\f[I]~/.config/lvpn/nodos\f[] if installed on system.
+.PP
+You can have several nodes but only one per host can be installed (using
+\f[I]lvpn install your\-node\f[]).
+.PP
+Any command that makes changes on the local node must be installed
+afterwards using the \f[I]lvpn install local\-node\f[] command.
+.PP
+All command\[aq]s help can be queried using the \f[I]\-h\f[] flag after
+the command name:
+.IP
+.nf
+\f[C]
+lvpn\ add\-host\ \-h
+\f[]
+.fi
+.SH SEE ALSO
+.PP
+\f[I]lvpn\-init(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

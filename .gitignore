@@ -1,4 +1,5 @@
 rsa_key.priv
 *.backup
 *.out
+*.mo
 nodos/*

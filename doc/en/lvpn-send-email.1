@@ -1,0 +1,45 @@
+.TH LVPN\-SEND\-EMAIL 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+Sends the host file by email
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-t
+Destinataion, default is vpn\@hackcoop.com.ar
+.RS
+.RE
+.TP
+.B \-f
+From field, default is git user or user\@hostname
+.RS
+.RE
+.TP
+.B \-s
+Alternate subject
+.RS
+.RE
+.TP
+.B \-m
+Alternate message
+.RS
+.RE
+.SS Env vars
+.TP
+.B SENDMAIL
+Alternate sendmail
+.RS
+.RE
+.SH DESCRIPTION
+.PP
+Generates an email with the host file and sends it.
+.PP
+Requires \f[I]sendmail\f[] or compatible to be configured in the system.
+.SH SEE ALSO
+.PP
+\f[I]sendmail(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

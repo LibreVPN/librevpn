@@ -1,0 +1,234 @@
+.TH CONVENCIONES 2 "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+Notas para desarrolladores de lvpn :)
+.SH SYNOPSIS
+.TP
+.B lib/
+comandos
+.RS
+.RE
+.TP
+.B lib/skel/
+archivos base para tinc
+.RS
+.RE
+.TP
+.B doc/
+documentación
+.RS
+.RE
+.TP
+.B bin/
+programas de ayuda que no son especificamente de lvpn
+.RS
+.RE
+.TP
+.B etc/
+código fuente extra
+.RS
+.RE
+.TP
+.B hosts/
+archivos de nodos
+.RS
+.RE
+.TP
+.B nodos/
+nodos propios
+.RS
+.RE
+.TP
+.B locale/
+traducciones
+.RS
+.RE
+.SH DESCRIPTION
+.SS Dónde van los scripts
+.PP
+El script \f[I]lvpn\f[] autodescubre los comandos siguiendo la
+convención \f[I]lib/lvpn\-tuscript\f[].
+Además setea algunas variables de entorno que los scripts pueden usar
+para saber en qué red están trabajando.
+.PP
+Los scripts pueden estar en cualquier lenguaje de programación mientras
+sepan leer esas variables de entorno.
+.SS Variables de entorno
+.PP
+Estas son las variables de entorno que \f[I]lvpn\f[] exporta para el
+resto de los comandos.
+.TP
+.B TINC
+Ubicación del directorio del nodo, por defecto \f[I]/etc/tinc/lvpn\f[].
+.RS
+.RE
+.TP
+.B NETWORK
+Nombre de la red, por defecto el último directorio de \f[I]TINC\f[].
+.RS
+.RE
+.TP
+.B LVPN
+Path completo de \f[I]lvpn\f[].
+.RS
+.RE
+.TP
+.B LVPN_DIR
+Path completo del directorio de trabajo, por defecto el directorio base
+de \f[I]LVPN\f[]
+.RS
+.RE
+.TP
+.B LVPN_LIBDIR
+Path completo del directorio de comandos.
+.RS
+.RE
+.TP
+.B LVPN_HOSTS
+Path completo del directorio de hosts.
+.RS
+.RE
+.TP
+.B LVPN_BEADLE
+Path completo del directorio de llaves anunciables nuevas de
+desconocidos.
+.RS
+.RE
+.TP
+.B KEYSIZE
+Tamaño por defecto de las llaves.
+.RS
+.RE
+.TP
+.B LVPN_SUBNET
+El rango de IPv4
+.RS
+.RE
+.TP
+.B LVPN_SUBNET6
+El rango de IPv6
+.RS
+.RE
+.TP
+.B TINCD_FLAGS
+Flags para el demonio \f[I]tincd\f[].
+.RS
+.RE
+.TP
+.B PORT
+Puerto por defecto
+.RS
+.RE
+.TP
+.B sudo
+Usar esta variable delante de cualquier comando que deba correr con
+privilegios de root, ej: \f[I]${sudo} rsync\f[].
+Requiere \f[I]"root=true"\f[] al principio del script.
+.RS
+.RE
+.SS Dónde va la documentación
+.PP
+La documentación lleva el nombre completo del script:
+\f[I]doc/idioma/lvpn\-tuscript.markdown\f[].
+La función \f[I]help()\f[] en \f[I]lib/msg\f[] lo lleva como argumento
+para mostrar la ayuda.
+.PP
+Además, toma la variable de entorno \f[I]PAGER\f[] para paginar la
+salida, por defecto se usa \f[I]less\f[].
+.SS Flags y parámetros
+.PP
+\f[I]lvpn comando\f[] \-flags nodolocal parametros extra
+.PP
+Seguido de \f[I]lvpn\f[] viene el comando, al que se le pasan en orden
+las flags (con sus opciones).
+El primer parámetro siempre tiene que ser el nodo local en el que se
+realiza la acción.
+Luego vienen los parámetros extra (nombres de otros nodos, por ejemplo).
+.SS Funciones comunes
+.PP
+En el archivo \f[I]lib/common\f[] se almacenan las funciones de uso
+común entre todos los comandos.
+Se la puede incluir en un script añadiendo la línea
+.IP
+.nf
+\f[C]
+\&.\ "${LVPN_LIBDIR}"/common
+\f[]
+.fi
+.PP
+al principio del script.
+.PP
+Nota: Agregar \f[I]root=true\f[] antes de common para poder correr
+funciones de root.
+.SS Variables
+.IP \[bu] 2
+self: nombre del script.
+Usado para obtener el nombre del script.
+Ejemplo: \f[I]help $self\f[] llama a la ayuda del script actual.
+.SS Funciones
+.IP \[bu] 2
+\f[I]add\f[]to_file()_: Agrega una línea al final de un archivo.
+Uso: \f[I]add\f[]to_file archivo "Texto a agregar"_
+.IP \[bu] 2
+\f[I]requires()\f[]: Indica que el script necesita que un programa se
+encuentre en el PATH.
+Se recomienda cuando el script llama a un programa que puede no
+encontrarse en una instalación estándar.
+Uso: \f[I]requires avahi\-publish rsync\f[]
+.IP \[bu] 2
+\f[I]get_node_dir()\f[]: Encuentra el directorio de un nodo pasándole el
+nombre del nodo como argumento.
+\f[I]node\f[]dir="(\f[I]g\f[]\f[I]e\f[]\f[I]t\f[]~\f[I]n\f[]~\f[I]o\f[]\f[I]d\f[]\f[I]e\f[]~\f[I]d\f[]~\f[I]i\f[]\f[I]r\f[]{node})"_
+.IP \[bu] 2
+\f[I]get_node_file()\f[]: Encuentra el archivo de host de un nodo dentro
+del directorio del nodo.
+\f[I]node\f[]file="(\f[I]g\f[]\f[I]e\f[]\f[I]t\f[]~\f[I]n\f[]~\f[I]o\f[]\f[I]d\f[]\f[I]e\f[]~\f[I]f\f[]~\f[I]i\f[]\f[I]l\f[]\f[I]e\f[]{node})"_
+.IP \[bu] 2
+\f[I]get_node_name()\f[]: Limpia el nombre del nodo de caracteres
+inválidos
+.IP \[bu] 2
+\f[I]get_host_file()\f[]: Obtiene el archivo del nodo en $LVPN_HOSTS
+.IP \[bu] 2
+\f[I]find_init_system()\f[]: Encuentra el tipo de inicio de tinc.
+Ver \f[I]lib/lvpn\-install\f[].
+.IP \[bu] 2
+\f[I]get_id()\f[]: Obtiene nombre y mail del responsable del nodo usando
+git o usuario\@hostname.
+.IP \[bu] 2
+\f[I]get_ipv4()\f[]: Genera una dirección IPv4 a partir de LVPN_SUBNET.
+.IP \[bu] 2
+\f[I]get_ipv6()\f[]: Genera una dirección IPv6 a partir de LVPN_SUBNET6.
+.SS Mensajes
+.PP
+En \f[I]lib/msg\f[] se encuentran las funciones básicas para imprimir
+mensajes en la salida de errores estándar.
+Esto es para que no sean procesados como la salida estándar de los
+scripts, que se reservan para poder enviar la información a una tubería.
+.PP
+No es necesario incluirla ya que se llama desde \f[I]lib/common\f[].
+.PP
+Todas las funciones tienen soporte para traducciones utilizando gettext,
+por lo que los mensajes que se completan con variables deben seguir el
+formato de \f[I]printf\f[]: \f[I]%s\f[] para reemplazar por cadenas,
+\f[I]%d\f[] para números enteros, etc.
+.PP
+Por ejemplo: \f[I]msg "Procesando el nodo %s..." "$node"\f[]
+.IP \[bu] 2
+\f[I]msg()\f[]: Información
+.IP \[bu] 2
+\f[I]error()\f[]: Mensaje de error
+.IP \[bu] 2
+\f[I]warning()\f[]: Alerta
+.IP \[bu] 2
+\f[I]fatal_error()\f[]: Imprime un mensaje de error y termina el
+programa inmediatamente
+.IP \[bu] 2
+\f[I]tip()\f[]: Recomendaciones, por ejemplo, cual comando correr a
+continuación.
+.SS Los comandos
+.PP
+La mayoria de los comandos solo configuran, luego hay que enviar los
+cambios a directorio de instalación con el comando \f[I]lvpn init
+install\f[].
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.
