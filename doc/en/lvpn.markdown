@@ -19,6 +19,9 @@ LibreVPN
 -c
 :    Available commands
 
+-d
+:    Debug mode.  Use this flag to enable command debug.
+
 
 # DESCRIPTION
 

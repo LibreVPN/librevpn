@@ -19,6 +19,10 @@ LibreVPN
 -c
 :    Lista de comandos disponibles
 
+-d
+:    Habilitar debug.  Para hacer debug de los comandos, agregar esta
+     opción.
+
 
 # DESCRIPCION
 
