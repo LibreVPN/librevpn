@@ -24,6 +24,10 @@
 
 # Terminar ante el menor error
 set -e
+
+# Habilitar debug tan pronto como sea posible si se usa -d en algún lado
+echo "$*" | grep -q " -\([a-z]\+\)\?d" && set -x
+
 trap_exit() {
     msg "ARGH! Algo pasó" 1>&2
     exit 1
