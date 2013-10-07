@@ -1,0 +1,15 @@
+#!/bin/sh
+# Prueba de concepto
+# No funciona a menos que estemos corriendo tinc con el mismo usuario de
+# X o como root
+
+case $1 in
+  up) ;;
+    DISPLAY=:0 notify-send -i network \
+                           "LibreVPN" \
+                           "${NODE} se ha conectado"
+  down) ;;
+    DISPLAY=:0 notify-send -i network-offline \
+                           "LibreVPN" \
+                           "${NODE} se ha desconectado"
+esac
