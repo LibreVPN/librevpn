@@ -4,12 +4,14 @@
 # X o como root
 
 case $1 in
-  up) ;;
+  up)
     DISPLAY=:0 notify-send -i network \
                            "LibreVPN" \
                            "${NODE} se ha conectado"
-  down) ;;
+  ;;
+  down)
     DISPLAY=:0 notify-send -i network-offline \
                            "LibreVPN" \
                            "${NODE} se ha desconectado"
+  ;;
 esac
