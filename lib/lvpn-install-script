@@ -29,22 +29,40 @@
 
 . "${LVPN_LIBDIR}"/common
 
+# Mostrar los eventos disponibles
+list_events() {
+  for _e in host subnet; do
+    msg "${_e}"
+  done
+}
+
+# Mostrar los scripts disponibles
+list_scripts() {
+  ls ${LVPN_LIBDIR}/skel/scripts
+}
+
 VERBOSE=false
-while getopts "vh"; do
+while getopts "vhes" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
     v) VERBOSE=" -v " ;;
+    e) list_events ; exit 0 ;;
+    s) list_scripts ; exit 0 ;;
   esac
 done
+let OPTIND--; shift ${OPTIND}
+
+# Mostrar la ayuda si no hay argumentos
+test -z "$1" && help ${self} && exit 0
 
 node="$(get_node_name "${1}")" ; shift
 node_dir="$(get_node_dir "$node")"
 event="$(get_event "$1")" ; shift
 script="$(get_script "$1")"
 
-test -n "${script}" && fatal_warning "El script %s no existe" "${script##*/}"
-test -n "${node}"   && fatal_warning "El nodo %s no existe" "${node}"
-test -n "${event}"  && fatal_warning "El evento %s no es válido" "${event}"
+test -z "${script}" && fatal_error "El script %s no existe" "${script##*/}"
+test -z "${node}"   && fatal_error "El nodo %s no existe" "${node}"
+test -z "${event}"  && fatal_error "El evento %s no es válido" "${event}"
 
 # Instalar run-script para este evento
 for _state in up down; do
@@ -54,4 +72,5 @@ for _state in up down; do
 done
 
 # Instalar el script para el evento
+mkdir -p "${node_dir}/scripts"
 cp ${VERBOSE} -f "${script}" "${node_dir}/scripts/${event}-${script##*/}"
