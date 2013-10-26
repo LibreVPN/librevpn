@@ -1,0 +1,41 @@
+.TH "LVPN\-INSTALL\-SCRIPT" "1" "2013" "Manual de LibreVPN" "LibreVPN"
+.SH NOMBRE
+.PP
+lvpn install\-script instala script que se ejecutan en eventos de la
+VPN.
+.SH SINOPSIS
+.PP
+lvpn install\-script [\-hves] nodo\-local evento script
+.SH DESCRIPCION
+.PP
+Instala scripts que se ejecutan durante eventos de la VPN.
+Al momento \f[C]tincd\f[] sólo soporta dos tipos de eventos, cuando un
+nodo se conecta o desconecta, o cuando una subred es anunciada o
+desanunciada.
+.SH OPCIONES
+.TP
+.B \-h
+Este mensaje
+.RS
+.RE
+.TP
+.B \-v
+Modo verborrágico
+.RS
+.RE
+.TP
+.B \-e
+Listar los eventos disponibles
+.RS
+.RE
+.TP
+.B \-s
+Listar los scripts disponibles
+.RS
+.RE
+.SH EJEMPLOS
+.SS Mostrar una notificación cuando un nodo se (des)conecta
+.PP
+\f[I]lvpn install\-script\f[] ponape host notify
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.
