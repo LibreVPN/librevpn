@@ -1,6 +1,6 @@
 # parabola
 # fauno <fauno@endefensadelsl.org>
-Address = parabolagnulinux.org
+Address = projects.parabolagnulinux.org
 Port = 655
 Subnet = 192.168.9.147/32
 Subnet = 2001:1291:200:83ab:c827:b8db:4ff3:14fa/128
