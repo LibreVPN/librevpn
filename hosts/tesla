@@ -1,6 +1,6 @@
 # tesla
-Address = 192.168.9.185
 Subnet = 192.168.9.185/32
+Subnet = 2001:1291:200:83ab:a03c:cff3:24eb:a13b/128
 
 -----BEGIN RSA PUBLIC KEY-----
 MIICCgKCAgEAybCU2eM+4R0IookS/riJkrTQmCh0HIMRWSEbmk3BECztWzOIvjH7
