@@ -28,6 +28,22 @@ set -e
 # Habilitar debug tan pronto como sea posible si se usa -d en algún lado
 echo "$*" | grep -q " -\([a-z]\+\)\?d" && set -x
 
+# Comprueba si los programas necesarios existen en el sistema
+requires() {
+    local missing=()
+    local bin
+    for bin in "$@"; do
+        if ! type "$bin" &>/dev/null; then
+            missing+=("$bin")
+        fi
+    done
+
+    if [[ ${#missing[@]} -ne 0 ]]; then
+        printf "Los siguientes programas no se encuentran en PATH:%s\n" "${missing[*]}"
+        exit 1
+    fi
+}
+
 trap_exit() {
     msg "ARGH! Algo pasó" 1>&2
     exit 1
@@ -44,21 +60,6 @@ add_to_file(){
     f=$1; shift
 
     echo "$*" >>"$f"
-}
-
-# Comprueba si los programas necesarios existen en el sistema
-requires() {
-    local missing=()
-    local bin
-    for bin in "$@"; do
-        if ! type "$bin" &>/dev/null; then
-            missing+=("$bin")
-        fi
-    done
-
-    if [[ ${#missing[@]} -ne 0 ]]; then
-        fatal_error "Los siguientes programas no se encuentran en PATH:%s" "${missing[*]}"
-    fi
 }
 
 # Obtiene el directorio del nodo
