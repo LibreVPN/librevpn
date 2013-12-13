@@ -1,0 +1,18 @@
+#!/bin/sh
+# Ejecuta todos los scripts referidos a este evento que se encuentren
+# dentro del directorio scripts/
+
+# tinc.conf(5)
+# Exporta todas las variables de entorno para que las puedan tomar los
+# subscripts
+export NETNAME NAME DEVICE INTERFACE NODE REMOTEADDRESS REMOTEPORT \
+       SUBNET WEIGHT
+
+# Extrae {host,subnet,etc}
+event=${0##*/}; event=${event%-*}
+# Extrae {up,down}
+state=${0##*/}; state=${state#*-}
+
+for _script in /etc/tinc/${NETNAME}/scripts/${event}-*; do
+  exec "${_script}" ${state}
+done

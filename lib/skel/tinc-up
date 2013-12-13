@@ -38,3 +38,5 @@ fi
 
 # TODO poner lvpn discover acá
 # TODO poner upnp/nat-pmp acá
+
+source /etc/tinc/${NETNAME}/run-script

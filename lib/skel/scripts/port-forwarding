@@ -1,0 +1,29 @@
+#!/bin/sh
+# Intentar lograr que el router de la LAN donde estemos abra los
+# puertos, con NAT-PMP y UPnP.  **Tip**: configurar el nodo para usar
+# puertos altos (>1024)
+
+HOST_FILE="/etc/tinc/${NETNAME}/hosts/${NAME}"
+# Obtener el puerto local
+PORT=$(grep "^Port" "${HOST_FILE}" |
+        cut -d"=" -f2 |
+        tr -d " ")
+# Obtener la IP de salida
+IP=$(ip route get 8.8.8.8 |
+       grep -o "src .*" |
+       cut -d " " -f 2)
+
+# Asegurarse que haya un puerto
+PORT=${PORT:-655}
+
+case $1 in
+  up)
+# Pasar a segundo plano para no hacer esperar a tincd
+      natpmpc -a ${PORT} ${PORT} tcp &
+      natpmpc -a ${PORT} ${PORT} udp &
+      upnpc -a ${IP} ${PORT} ${PORT} tcp &
+      upnpc -a ${IP} ${PORT} ${PORT} udp &
+    ;;
+  down)
+    ;;
+esac

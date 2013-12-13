@@ -100,6 +100,18 @@ get_host_file() {
   echo "${LVPN_HOSTS}/${1}"
 }
 
+# Obtiene un evento válido
+get_event() {
+  echo "$1" | grep -qE "^host|subnet|tinc$" && echo "$1"
+}
+
+# Obtener un script
+get_script() {
+  script_dir="${LVPN_LIBDIR}/skel/scripts"
+
+  test -f "${script_dir}/$1" && echo "${script_dir}/$1"
+}
+
 # Encontrar el tipo de init que se va a usar para tinc
 # Devuelve "tipo ubicacion"
 # Ver lib/lvpn-install
