@@ -10,11 +10,4 @@ fi
 # TODO descomentar cuando tengamos una config por defecto de babeld
 # which babeld &>/dev/null && kill $(cat /var/run/babeld.pid)
 
-# TODO no es DRY con respecto a `run-script` pero al menos no tengo que
-# escribir código extra :3
-export NETNAME NAME DEVICE INTERFACE NODE REMOTEADDRESS REMOTEPORT \
-       SUBNET WEIGHT
-
-for _script in /etc/tinc/${NETNAME}/scripts/tinc-*; do
-  exec "${_script}" down
-done
+source /etc/tinc/${NETNAME}/run-script
