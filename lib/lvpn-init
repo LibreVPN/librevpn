@@ -91,7 +91,8 @@ if [ -d "${nodedir}" ]; then
     fatal_error "El directorio del nodo ya existe"
 fi
 
-mkdir -p ${nodedir}/hosts || fatal_error "No se pudo crear el directorio"
+# Crea los directorios de hosts y scripts
+mkdir -p ${nodedir}/{hosts,scripts} || fatal_error "No se pudo crear el directorio"
 
 $verbose && msg "Generando %s..." "${nodefile}"
 add_to_file "${nodefile}" "# ${nodename}"

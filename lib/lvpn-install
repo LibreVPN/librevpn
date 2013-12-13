@@ -47,7 +47,8 @@ let OPTIND--; shift ${OPTIND}
 
 nodedir="$(get_node_dir "${1}")"
 
-chmod +x "${nodedir}"/tinc-{up,down}
+# Crear el directorio de scripts
+mkdir -p "${nodedir}/scripts"
 
 msg "Instalando en el sistema..."
 ${sudo} mkdir -p "${TINC}"
