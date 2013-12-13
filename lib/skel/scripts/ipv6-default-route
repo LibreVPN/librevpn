@@ -1,4 +1,5 @@
 #!/bin/sh
+# Este script da salida a IPv6 por la VPN
 # Ver http://wiki.hackcoop.com.ar/LibreVPN:IPv6
 
 # Eliminar la ruta por defecto
