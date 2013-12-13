@@ -8,9 +8,9 @@ lvpn install\-script [\-hves] local\-node event script
 .SH DESCRIPTION
 .PP
 Installs scripts to be executed on VPN events.
-At the moment, \f[C]tincd\f[] only supports two kinds of events, when a
-node connects or disconnects, or when a subnet is announced or
-dis\-announced.
+At the moment, \f[C]tincd\f[] only supports two kinds of events after
+the VPN starts, when a node connects or disconnects, or when a subnet is
+announced or dis\-announced.
 .SH OPTIONS
 .TP
 .B \-h
@@ -32,9 +32,52 @@ List available events
 List available scripts
 .RS
 .RE
+.SH EVENTS
+.TP
+.B tinc
+This event triggers when the VPN starts/stops.
+Put scripts that should run once here.
+.RS
+.RE
+.TP
+.B host
+Run this script when a node (dis)connects.
+.RS
+.RE
+.TP
+.B subnet
+Run this script when a subnet becomes (un)reachable
+.RS
+.RE
+.SH SCRIPTS
+.TP
+.B debug
+Debug events
+.RS
+.RE
+.TP
+.B notify
+Show a notification using D\-Bus.
+\f[B]It doesn\[aq]t work\f[] because D\-Bus doesn\[aq]t allow users to
+send notification to another user\[aq]s session.
+.RS
+.RE
+.TP
+.B ipv6\-router
+Set this node as an IPv6 router/gateway.
+.RS
+.RE
+.TP
+.B ipv6\-default\-route
+Set this node\[aq]s IPv6 default route.
+.RS
+.RE
 .SH EXAMPLES
 .SS Notify when a host (dis)connects
 .PP
 \f[I]lvpn install\-script\f[] ponape host notify
+.SH SEE ALSO
+.PP
+\f[I]tinc.conf(5)\f[]
 .SH AUTHORS
 fauno <fauno@endefensadelsl.org>.
