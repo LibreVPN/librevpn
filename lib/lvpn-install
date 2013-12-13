@@ -35,12 +35,12 @@ test "${#TINC}" -lt 2 && fatal_error "La variable TINC está vacía"
 
 requires rsync find
 
-while getopts "hvdn" arg; do
+while getopts "hvrn" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
     v) VERBOSE=-v ;;
     n) DRYRUN=--dry-run ;;
-    d) DELETE=--delete-after ;;
+    r) DELETE=--delete-after ;;
   esac
 done
 let OPTIND--; shift ${OPTIND}

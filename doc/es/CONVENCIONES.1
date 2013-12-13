@@ -1,4 +1,4 @@
-.TH CONVENCIONES 2 "2013" "Manual de LibreVPN" "lvpn"
+.TH "CONVENCIONES" "2" "2013" "Manual de LibreVPN" "lvpn"
 .SH NOMBRE
 .PP
 Notas para desarrolladores de lvpn :)
@@ -11,6 +11,11 @@ comandos
 .TP
 .B lib/skel/
 archivos base para tinc
+.RS
+.RE
+.TP
+.B lib/skel/scripts/
+directorio de scripts/hooks
 .RS
 .RE
 .TP
@@ -167,8 +172,8 @@ Usado para obtener el nombre del script.
 Ejemplo: \f[I]help $self\f[] llama a la ayuda del script actual.
 .SS Funciones
 .IP \[bu] 2
-\f[I]add\f[]to_file()_: Agrega una línea al final de un archivo.
-Uso: \f[I]add\f[]to_file archivo "Texto a agregar"_
+\f[I]add_to_file()\f[]: Agrega una línea al final de un archivo.
+Uso: \f[I]add_to_file archivo "Texto a agregar"\f[]
 .IP \[bu] 2
 \f[I]requires()\f[]: Indica que el script necesita que un programa se
 encuentre en el PATH.
@@ -178,11 +183,11 @@ Uso: \f[I]requires avahi\-publish rsync\f[]
 .IP \[bu] 2
 \f[I]get_node_dir()\f[]: Encuentra el directorio de un nodo pasándole el
 nombre del nodo como argumento.
-\f[I]node\f[]dir="(\f[I]g\f[]\f[I]e\f[]\f[I]t\f[]~\f[I]n\f[]~\f[I]o\f[]\f[I]d\f[]\f[I]e\f[]~\f[I]d\f[]~\f[I]i\f[]\f[I]r\f[]{node})"_
+\f[I]node_dir="(\f[I]g\f[]\f[I]e\f[]\f[I]t\f[]_\f[I]n\f[]\f[I]o\f[]\f[I]d\f[]\f[I]e\f[]_\f[I]d\f[]\f[I]i\f[]\f[I]r\f[]{node})"\f[]
 .IP \[bu] 2
 \f[I]get_node_file()\f[]: Encuentra el archivo de host de un nodo dentro
 del directorio del nodo.
-\f[I]node\f[]file="(\f[I]g\f[]\f[I]e\f[]\f[I]t\f[]~\f[I]n\f[]~\f[I]o\f[]\f[I]d\f[]\f[I]e\f[]~\f[I]f\f[]~\f[I]i\f[]\f[I]l\f[]\f[I]e\f[]{node})"_
+\f[I]node_file="(\f[I]g\f[]\f[I]e\f[]\f[I]t\f[]_\f[I]n\f[]\f[I]o\f[]\f[I]d\f[]\f[I]e\f[]_\f[I]f\f[]\f[I]i\f[]\f[I]l\f[]\f[I]e\f[]{node})"\f[]
 .IP \[bu] 2
 \f[I]get_node_name()\f[]: Limpia el nombre del nodo de caracteres
 inválidos

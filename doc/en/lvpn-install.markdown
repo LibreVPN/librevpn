@@ -20,8 +20,9 @@ _lvpn install_ [-hvdn] local-node
 -v
 :    Verbose mode
 
--d
-:    Remove extra files, pristine copy of _nodos/local-node_
+-r
+:    Remove extra files, pristine copy of _nodos/local-node_.  It was
+     _-d_ but this flag is now reserved for debugging.
 
 -n
 :    Dry-run, use it with _-v_.
