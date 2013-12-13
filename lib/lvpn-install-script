@@ -66,6 +66,8 @@ test -z "${event}"  && fatal_error "El evento %s no es válido" "${event}"
 
 # Instalar run-script para este evento
 for _state in up down; do
+# No pisar los tinc-{up,down} con run-script
+  test "${event}" != "tinc" &&
   cp ${VERBOSE} -f "${LVPN_LIBDIR}/skel/run-script" \
                     "${node_dir}/${event}-${_state}"
 done
