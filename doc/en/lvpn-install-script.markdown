@@ -62,6 +62,10 @@ ipv6-router
 ipv6-default-route
 :    Set this node's IPv6 default route.
 
+port-forwarding
+:    Asks the default router to open up the ports, using NAT-PMP and
+UPnP
+
 
 # EXAMPLES
 
