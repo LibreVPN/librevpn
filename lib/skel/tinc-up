@@ -32,11 +32,4 @@ else
   ifconfig ${INTERFACE} up
 fi
 
-# Controlar esto desde /etc/babeld.conf
-# TODO descomentar cuando tengamos una config por defecto de babeld
-# which babeld &>/dev/null && babeld -D 
-
-# TODO poner lvpn discover acá
-# TODO poner upnp/nat-pmp acá
-
 source /etc/tinc/${NETNAME}/run-script
