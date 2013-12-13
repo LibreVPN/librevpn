@@ -41,7 +41,7 @@ list_scripts() {
   ls ${LVPN_LIBDIR}/skel/scripts
 }
 
-VERBOSE=false
+VERBOSE=""
 while getopts "vhes" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
@@ -66,11 +66,11 @@ test -z "${event}"  && fatal_error "El evento %s no es válido" "${event}"
 
 # Instalar run-script para este evento
 for _state in up down; do
-  test ! -f "${node_dir}/${event}-${_state}" && \
-    cp ${VERBOSE} -f "${LVPN_LIBDIR}/skel/run-script" \
-                     "${node_dir}/${event}-${_state}"
+  cp ${VERBOSE} -f "${LVPN_LIBDIR}/skel/run-script" \
+                    "${node_dir}/${event}-${_state}"
 done
 
 # Instalar el script para el evento
 mkdir -p "${node_dir}/scripts"
 cp ${VERBOSE} -f "${script}" "${node_dir}/scripts/${event}-${script##*/}"
+chmod +x "${node_dir}/scripts/${event}-${script##*/}"

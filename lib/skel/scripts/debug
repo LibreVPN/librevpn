@@ -1,0 +1,8 @@
+#!/bin/sh
+
+{
+  echo "=== $0 ==="
+  echo "$(date)"
+  env
+  echo "=== $0 ==="
+} >>/tmp/lvpn-debug.log
