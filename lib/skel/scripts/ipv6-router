@@ -15,11 +15,18 @@ test -z "${4to6}" && exit 0
 # salida estamos cagados.
 #  sysctl net.ipv6.conf.{${NETWORK},${4to6}}.forwarding=1
 
+case $1 in
+  up)
 # Habilitar forwardeo de IPv6 entre la interfaz de la VPN y la de salida
-for dev in ${NETWORK} ${4to6}; do
-  sysctl -w net.ipv6.conf.${dev}.forwarding=1
-done
+    for dev in ${NETWORK} ${4to6}; do
+      sysctl -w net.ipv6.conf.${dev}.forwarding=1
+    done
 
 # Habilitar forwardeo en ip6tables
-command ip6tables &>/dev/null &&
-  ip6tables -A FORWARD -j ACCEPT
+    command ip6tables &>/dev/null &&
+      ip6tables -A FORWARD -j ACCEPT
+  ;;
+  down)
+# TODO deshacer o no deshacer?
+  ;;
+esac
