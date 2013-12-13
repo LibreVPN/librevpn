@@ -18,7 +18,7 @@ test -z "${4to6}" && exit 0
 case $1 in
   up)
 # Habilitar forwardeo de IPv6 entre la interfaz de la VPN y la de salida
-    for dev in ${NETWORK} ${4to6}; do
+    for dev in ${INTERFACE} ${4to6}; do
       sysctl -w net.ipv6.conf.${dev}.forwarding=1
     done
 
