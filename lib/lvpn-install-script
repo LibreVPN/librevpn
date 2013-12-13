@@ -31,7 +31,7 @@
 
 # Mostrar los eventos disponibles
 list_events() {
-  for _e in host subnet; do
+  for _e in tinc host subnet; do
     msg "${_e}"
   done
 }
