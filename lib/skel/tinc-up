@@ -44,6 +44,6 @@ fi
 export NETNAME NAME DEVICE INTERFACE NODE REMOTEADDRESS REMOTEPORT \
        SUBNET WEIGHT
 
-for _script in /etc/tinc/${NETWORK}/scripts/tinc-*; do
+for _script in /etc/tinc/${NETNAME}/scripts/tinc-*; do
   exec "${_script}" up
 done
