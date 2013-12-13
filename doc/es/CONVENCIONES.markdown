@@ -15,6 +15,9 @@ lib/
 lib/skel/
 :    archivos base para tinc
 
+lib/skel/scripts/
+:    directorio de scripts/hooks
+
 doc/
 :    documentación
 
@@ -132,18 +135,18 @@ root.
 
 ### Funciones
 
-* _add_to_file()_: Agrega una línea al final de un archivo. Uso: _add_to_file
-  archivo "Texto a agregar"_
+* _add\_to\_file()_: Agrega una línea al final de un archivo. Uso:
+  _add\_to\_file archivo "Texto a agregar"_
 
 * _requires()_: Indica que el script necesita que un programa se encuentre en el
   PATH.  Se recomienda cuando el script llama a un programa que puede no
   encontrarse en una instalación estándar.  Uso: _requires avahi-publish rsync_
 
 * _get\_node\_dir()_: Encuentra el directorio de un nodo pasándole el nombre del
-  nodo como argumento.  _node_dir="$(get_node_dir ${node})"_
+  nodo como argumento.  _node\_dir="$(get\_node\_dir ${node})"_
 
 * _get\_node\_file()_: Encuentra el archivo de host de un nodo dentro del
-  directorio del nodo.  _node_file="$(get_node_file ${node})"_
+  directorio del nodo.  _node\_file="$(get\_node\_file ${node})"_
 
 * _get\_node\_name()_: Limpia el nombre del nodo de caracteres inválidos
 
