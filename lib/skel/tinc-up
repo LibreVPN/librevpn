@@ -38,3 +38,12 @@ fi
 
 # TODO poner lvpn discover acá
 # TODO poner upnp/nat-pmp acá
+
+# TODO no es DRY con respecto a `run-script` pero al menos no tengo que
+# escribir código extra :3
+export NETNAME NAME DEVICE INTERFACE NODE REMOTEADDRESS REMOTEPORT \
+       SUBNET WEIGHT
+
+for _script in scripts/tinc-*; do
+  exec "${_script}" up
+done
