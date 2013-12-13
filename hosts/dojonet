@@ -1,0 +1,20 @@
+# dojonet
+# server@eden
+Port = 655
+Address = quanticapc.no-ip.org
+Subnet = 192.168.9.228/32
+Subnet = 2001:1291:200:83ab:ecbb:1107:abb2:c485/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEA3f2ywFqCBw2wJbmlOpAeNl6/Ft7GbGYlAa2hWqAoNK7tXdKnpd1u
+e29k0WjvWOC0oj7paldLtjdE7fCsUOTvupzB9Ps+0YagFjxaowSqoAXeVnoFQcHN
++ROsGHl9aZmAsx+49Z4no7JEJ+NcJDdi2usxB6uctHqZMaZBYsie9N0fFRf+1bX7
+naBBHcXh/HkStNvYIl3YiGPp82P3go2krNfW3OtylcipX6ayXbRaQ+0f88asOlr0
+CORRjLKdhZ8fzMM+SGy5hOBEYnHxHUFWa3+x9iQTJEr/MwZcslCkm2R9W3LTQyUa
+cmnfgPrZw1hgyNhxM360gy/fskagtsu8VfYoX4ScCdpG3PctmPVsFaxeWWeCmLpd
+2hGB0IVIA1fdcaRQcFcCMUPuvx6nN4es7eEg+UVu6ZZVSp+3geKOJCrhouupIOLs
+iGR8sq7VYXsSnwlQkyNf7fJ+FlVRkuPdSFVsV/R5Ac9zNSkbAS/4CQ5rANJaq4Qh
+LJC2iHYi5hdd+lXBhfERH1WE3SBGcJCIG6XDZJ4CrzyjjduV7NTfE0mKCyL3qtqx
+xgEekkEsNHGEEcPcNQuVwP6/t9eQihKwv1BYUL7L0482KNatOYT60Yn8NtGGbUZo
+7+wrIYx2QLI3YqPbbuGXMV0OQuC72F3XLhLOYbeu877LWxWyeCBG3V8CAwEAAQ==
+-----END RSA PUBLIC KEY-----

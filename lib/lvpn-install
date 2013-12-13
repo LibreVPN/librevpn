@@ -62,8 +62,8 @@ msg "Chequeando permisos..."
 ${sudo} chown -R root:root "${TINC}"
 ${sudo} find "${TINC}" -type d -exec chmod 755 {} \;
 ${sudo} find "${TINC}" -type f -exec chmod 644 {} \;
-${sudo} find "${TINC}" -name '*-up'\
-                       -o -name '*-down' -exec chmod 755 {} \;
+${sudo} find "${TINC}" -name '*-up' -exec chmod 755 {} \;
+${sudo} find "${TINC}" -name '*-down' -exec chmod 755 {} \;
 ${sudo} chmod 600 "${TINC}/rsa_key.priv"
 
 # Habilitar tinc en el sistema
