@@ -39,7 +39,7 @@ while getopts "hvrn" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
     v) VERBOSE=-v ;;
-    n) DRYRUN=--dry-run ;;
+    n) DRYRUN=--dry-run ; VERBOSE=-v ;;
     r) DELETE=--delete-after ;;
   esac
 done
@@ -57,6 +57,9 @@ ${sudo} rsync -a --no-owner \
               --exclude="*.backup" \
               ${VERBOSE} ${DELETE} ${DRYRUN} \
               "${nodedir}/" "${TINC}/"
+
+# No tenemos que hacer nada más si estamos con dry-run
+test -n "${DRYRUN}" && exit
 
 # Chequear permisos
 msg "Chequeando permisos..."
