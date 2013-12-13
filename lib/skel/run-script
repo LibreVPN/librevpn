@@ -13,6 +13,6 @@ event=${0##*/}; event=${event%-*}
 # Extrae {up,down}
 state=${0##*/}; state=${state#*-}
 
-for _script in scripts/${event}-*; do
+for _script in /etc/tinc/${NETWORK}/scripts/${event}-*; do
   exec "${_script}" ${state}
 done
