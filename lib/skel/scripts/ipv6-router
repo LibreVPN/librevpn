@@ -1,0 +1,25 @@
+#!/bin/sh
+# Configura este nodo como un router IPv6
+# Ver http://wiki.hackcoop.com.ar/LibreVPN:IPv6
+set -e
+
+# Obtener la interfaz de la ruta por defecto
+4to6="$(ip -6 route show default |
+          grep -o "dev [a-z0-9]\+" |
+          cut -d" " -f2)"
+
+# Si no hay ruta por defecto, salir
+test -z "${4to6}" && exit 0
+
+# Aunque sysctl soporta shell-expansion, si hay varias interfaces de
+# salida estamos cagados.
+#  sysctl net.ipv6.conf.{${NETWORK},${4to6}}.forwarding=1
+
+# Habilitar forwardeo de IPv6 entre la interfaz de la VPN y la de salida
+for dev in ${NETWORK} ${4to6}; do
+  sysctl -w net.ipv6.conf.${dev}.forwarding=1
+done
+
+# Habilitar forwardeo en ip6tables
+command ip6tables &>/dev/null &&
+  ip6tables -A FORWARD -j ACCEPT
