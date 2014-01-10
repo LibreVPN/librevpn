@@ -1,12 +1,11 @@
-.TH LVPN\-INIT 1 "2013" "Manual de LibreVPN" "lvpn"
+.TH "LVPN\-INIT" "1" "2013" "Manual de LibreVPN" "lvpn"
 .SH NAME
 .PP
-Creates a new nodo
+Creates a new node
 .SH SYNOPSIS
 .PP
-lvpn init [\-A][\-f] [\-q][\-p 655] [\-l
-192.168.9.202/32][\-s 10.4.24.128/27] [\-r][\-a internet.domain.tld]
-[\-c otronodo] nodo
+lvpn init [\-A] [\-f] [\-q] [\-p 655] [\-l 192.168.9.202/32] [\-s
+10.4.24.128/27] [\-r] [\-a internet.domain.tld] [\-c otronodo] nodo
 .SH OPTIONS
 .TP
 .B \-h
@@ -91,6 +90,13 @@ per local or remote host).
 For instance, embedded devices may not support \f[I]lvpn\f[], but from a
 GNU/Linux system you can generate the config and push it to the
 correspondent host (Android phone or tablet, OpenWrt router, etc.)
+.PP
+\f[I]IMPORTANT\f[]: The default host configuration allows discovery of
+nodes in the local network, and also indirect connections to you.
+This means if you want your node to only allow connections to and from
+nodes you explicitly allowed or not to forward data between nodes,
+you\[aq]ll have to set this options to "no" and also add "DirectOnly =
+yes" to your \f[I]tinc.conf\f[] file.
 .SH EXAMPLES
 .SS Basic config with a single connection
 .PP
