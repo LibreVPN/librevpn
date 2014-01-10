@@ -90,12 +90,11 @@ herramientas de \f[I]lvpn\f[], pero desde un sistema GNU/Linux se puede
 generar la configuración y luego copiarla al host que corresponda (al
 celular o tablet Android, router con OpenWrt, etc.)
 .PP
-\f[I]IMPORTANTE\f[]: La configuración por defecto de un nodo permite el
-descubrimiento de pares en la red local y las conexiones indirectas.
-Esto quiere decir que si no querés permitir las conexiones de nodos que
-no hayas explicitado en tu configuración, vas a tener que cambiar esas
-variables a "no" y además agregar "DirectOnly = yes" al archivo
-\f[I]tinc.conf\f[].
+\f[I]IMPORTANTE\f[]: La configuración por defecto de un nodo sin el
+campo Address asume que se encuentra detrás de un firewall o que no
+están configurados para aceptar conexiones directas.
+Si agregás un dirección pública también tenés que deshabilitar la opción
+IndirectData.
 .SH EJEMPLOS
 .SS Uso básico con una sola conexión
 .PP
