@@ -106,6 +106,12 @@ fi
 
 add_to_file "${nodefile}" "Port = ${port:-${PORT}}"
 
+# algunas opciones lindas
+# aceptar conexiones indirectas
+add_to_file "${nodefile}" "IndirectData = yes"
+# descubrir nodos en la misma LAN
+add_to_file "${nodefile}" "LocalDiscovery = yes"
+
 # Tinc para android necesita especificar la shell con la que se corren los
 # scripts
 ${android} && add_to_file "${nodefile}" "ScriptsInterpreter = /system/bin/sh"
