@@ -1,12 +1,11 @@
-.TH LVPN\-INIT 1 "2013" "Manual de LibreVPN" "lvpn"
+.TH "LVPN\-INIT" "1" "2013" "Manual de LibreVPN" "lvpn"
 .SH NOMBRE
 .PP
 Crea un nuevo nodo
 .SH SINOPSIS
 .PP
-lvpn init [\-A][\-f] [\-q][\-p 655] [\-l
-192.168.9.202/32][\-s 10.4.24.128/27] [\-r][\-a dominio.eninternet.tld]
-[\-c otronodo] nodo
+lvpn init [\-A] [\-f] [\-q] [\-p 655] [\-l 192.168.9.202/32] [\-s
+10.4.24.128/27] [\-r] [\-a dominio.eninternet.tld] [\-c otronodo] nodo
 .SH OPCIONES
 .TP
 .B \-h
@@ -90,6 +89,13 @@ Por ejemplo, los dispositivos embebidos pueden no soportar las
 herramientas de \f[I]lvpn\f[], pero desde un sistema GNU/Linux se puede
 generar la configuración y luego copiarla al host que corresponda (al
 celular o tablet Android, router con OpenWrt, etc.)
+.PP
+\f[I]IMPORTANTE\f[]: La configuración por defecto de un nodo permite el
+descubrimiento de pares en la red local y las conexiones indirectas.
+Esto quiere decir que si no querés permitir las conexiones de nodos que
+no hayas explicitado en tu configuración, vas a tener que cambiar esas
+variables a "no" y además agregar "DirectOnly = yes" al archivo
+\f[I]tinc.conf\f[].
 .SH EJEMPLOS
 .SS Uso básico con una sola conexión
 .PP

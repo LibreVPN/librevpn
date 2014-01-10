@@ -4,7 +4,7 @@
 
 # NAME
 
-Creates a new nodo
+Creates a new node
 
 
 # SYNOPSIS
@@ -73,6 +73,13 @@ per local or remote host).
 For instance, embedded devices may not support _lvpn_, but from a
 GNU/Linux system you can generate the config and push it to the
 correspondent host (Android phone or tablet, OpenWrt router, etc.)
+
+_IMPORTANT_: The default host configuration allows discovery of nodes in
+the local network, and also indirect connections to you.  This means if
+you want your node to only allow connections to and from nodes you
+explicitly allowed or not to forward data between nodes, you'll have to
+set this options to "no" and also add "DirectOnly = yes" to your
+_tinc.conf_ file.
 
 
 # EXAMPLES
