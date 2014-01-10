@@ -73,12 +73,10 @@ herramientas de _lvpn_, pero desde un sistema GNU/Linux se puede generar
 la configuración y luego copiarla al host que corresponda (al celular o
 tablet Android, router con OpenWrt, etc.)
 
-_IMPORTANTE_: La configuración por defecto de un nodo permite el
-descubrimiento de pares en la red local y las conexiones indirectas.
-Esto quiere decir que si no querés permitir las conexiones de nodos que
-no hayas explicitado en tu configuración, vas a tener que cambiar esas
-variables a "no" y además agregar "DirectOnly = yes" al archivo
-_tinc.conf_.
+_IMPORTANTE_: La configuración por defecto de un nodo sin el campo
+Address asume que se encuentra detrás de un firewall o que no están
+configurados para aceptar conexiones directas.  Si agregás un dirección
+pública también tenés que deshabilitar la opción IndirectData.
 
 
 # EJEMPLOS
