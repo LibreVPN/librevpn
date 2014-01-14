@@ -11,6 +11,9 @@
 
 case $1 in
   up)
+    # Pinguear la IP antes de intentar mandarle mails (de paso se crea
+    # el tunel)
+    ping -c 5 ${SUBNET%/*} &>/dev/null &&
     # Buscar en la tabla de transportes la ip y el sitio del host que se
     # acaba de conectar, si es, flushear la cola de postfix
     #
