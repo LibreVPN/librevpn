@@ -54,6 +54,8 @@ export TINC NETWORK LVPN \
        KEYSIZE TEXTDOMAINDIR TEXTDOMAIN \
        LVPN_SUBNET LVPN_SUBNET6 TINCD_FLAGS PORT
 
+export PATH="${LVPN_DIR}/bin:$PATH"
+
 . "${LVPN_LIBDIR}/common"
 
 list_commands() {

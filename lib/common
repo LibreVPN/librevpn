@@ -178,7 +178,7 @@ get_ipv4() {
 
 # Genera una dirección IPv6 /128
 get_ipv6() {
-# Compabilidad para versión standalone
+# Compatibilidad para versión standalone
   if ! type generate-ipv6-address &>/dev/null; then
     gia=$(uname -m)-generate-ipv6-address
   else
