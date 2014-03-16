@@ -65,7 +65,7 @@ add_to_file(){
 # Obtiene el directorio del nodo
 # $1 nombre del nodo
 get_node_dir() {
-    node=$1
+    node="$(get_node_name "$1")"
     dir="${LVPN_DIR}/nodos/${node}"
 
     if [ ! -d "${dir}" ] || [ ! -f "${dir}/tinc.conf" ]; then
@@ -77,8 +77,9 @@ get_node_dir() {
 
 # Obtiene el archivo del nodo en el directorio del nodo
 get_node_file() {
-    dir="$(get_node_dir $1)"
-    file="${dir}/hosts/$1"
+    node="$(get_node_name "$1")"
+    dir="$(get_node_dir "$1")"
+    file="${dir}/hosts/${node}"
 
     if [ ! -f "${file}" ]; then
         fatal_error "El archivo host de %s no existe" "$1"
@@ -94,11 +95,12 @@ get_node_name() {
 }
 
 get_host_file() {
-  test -f "${LVPN_HOSTS}/${1}" || \
-    error "El archivo host de %s no existe" "$1" || \
+  node="$(get_node_name "${1}")"
+  test -f "${LVPN_HOSTS}/${node}" || \
+    error "El archivo host de %s no existe" "$node" || \
     return 1
 
-  echo "${LVPN_HOSTS}/${1}"
+  echo "${LVPN_HOSTS}/${node}"
 }
 
 # Obtiene un evento válido
