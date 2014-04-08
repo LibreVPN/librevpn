@@ -20,6 +20,4 @@
 * Deprecar -l o -s de lvpn-init.  Además el modo router no funciona como
   se esperaba
 
-* Escribir un makefile
-
 vim:set ts=2 sw=2 et syntax=markdown:
