@@ -15,8 +15,6 @@
 
 * Usar script host-{up,down} para saber cuales son los nodos disponibles
 
-* Usar miniupnpc/natpmp para pedir un puerto en los nodos portatiles
-
 * Que connectto le mande la llave al otro nodo de alguna forma
 
 * Deprecar -l o -s de lvpn-init.  Además el modo router no funciona como
