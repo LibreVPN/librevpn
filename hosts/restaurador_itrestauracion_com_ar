@@ -1,0 +1,22 @@
+# restaurador_itrestauracion_com_ar
+# rino@restaurador.itrestauracion.com.ar
+Port = 655
+Subnet = 192.168.9.166/32
+Subnet = 2001:1291:200:83ab:64ec:8a81:3fba:18fc/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEA2Rypx7KlAPe6mx91vwNvQw2NAYAgHHwTbWsTRWzpIJNf8stX9pn9
+ESsZNa/SVNggMO/uNBTIHdudvmlhgz8Sl8OaPJnwtOx3WOJW36hehjY88FWIfBNh
+YhVDKaPgDycCCh4kOOfvmcM9TFg1ip/e18XDKDahufyrh7l1mWkgbKBJRxpvXCer
+yXgtB2cdUlcx0T40wdZ99uU/iKHgc2ozavg2KvOYHHZGdiTTqKQz46cii6/1Ki2c
+UbB7hPmfu3PFrbsi+qZ4oUKnbMMYa/o5/05eCaS5w2T/bJ90qym8HKF+KIe7wC30
+VBf/348qbqlGWqcYeLW8cUsYiF1muVym0pogns86iOy3+gXVf8BHuQT35joBxhts
++kdX5AbgcILP0+qS2062c1MrUOaxgrl1aAA2PTGJQoEelkLNpPNxs9dodHqTiQhF
+hPF/KfvYePABYi7en7y5GHvzW73MWjjfXpxo+0wgKlVw9D4uRvfRwpbTqQWnGs9R
+x5cGEqbfodFPkNh7m/TgpCGhhcwEX1/86pyGiZDrLNsAwL0p+bhFiCnTZLEexMZO
+RjgMceZ/Hx6zgiaFQ4t65KdNwR5oOPYYFikTIKOj4uPnrKWZXeq2TWsaRALX2iez
+zBzsUprgyjRAe6qSxGE4OeTC6QRALYA7vzr6jaC+9hxd1uMPJ2JjjFUCAwEAAQ==
+-----END RSA PUBLIC KEY-----
+
+
+
