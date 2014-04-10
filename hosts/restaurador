@@ -1,6 +1,10 @@
 # restaurador
+<<<<<<< HEAD
 # Rino Rondan <rino.rondan@55social.com>
 IndirectData = yes
+=======
+# Rino Rondan <rino.rondan@riseup.net>
+>>>>>>> origin/develop
 Port = 655
 LocalDiscovery = yes
 Subnet = 192.168.9.110/32
