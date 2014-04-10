@@ -1,9 +1,5 @@
 # VillaDalmine
-<<<<<<< HEAD
 # Rino Rondan <rino.rondan@riseup.net>
-=======
-# rino@restaurador.itrestauracion.com.ar
->>>>>>> 63b43cc916d1c987aa1a8a9934bf9efa5d684a7f
 Address = mail.restauradordeleyes.com.ar
 Port = 655
 LocalDiscovery = yes
