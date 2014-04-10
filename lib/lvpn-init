@@ -188,6 +188,8 @@ if test -w "${LVPN_HOSTS}"; then
   cp "${nodefile}" "${LVPN_HOSTS}"
 fi
 
+cp --force "${LVPN_LIBDIR}/skel/run-script" "${nodedir}/"
+
 $install && ${LVPN} install ${nodename}
 
 msg "El nodo se ha creado con éxito"
