@@ -72,7 +72,7 @@ if [ -z "${nodename}" ]; then
 fi
 
 # Podríamos usar get_node_dir pero chequea si ya existe, cosa que no
-nodedir="${LVPN_DIR}/nodos/${nodename}"
+nodedir="${LVPN_NODEDIR}/${nodename}"
 nodefile="${nodedir}/hosts/${nodename}"
 conffile="${nodedir}/tinc.conf"
 

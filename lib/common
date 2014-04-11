@@ -66,7 +66,7 @@ add_to_file(){
 # $1 nombre del nodo
 get_node_dir() {
     node="$(get_node_name "$1")"
-    dir="${LVPN_DIR}/nodos/${node}"
+    dir="${LVPN_NODEDIR}/${node}"
 
     if [ ! -d "${dir}" ] || [ ! -f "${dir}/tinc.conf" ]; then
         fatal_error "El nodo no existe o es inválido"
