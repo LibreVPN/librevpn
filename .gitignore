@@ -3,3 +3,4 @@ rsa_key.priv
 *.out
 *.mo
 nodos/*
+tests/tmp/
