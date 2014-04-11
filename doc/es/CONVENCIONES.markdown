@@ -70,6 +70,9 @@ LVPN\_DIR
 LVPN\_LIBDIR
 :    Path completo del directorio de comandos.
 
+LVPN\_NODEDIR
+:    Path completo del directorio de nodos.
+
 LVPN\_HOSTS
 :    Path completo del directorio de hosts.
 
