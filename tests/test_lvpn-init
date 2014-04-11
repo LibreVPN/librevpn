@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+test_msg_title "Create node"
+
+export LVPN_NODEDIR=tmp/nodos
+export LVPN_HOSTS=tmp/hosts
+export KEYSIZE=1024
+
+mkdir -p ${LVPN_NODEDIR} ${LVPN_HOSTS}
+
+test_msg_title_2 "Creating a node"
+assert lvpn init -h
+assert lvpn init test_node
+assert test -d ${LVPN_NODEDIR}/test_node
+assert test -f ${LVPN_NODEDIR}/test_node/tinc.conf
+assert test -f ${LVPN_NODEDIR}/test_node/rsa_key.priv
+assert test -f ${LVPN_NODEDIR}/test_node/hosts/test_node
+assert test -x ${LVPN_NODEDIR}/test_node/tinc-up
+assert test -x ${LVPN_NODEDIR}/test_node/tinc-down
+assert test -x ${LVPN_NODEDIR}/test_node/run-script
+
+test_msg_title_2 "Force creating a node"
+assert_not lvpn init test_node
+assert lvpn init -f test_node
+
+test_msg_title_2 "Create a public node"
+assert lvpn init -a ejemplo.org test_node_address
+assert_equal "Address = ejemplo.org" "grep '^Address' ${LVPN_NODEDIR}/test_node_address/hosts/test_node_address"
+assert_not grep 'IndirectData' ${LVPN_NODEDIR}/test_node_address/hosts/test_node_address
+
+test_msg_title_2 "Create and connect to a node"
+assert lvpn init -c test_node test_node_connectto
+assert_equal "ConnectTo = ponape" "grep '^ConnectTo' ${LVPN_NODEDIR}/test_node_connectto/tinc.conf"
+assert test -f ${LVPN_NODEDIR}/test_node_connectto/hosts/test_node

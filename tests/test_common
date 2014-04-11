@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+export LVPN_DIR="${curdir}/.."
+export LVPN_LIBDIR="${LVPN_DIR}/lib"
+source "${curdir}/../lib/common"
+
+test_msg_title "lib/common"
+
+assert requires ls
+skip requires non_existant_thingy_in_path
+
+assert add_to_file tmp/test_add_to_file hola
+assert_content tmp/test_add_to_file hola
+
+assert_equal "hola" "get_node_name hola"
+assert_equal "_____h___o___la" "get_node_name ++***h***o@@@la"
+
+assert_equal "tinc" "get_event tinc"
+assert_equal "" "get_event tinc223"
+
+unset LVPN_DIR LVPN_LIBDIR
