@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+test_msg_title "Install node"
+
+export TINC=tmp/lvpn
+export LVPN_NODEDIR=tmp/nodos
+export LVPN_HOSTS=tmp/hosts
+export KEYSIZE=1024
+mkdir -p ${LVPN_NODEDIR} ${LVPN_HOSTS}
+
+test_msg_title_2 "Has help"
+assert_not_empty_output lvpn install -h
+
+# TODO fakeroot
+test_msg_title_2 "Dry-run install test_node"
+assert lvpn install -n test_node
+assert_not "test -d tmp/lvpn"
+
+test_msg_title_2 "Install test_node"
+assert lvpn install test_node
+assert 0 "stat -c %u tmp/lvpn"
+assert 0 "stat -c %g tmp/lvpn"
