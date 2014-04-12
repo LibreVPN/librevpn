@@ -7,16 +7,29 @@ export KEYSIZE=1024
 
 mkdir -p ${LVPN_NODEDIR} ${LVPN_HOSTS}
 
+test_msg_title_2 "Has help"
+assert_not_empty_output lvpn init -h
+
 test_msg_title_2 "Creating a node"
-assert lvpn init -h
 assert lvpn init test_node
 assert test -d ${LVPN_NODEDIR}/test_node
-assert test -f ${LVPN_NODEDIR}/test_node/tinc.conf
-assert test -f ${LVPN_NODEDIR}/test_node/rsa_key.priv
-assert test -f ${LVPN_NODEDIR}/test_node/hosts/test_node
+assert_not_empty_file ${LVPN_NODEDIR}/test_node/tinc.conf
+assert_not_empty_file ${LVPN_NODEDIR}/test_node/rsa_key.priv
 assert test -x ${LVPN_NODEDIR}/test_node/tinc-up
 assert test -x ${LVPN_NODEDIR}/test_node/tinc-down
 assert test -x ${LVPN_NODEDIR}/test_node/run-script
+assert_equal "Name = test_node" "grep '^Name' ${LVPN_NODEDIR}/test_node/tinc.conf"
+assert_equal "Mode = switch" "grep '^Mode' ${LVPN_NODEDIR}/test_node/tinc.conf"
+
+test_msg_title_2 "Host file"
+assert_not_empty_file ${LVPN_NODEDIR}/test_node/hosts/test_node
+assert "grep 'Subnet = [0-9.]\+/32' ${LVPN_NODEDIR}/test_node/hosts/test_node"
+assert "grep 'Subnet = [0-9a-f:]\+/128' ${LVPN_NODEDIR}/test_node/hosts/test_node"
+assert "grep 'LocalDiscovery = yes' ${LVPN_NODEDIR}/test_node/hosts/test_node"
+assert "grep 'Port = 655' ${LVPN_NODEDIR}/test_node/hosts/test_node"
+assert "grep 'IndirectData = yes' ${LVPN_NODEDIR}/test_node/hosts/test_node"
+assert "grep -- '-----BEGIN RSA PUBLIC KEY-----' ${LVPN_NODEDIR}/test_node/hosts/test_node"
+assert "grep -- '-----END RSA PUBLIC KEY-----' ${LVPN_NODEDIR}/test_node/hosts/test_node"
 
 test_msg_title_2 "Force creating a node"
 assert_not lvpn init test_node
@@ -28,6 +41,17 @@ assert_equal "Address = ejemplo.org" "grep '^Address' ${LVPN_NODEDIR}/test_node_
 assert_not grep 'IndirectData' ${LVPN_NODEDIR}/test_node_address/hosts/test_node_address
 
 test_msg_title_2 "Create and connect to a node"
-assert lvpn init -c test_node test_node_connectto
-assert_equal "ConnectTo = ponape" "grep '^ConnectTo' ${LVPN_NODEDIR}/test_node_connectto/tinc.conf"
+assert lvpn init -c test_node_address -c test_node test_node_connectto
+assert_equal "ConnectTo = test_node_address" "grep '^ConnectTo' ${LVPN_NODEDIR}/test_node_connectto/tinc.conf"
+assert_not "grep '^ConnectTo = test_node$' ${LVPN_NODEDIR}/test_node_connectto/tinc.conf"
+assert test -f ${LVPN_NODEDIR}/test_node_connectto/hosts/test_node_address
 assert test -f ${LVPN_NODEDIR}/test_node_connectto/hosts/test_node
+
+test_msg_title_2 "Specify addresses"
+skip assert lvpn init -l 192.168.9.1/32 -l 2001:1291:200:83ab:249a:2ef4:9cad:1d9e/64 test_node_address
+skip assert "grep 'Subnet = 192.168.9.1/32' ${LVPN_NODEDIR}/test_node_address/hosts/test_node_address"
+skip assert "grep 'Subnet = 2001:1291:200:83ab:249a:2ef4:9cad:1d9e/128' ${LVPN_NODEDIR}/test_node_address/hosts/test_node_address"
+
+test_msg_title_2 "Specify port"
+assert lvpn init -p 6550 test_node_port
+assert "grep 'Port = 6550' ${LVPN_NODEDIR}/test_node_port/hosts/test_node_port"
