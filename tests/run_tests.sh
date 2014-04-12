@@ -48,7 +48,7 @@ test_msg_stop_skip() {
 
 assert() {
   test_msg_start "$@"
-  if $@ &>/dev/null ; then
+  if eval "$@ &>/dev/null" ; then
     test_msg_stop_ok
   else
     test_msg_stop_fail
@@ -57,7 +57,7 @@ assert() {
 
 assert_not() {
   test_msg_start "$@"
-  if ! $@ &>/dev/null ; then
+  if ! eval "$@ &>/dev/null" ; then
     test_msg_stop_ok
   else
     test_msg_stop_fail
@@ -89,6 +89,24 @@ assert_equal() {
   fi
 }
 
+assert_not_empty_file() {
+  test_msg_start "Not empty $1"
+  if test $(stat -c %s "$1") -ne 0; then
+    test_msg_stop_ok
+  else
+    test_msg_stop_fail
+  fi
+}
+
+assert_not_empty_output() {
+  test_msg_start "Not empty output for $@"
+  if test $(eval "$@" | wc -l) -ne 0; then
+    test_msg_stop_ok
+  else
+    test_msg_stop_fail
+  fi
+}
+
 for _test in "${curdir}"/test_*; do
   source "${_test}" || continue
 done
@@ -99,4 +117,4 @@ test_msg_title "Summary"
 echo "${OKS} passed, ${FAILS} failed, ${SKIPS} skipped"
 echo
 
-rm -rf tmp
+test ${FAILS} -eq 0 && rm -rf tmp
