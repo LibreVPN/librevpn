@@ -1,0 +1,21 @@
+# Debora
+# root@Debora
+IndirectData = yes
+Port = 655
+LocalDiscovery = yes
+Subnet = 192.168.9.246/32
+Subnet = 2001:1291:200:83ab:f40a:99bd:399e:38e8/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAyQuuPwem1Vymtravnz8+d86e03ibuChQjNeXyq0RdAxaOMH0goLN
+wxDvahk0/vHwlZrsnY7gwzfQV6/geIRUaAyFtgyIy3nPRi5RJCwoFkZnriV02kMx
+HT+hLrB1VskmXxCAxVtTE/l4DDogoDKt7FThaeu/BF0qixS6tJVFjwsAs2LCf4WW
+U5t1+Y/aI9PUeViB8dVT7HF4HiL6GQn5WglK7hNC/A2kAfeCGLremKBUrWNjCX84
+Yt+g4R0fOu8Z3g3MxCfc4BomPVGcXWqySytKuUwuIFYBdU943H4AGrQoueFgAeBT
+yJ4F8zW3pgQTiDCyc7RgTwJ7s6ZjyP0lDrjC11VySPrjwqCOuaasuD1oVk9bATxM
++lSdS37Xi8sEFIyNu5ckiJt7DLXA8hEK0NSUgQiQec9XG9GYASkmthdnEzIbKDL2
+3uQVqkTMOiBTJQEEy2fskoAhgJ096C2glMsfUrIQGDRATj31SGaCTTYfcU8wZDRH
+MvRXCHhnHyykmMSetzsVdCFWWqzMepS31ogcBg29V8TvawZPU/ZtOqmBmND0ksvs
+goHIiMZcQy415HFTLS/dhgZU/LLGvEHXU6VLo1lbFg5I+W+/4RMcWLnmftq8k+l+
+DdodhIowIEnRZkWe+kFKINYUqn2ZCHCcpFBEiaKJqXwxz6hwyin3mTkCAwEAAQ==
+-----END RSA PUBLIC KEY-----
