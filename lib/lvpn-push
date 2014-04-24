@@ -37,7 +37,7 @@ done
 let OPTIND--; shift ${OPTIND}
 
 # Setear las opciones
-node="$1"; shift
+node="$(get_node_name "$1")"; shift
 host="$1"; shift
 dir="$1"; shift
 

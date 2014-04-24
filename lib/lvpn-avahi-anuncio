@@ -30,7 +30,7 @@ PIDFILE=${PIDFILE:-/tmp/${NETWORK}-announce.pid}
 SERVICE=${SERVICE:-/etc/avahi/services/${2}.service}
 SERVICE="${2}.service"
 
-node=$1
+node="$(get_node_name "$1")"
 
 touch "${PIDFILE}" 2>/dev/null || \
 fatal_error "No se puede escribir el archivo de pid: %s" "${PIDFILE}"
