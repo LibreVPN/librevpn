@@ -1,4 +1,4 @@
-% LVPN-PEERS(1) Manual de LibreVPN | lvpn
+% LVPN-UNKNOWN-PEERS(1) Manual de LibreVPN | lvpn
 % fauno <fauno@endefensadelsl.org>
 % 2013
 
@@ -9,7 +9,7 @@ Lista los pares desconocidos
 
 # SINOPSIS
 
-_lvpn peers_ [/var/log/tinc.lvpn.log]
+_lvpn unknown-peers_ [/var/log/tinc.lvpn.log]
 
 
 # OPCIONES
