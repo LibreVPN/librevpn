@@ -48,7 +48,7 @@ let OPTIND--; shift ${OPTIND}
 ${STOP} && ${PERMANENT} && ${sudo} rm "${SERVICE}" "${PIDFILE}" && exit
 ${STOP} && kill $(cat "${PIDFILE}") 2>/dev/null && rm "${PIDFILE}" && exit
 
-node="$1"; shift
+node="$(get_node_name "$1")"; shift
 nodefile="${LVPN_HOSTS}/${node}"
 
 if ${BEADLE} ; then

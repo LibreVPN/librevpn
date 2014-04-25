@@ -28,9 +28,10 @@
 # ENV
 # Tomar las variables de entorno (por ejemplo de un archivo de configuración
 # o de la shell) o usar directorios locales
-TINC=${TINC:-/etc/tinc/lvpn}
+TINC="${TINC:-"/etc/tinc/lvpn"}"
 NETWORK="$(basename "${TINC}")"
 LVPN="$(readlink -f $0)"
+
 LVPN_DIR="${LVPN_DIR:-$(dirname "$LVPN")}"
 LVPN_LIBDIR="${LVPN_LIBDIR:-${LVPN_DIR}/lib}"
 LVPN_HOSTS="${LVPN_HOSTS:-${LVPN_DIR}/hosts}"
@@ -41,28 +42,26 @@ TINCD_FLAGS="${TINCD_FLAGS:-"--logfile -U nobody"}"
 PORT=${PORT:-655}
 
 # Subnets
-LVPN_SUBNET="${LVPN_SUBNET:-192.168.9.0/24}"
-LVPN_SUBNET6="${LVPN_SUBNET6:-2001:1291:200:83ab::/64}"
+LVPN_SUBNET="${LVPN_SUBNET:-"192.168.9.0/24"}"
+LVPN_SUBNET6="${LVPN_SUBNET6:-"2001:1291:200:83ab::/64"}"
 
 # Para gettext
 TEXTDOMAINDIR=${TEXTDOMAINDIR:-"/usr/share/locale"}
 TEXTDOMAIN="$(basename "${LVPN}")"
 
-# Incluir los binarios locales
-PATH=${LVPN_DIR}/bin:${PATH}
-
 export TINC NETWORK LVPN \
        LVPN_DIR LVPN_LIBDIR LVPN_HOSTS \
        KEYSIZE TEXTDOMAINDIR TEXTDOMAIN \
-       LVPN_SUBNET LVPN_SUBNET6 TINCD_FLAGS PORT \
-       PATH
+       LVPN_SUBNET LVPN_SUBNET6 TINCD_FLAGS PORT
+
+export PATH="${LVPN_DIR}/bin:$PATH"
 
 . "${LVPN_LIBDIR}/common"
 
 list_commands() {
   pushd "${LVPN_LIBDIR}" &>/dev/null
 
-  echo lvpn-* | tr " " "\n" | sed "s/^lvpn-//"
+  printf '%s\n' lvpn-* | sed "s/^lvpn-//"
 
   popd &>/dev/null
 }
@@ -86,6 +85,6 @@ if [ ! -x "${LVPN_LIBDIR}/lvpn-${command}" ]; then
 fi
 
 # Correr el comando
-exec ${LVPN_LIBDIR}/lvpn-${command} $@
+exec ${LVPN_LIBDIR}/lvpn-${command} "$@"
 
 exit $?

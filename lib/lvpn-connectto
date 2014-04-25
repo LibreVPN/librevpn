@@ -33,21 +33,21 @@ done
 let OPTIND--; shift ${OPTIND}
 
 node="$(get_node_name "$1")"; shift
-hosts="$@"
+hosts=("$@")
 
 nodedir="$(get_node_dir ${node})"
 
 # Salir si hosts está vacío
-if [ -z "${hosts}" ]; then exit; fi
+if [[ ${#hosts[@]} -eq 0 ]]; then exit; fi
 
 # Agregar los nodos
-${LVPN} add-host ${node} ${hosts} || \
+${LVPN} add-host ${node} "${hosts[@]}" || \
     fatal_error "No se pudieron agregar los archivos de host"
 
 # Recorrer todos los host que se pasaron
-for _connectto in ${hosts}; do
+for _connectto in "${hosts[@]}"; do
   if ! grep -q "^Address" "$(get_host_file ${_connectto})"; then
-    warning "El nodo %s no tiene una ubicación pública, no será posible conectarse" ${_connectto}
+    warning "El nodo %s no tiene una ubicación pública, no será posible conectarse" "${_connectto}"
     continue
   fi
 

@@ -1,6 +1,7 @@
 Address = naven.local
 Address = 10.4.23.246
 Address = kiwwwi.com.ar
+Address = 7ihuiypnohfb5yp3.onion
 
 Subnet = 192.168.9.3/32
 Subnet = 2001:1291:200:83ab:249a:2ef4:9cad:1d9e/128

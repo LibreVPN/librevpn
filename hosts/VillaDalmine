@@ -1,0 +1,21 @@
+# VillaDalmine
+# Rino Rondan <rino.rondan@riseup.net>
+Address = mail.restauradordeleyes.com.ar
+Port = 655
+LocalDiscovery = yes
+Subnet = 192.168.9.202/32
+Subnet = 2001:1291:200:83ab:24b0:27ea:136e:17e0/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAuy7y0fge3Nm18wFZgrILaNENhMZS3IE1Y7OUP172qJT5F9VmyFzF
+/Njq/KhnVguPCfwvRBcCOLcMjTg9TpGuBJBelqNsKxmBLtS+3QZ2RfGiZvyhM7hr
++kTUj5Orv8dacH0u0seE7KxhQ4TBIowhQl3BRG9aE23NLbfovvBxjO0fokKUW8Yi
+QX0WN/2RvncNxA+hmZzdr4gdwi0vKkXssLlOFbhKqnZAzWKVeYioJLyFZALh9J20
+sJEFMFvcuOxFBRntDbtY0udXjinJkT6CqfkxVAZbYOl2ldkFvUvecn3ocL2tHKNu
+3V8MDX7NM6YLFA5T2HUX2FGiABnojPMCnJRPH0lvCpvIYdgUwFA8Hi2ybPj/s4jG
+wHEOzKYoGU29eq1D1eR9lTFf+1aLIrKRytws2BeOKpJnzrhYOvwLNAP/BZrG5Kns
+WkhZFpZYEqzatFygPvizqR9O7n6F6BHtNFAvO5diDOSeRMK1Mng1JBhZCWIQ+c07
+aEpeM97rXxyfcMgaT7KsuN9vZCTPnr7O6ZPXTxjf4qwaOcWQubqCSUNzNl/tXSu5
+A+iZKw+3T6OiuNy98Q5e03VfI+Z41paVUF+bCFHrhs6qAqnuwX5x3AwhcCI0pDgo
+vs/QA7uOGg9rLC3zecH0Z5bdbgql2KbZMM3ltZNU9Aijk9BddDyVg8cCAwEAAQ==
+-----END RSA PUBLIC KEY-----

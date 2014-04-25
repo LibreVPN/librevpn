@@ -22,33 +22,40 @@
 #
 #
 
+# Hace falta tener gettext instalado
+requires gettext
+
 # La base para todos los mensajes, se imprime en stderr
+_msg() {
+    msg=$1; shift
+    printf "> $msg\n" "$@" 1>&2
+}
+
 msg() {
-    msg="$1"; shift
-    printf "> $msg\n" $@ 1>&2
+    msg="$(gettext "$1")"; shift
+    _msg "$msg" "$@"
 }
 
 error() {
     msg="$(gettext "$1")"; shift
-    msg "$(gettext "ERROR:") ${msg}" $@
+    _msg "$(gettext "ERROR:") ${msg}" "$@"
 }
 
 warning() {
     msg="$(gettext "$1")"; shift
-    msg "$(gettext "ALERTA:") ${msg}" $@
+    _msg "$(gettext "ALERTA:") ${msg}" "$@"
 }
 
 # Mensaje de error y salir
 fatal_error() {
-    msg="$(gettext "$1")"; shift
-    error "${msg}" $@
+    error "$@"
     exit 1
 }
 
 # Sugerir algo
 tip() {
   msg="$(gettext "$1")"; shift
-  msg "Tip: ${msg}" $@
+  _msg "$(gettext "Tip:") ${msg}" "$@"
 }
 
 # Muestra el manual

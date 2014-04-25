@@ -1,7 +1,5 @@
 Subnet = 192.168.9.165/32
-
-# Rango de BAL 
-Subnet = 10.4.24.128/27
+Subnet = 2001:1291:200:83ab:28a0:d05d:4681:c611/128
 
 -----BEGIN RSA PUBLIC KEY-----
 MIICCgKCAgEAqqQdkbtUPblaxfheZ7Ilnkh8wKGCx3kT2Y55gOOgd9sFDUnYlpz+

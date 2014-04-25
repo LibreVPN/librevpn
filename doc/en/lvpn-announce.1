@@ -1,0 +1,59 @@
+.TH "LVPN\-ANNOUNCE" "1" "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+\f[I]lvpn announce\f[] announce a key on the LAN using Avahi.
+.SH SYNOPSIS
+.PP
+\f[I]lvpn announce\f[] [\-h] [\-sp] local\-node
+.SH DESCRIPTION
+.PP
+Facilitates key exchange on a local network by announcing the local host
+file on mDNS.
+Use it with \f[I]lvpn discover\f[].
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-s
+Stop announcing.
+With \f[I]\-p\f[], removes the \f[I]lvpn.service\f[] file, otherwise it
+stops \f[I]avahi\-publish\f[].
+.RS
+.RE
+.TP
+.B \-p
+Announce permanently (requires root).
+Installs \f[I]lvpn.service\f[] so that \f[I]avahi\-daemon\f[] announces
+the host key every time the service is started.
+.RS
+.RE
+.SH EXAMPLES
+.SS Announce a node
+.PP
+lvpn announce noanoa
+.SS Announce a node permanently
+.PP
+lvpn announce \-p noanoa
+.PP
+Installs the \f[I]noanoa\f[] host file on
+/etc/avahi/services/lvpn.service.
+.SS Announce keys on beadle (?)
+.PP
+lvpn announce \-b amigo
+.SS Stop announcement
+.PP
+lvpn announce \-s
+.PP
+Stops \f[I]avahi\-publish\f[] on this session.
+.SS Stop announcement permanently
+.PP
+lvpn announce \-sp
+.SH SEE ALSO
+.PP
+\f[I]avahi.service(5)\f[], \f[I]avahi\-publish(1)\f[],
+\f[I]lvpn\-discover(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

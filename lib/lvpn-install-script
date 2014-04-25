@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+#
+# lib/lvpn-add-subnet
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
+# Instala un script
+# $0 script
+# $1 nodo
+# $2 evento
+# $3 script
+
+. "${LVPN_LIBDIR}"/common
+
+# Mostrar los eventos disponibles
+list_events() {
+  for _e in tinc host subnet; do
+    msg "${_e}"
+  done
+}
+
+# Mostrar los scripts disponibles
+list_scripts() {
+  ls ${LVPN_LIBDIR}/skel/scripts
+}
+
+VERBOSE=""
+while getopts "vhes" arg; do
+  case $arg in
+    h) help ${self} ; exit 0;;
+    v) VERBOSE=" -v " ;;
+    e) list_events ; exit 0 ;;
+    s) list_scripts ; exit 0 ;;
+  esac
+done
+let OPTIND--; shift ${OPTIND}
+
+# Mostrar la ayuda si no hay argumentos
+test -z "$1" && help ${self} && exit 0
+
+node="$(get_node_name "${1}")" ; shift
+node_dir="$(get_node_dir "$node")"
+event="$(get_event "$1")" ; shift
+script="$(get_script "$1")"
+
+test -z "${script}" && fatal_error "El script %s no existe" "${script##*/}"
+test -z "${node}"   && fatal_error "El nodo %s no existe" "${node}"
+test -z "${event}"  && fatal_error "El evento %s no es válido" "${event}"
+
+# Instalar run-script para este evento
+for _state in up down; do
+# No pisar los tinc-{up,down} con run-script
+  if test "${event}" != "tinc" ; then
+# Copiar una versión moderna de run-script
+    cp ${VERBOSE} --force "${LVPN_LIBDIR}/skel/run-script" \
+                      "${node_dir}/"
+# Y vincularla al evento-estado, de esta forma tenemos una sola copia
+# siempre actualizada.
+    ln --force --symbolic run-script "${node_dir}/${event}-${_state}"
+  fi
+
+done
+
+# Instalar el script para el evento
+mkdir -p "${node_dir}/scripts"
+cp ${VERBOSE} -f "${script}" "${node_dir}/scripts/${event}-${script##*/}"
+chmod +x "${node_dir}/scripts/${event}-${script##*/}"

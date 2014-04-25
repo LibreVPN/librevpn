@@ -1,0 +1,15 @@
+#!/bin/sh
+# Este script da salida a IPv6 por la VPN
+# Ver http://wiki.hackcoop.com.ar/LibreVPN:IPv6
+
+case $1 in
+  up)
+# Eliminar la ruta por defecto
+    ip -6 route del default
+# Agregar una a través del nodo ponape
+    ip -6 route add default via 2001:1291:200:83ab:249a:2ef4:9cad:1d9e dev ${INTERFACE}
+    ;;
+  down)
+    ip -6 route del default
+    ;;
+esac

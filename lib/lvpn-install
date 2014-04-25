@@ -30,34 +30,52 @@ root=true
 
 . "${LVPN_LIBDIR}"/common
 
-requires rsync
+# Por las dudas, no acepta TINC vacío o de una sola letra ("/")
+test "${#TINC}" -lt 2 && fatal_error "La variable TINC está vacía"
 
-while getopts "hvdn" arg; do
+requires rsync find
+
+while getopts "hvrn" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
     v) VERBOSE=-v ;;
-    n) DRYRUN=--dry-run ;;
-    d) DELETE=--delete-after ;;
+    n) DRYRUN=--dry-run ; VERBOSE=-v ;;
+    r) DELETE=--delete-after ;;
   esac
 done
 let OPTIND--; shift ${OPTIND}
 
 nodedir="$(get_node_dir "${1}")"
 
-chmod +x "${nodedir}"/tinc-{up,down}
+# Crear el directorio de scripts
+mkdir -p "${nodedir}/scripts"
 
 msg "Instalando en el sistema..."
-$sudo mkdir -p "${TINC}"
-$sudo rsync -a --no-owner \
-            --no-group \
-            --exclude="*.backup" \
-            ${VERBOSE} ${DELETE} ${DRYRUN} \
-            "${nodedir}/" "${TINC}/"
+${sudo} mkdir -p "${TINC}"
+${sudo} rsync -a --no-owner \
+              --no-group \
+              --exclude="*.backup" \
+              ${VERBOSE} ${DELETE} ${DRYRUN} \
+              "${nodedir}/" "${TINC}/"
+
+# No tenemos que hacer nada más si estamos con dry-run
+test -n "${DRYRUN}" && exit
+
+# Chequear permisos
+msg "Chequeando permisos..."
+${sudo} chown -R root:root "${TINC}"
+${sudo} find "${TINC}" -type d -exec chmod 755 {} \;
+${sudo} find "${TINC}" -type f -exec chmod 644 {} \;
+${sudo} find "${TINC}" -name '*-up' -exec chmod 755 {} \;
+${sudo} find "${TINC}" -name '*-down' -exec chmod 755 {} \;
+${sudo} find "${TINC}" -name 'run-script' -exec chmod 755 {} \;
+${sudo} find "${TINC}/scripts" -type f -exec chmod 755 {} \;
+${sudo} chmod 600 "${TINC}/rsa_key.priv"
 
 # Habilitar tinc en el sistema
 find_init_system | while read init_system init_file; do
   case $init_system in
-    deb)
+   deb)
       grep -q ${NETWORK} "${init_file}" || \
       $sudo sh -c "echo ${NETWORK} >>${init_file}"
 
@@ -94,8 +112,10 @@ test -d /etc/NetworkManager/dispatcher.d && \
   ${sudo} cp ${LVPN_LIBDIR}/skel/50_tincd /etc/NetworkManager/dispatcher.d/
 
 # Recargar los cambios en la configuración
-msg "Recargando tincd..."
-${sudo} ${LVPN_LIBDIR}/skel/50_tincd ${NETWORK} up
+if pgrep tincd &>/dev/null; then
+  msg "Recargando tincd..."
+  ${sudo} ${LVPN_LIBDIR}/skel/50_tincd ${NETWORK} up
+fi
 
 $sudo which avahi-daemon &>/dev/null || \
   tip "Se recomienda instalar avahi-daemon"

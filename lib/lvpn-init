@@ -91,7 +91,8 @@ if [ -d "${nodedir}" ]; then
     fatal_error "El directorio del nodo ya existe"
 fi
 
-mkdir -p ${nodedir}/hosts || fatal_error "No se pudo crear el directorio"
+# Crea los directorios de hosts y scripts
+mkdir -p ${nodedir}/{hosts,scripts} || fatal_error "No se pudo crear el directorio"
 
 $verbose && msg "Generando %s..." "${nodefile}"
 add_to_file "${nodefile}" "# ${nodename}"
@@ -101,9 +102,18 @@ if [ ! -z "${address}" ]; then
   for _a in ${address}; do
     add_to_file "${nodefile}" "Address = ${_a}"
   done
+else
+# Cuando no tenemos una dirección pública probablemente estemos detrás
+# de un firewall, esto le indica a los demás nodos que no traten de
+# conectarse directamente sino que nos envíen paquetes a través de un
+# nodo al que estemos conectados.
+  add_to_file "${nodefile}" "IndirectData = yes"
 fi
 
 add_to_file "${nodefile}" "Port = ${port:-${PORT}}"
+
+# descubrir nodos en la misma LAN
+add_to_file "${nodefile}" "LocalDiscovery = yes"
 
 # Tinc para android necesita especificar la shell con la que se corren los
 # scripts
@@ -177,6 +187,8 @@ if test -w "${LVPN_HOSTS}"; then
   $verbose && msg "Guardando el archivo de host con los demás nodos"
   cp "${nodefile}" "${LVPN_HOSTS}"
 fi
+
+cp --force "${LVPN_LIBDIR}/skel/run-script" "${nodedir}/"
 
 $install && ${LVPN} install ${nodename}
 

@@ -41,7 +41,7 @@ while getopts "hs:m:f:t:"; do
 done
 let OPTIND--; shift $OPTIND
 
-node=$1
+node="$(get_node_name "$1")"
 nodefile="$(get_node_file ${node})"
 
 subject="${subject:-"[LibreVPN] Adjuntando nodo ${node}"}"
@@ -55,6 +55,6 @@ cat <(echo "Subject: ${subject}") \
     <(echo -e "To: ${to}\n") \
     <(echo -e "${message}\n\n") \
     ${nodefile} | \
-    ${SENDMAIL} -f ${from} -t 
+    ${SENDMAIL} -f ${from} -t
 
 exit $?

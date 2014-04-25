@@ -7,5 +7,4 @@ else
   ifconfig ${INTERFACE} down
 fi
 
-# TODO descomentar cuando tengamos una config por defecto de babeld
-# which babeld &>/dev/null && kill $(cat /var/run/babeld.pid)
+source /etc/tinc/${NETNAME}/run-script

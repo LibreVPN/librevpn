@@ -1,0 +1,22 @@
+.TH "LVPN\-UPDATE\-SKEL" "1" "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+Upgrades skel files
+.SH SYNOPSIS
+.PP
+\f[I]lvpn update\-skel\f[] [\-v] node1 [node2 ...]
+.SH OPTIONS
+.TP
+.B \-v
+Verbose mode
+.RS
+.RE
+.SH DESCRIPTION
+.PP
+The \f[I]lvpn\f[] skel includes init and self\-configuration scripts
+(\f[I]tinc\-up\f[], etc.).
+This command upgrades the scripts on the specified nodes.
+.PP
+If the files already exist, they\[aq]re saved as \f[I]\&.backup\f[].
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

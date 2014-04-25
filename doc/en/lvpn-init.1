@@ -1,0 +1,120 @@
+.TH "LVPN\-INIT" "1" "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+Creates a new node
+.SH SYNOPSIS
+.PP
+lvpn init [\-A] [\-f] [\-q] [\-p 655] [\-l 192.168.9.202/32] [\-s
+10.4.24.128/27] [\-r] [\-a internet.domain.tld] [\-c otronodo] nodo
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-q
+Silent mode
+.RS
+.RE
+.TP
+.B \-a example.org
+Public address of the node (domain or IP).
+It can be specified multiple times, so tinc tries these addresses in the
+given order.
+If not provided, the node isn\[aq]t publicly accesible and doesn\[aq]t
+accept connections (it\[aq]s only a client).
+.RS
+.RE
+.TP
+.B \-c remote\-node
+Connect to this node.
+Fast version of \f[I]lvpn connectto\f[].
+Can be provided multiple times.
+.RS
+.RE
+.TP
+.B \-l 192.168.9.0
+Use this IP address.
+If not provided, an address is automatically generated.
+.RS
+.RE
+.TP
+.B \-i
+Install when done (requires root).
+It\[aq]s the same as \f[I]lvpn install\f[] afterwards.
+.RS
+.RE
+.TP
+.B \-f
+Force creation.
+Use when a previous attempt was cancelled or you need to start over.
+All data is lost!
+.RS
+.RE
+.TP
+.B \-p 655
+Port number, default is 655 o \f[I]LVPN_PORT\f[] env var.
+.RS
+.RE
+.TP
+.B \-s 10.0.0.0
+Announce another subnet (deprecated)
+.RS
+.RE
+.TP
+.B \-r
+Accept other subnets (deprecated)
+.RS
+.RE
+.TP
+.B \-A
+Creates a node for Android.
+Since the system doesn\[aq]t have advanced configuration utilities, this
+option provides a stripped down version of \f[I]tinc\-up\f[].
+.RS
+.RE
+.SH DESCRIPTION
+.PP
+Generates the basic configuration of a node and stores it on the
+\f[I]nodos/node\-name\f[] directory.
+.PP
+Se puede correr varias veces con diferentes nombres de nodo para tener
+configuraciones separadas (un sólo host, varios nodos) o unidas (un nodo
+para cada host local o remoto).
+.PP
+You can run it several times using different node names so you can have
+separate configurations (single host, several nodes) or united (a node
+per local or remote host).
+.PP
+For instance, embedded devices may not support \f[I]lvpn\f[], but from a
+GNU/Linux system you can generate the config and push it to the
+correspondent host (Android phone or tablet, OpenWrt router, etc.)
+.PP
+\f[I]IMPORTANT\f[]: by default, nodes without an Address field are
+assumed to be behind firewalls or not configured to accept direct
+connections.
+If you add an Address later you have to remove the IndirectData option.
+.SH EXAMPLES
+.SS Basic config with a single connection
+.PP
+lvpn init \-c trululu guachiguau
+.SS Generate and install basic config with a single connection
+.PP
+lvpn init \-i \-a guachiguau.org \-c trululu guachiguau
+.SS Create a node with a given IP address
+.PP
+lvpn init \-l 192.168.9.202/32 guachiguau
+.SS Create a node that reaches other subnets
+.PP
+lvpn init \-r guachiguau
+.SS Create a node that reaches other subnets and routes one
+.PP
+lvpn init \-r \-s 10.4.23.224/27 guachiguau
+.SS Create an Android node
+.PP
+Requires Tinc GUI for Android (http://tinc_gui.poirsouille.org/)
+.PP
+lvpn init \-A \-c ponape rapanui
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

@@ -73,6 +73,11 @@ herramientas de _lvpn_, pero desde un sistema GNU/Linux se puede generar
 la configuración y luego copiarla al host que corresponda (al celular o
 tablet Android, router con OpenWrt, etc.)
 
+_IMPORTANTE_: La configuración por defecto de un nodo sin el campo
+Address asume que se encuentra detrás de un firewall o que no están
+configurados para aceptar conexiones directas.  Si agregás un dirección
+pública también tenés que deshabilitar la opción IndirectData.
+
 
 # EJEMPLOS
 

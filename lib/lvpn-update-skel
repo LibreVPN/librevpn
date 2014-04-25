@@ -35,7 +35,7 @@ done
 let OPTIND--; shift ${OPTIND}
 
 # Para cada nodo
-for _node in $@; do
+for _node in "$@"; do
 # Limpiar los nombres
   _node="$(get_node_name "${_node}")"
   _d="$(date +%Y.%m.%d)"

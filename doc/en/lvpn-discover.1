@@ -1,0 +1,85 @@
+.TH LVPN\-DISCOVER 1 "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+Discover nodes in the local network using Avahi and optionally adds
+them.
+.SH SYNOPSIS
+.PP
+\f[I]lvpn discover\f[] [\-h][\-i if|\-A] [\-a|\-c][\-f] [\-b]
+local\-node [nodo\-remoto]
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-i
+Filter by network interface
+.RS
+.RE
+.TP
+.B \-a
+Add nodes, recognize them.
+Downloads the host file and adds it using \f[I]lvpn add\-host\f[].
+.RS
+.RE
+.TP
+.B \-c
+Connect to the nodes (implies \-a).
+After running \f[I]\-a\f[], connect to the nodes using \f[I]lvpn
+connectto\f[].
+.RS
+.RE
+.TP
+.B \-f
+Trust keys on the network rather than local copies.
+When you already have the host file, this copy is used.
+With this option the host is always downloaded.
+.RS
+.RE
+.TP
+.B \-A
+Use any interface (VPN included, don\[aq]t use with \f[I]\-c\f[]!)
+.RS
+.RE
+.TP
+.B \-b
+Uses beadle (?)
+.RS
+.RE
+.SH DESCRIPTION
+.PP
+Facilitates host file exchange in a local network.
+.PP
+Used with \f[I]lvpn announce\f[] to discover nodes on the local network.
+.PP
+For security, if the host file already exists, this file is used.
+With \f[I]\-f\f[] host file is always downloaded.
+.SH EXAMPLES
+.SS Lists nodes discovered on the LAN
+.PP
+lvpn discover
+.SS List all discovered nodes, even in the VPN
+.PP
+lvpn discover \-A
+.SS Add discovered nodes to ponape
+.PP
+lvpn discover \-a ponape
+.SS Ponape connects to all nodes
+.PP
+lvpn discover \-c ponape
+.SS Trust the local network for all host files
+.PP
+lvpn discover \-f \-c ponape
+.SS Only search on one interface
+.PP
+lvpn discover \-i eth0 \-c ponape
+.SS Connect to all announced nodes (warning!)
+.PP
+lvpn discover \-c ponape \-A
+.SS Connects using beadle
+.PP
+lvpn discover \-b ponape nuevo\-nodo
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

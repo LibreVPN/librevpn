@@ -1,0 +1,43 @@
+.TH LVPN\-ADD\-HOST 1 "2013" "Manual de LibreVPN" "LibreVPN"
+.SH NAME
+.PP
+lvpn add\-host adds a node to known nodes
+.SH SYNOPSIS
+.PP
+lvpn add\-host [\-hfu] local\-node remote\-node [remote\-node2 ...]
+.SH DESCRIPTION
+.PP
+For a node to connect to another, the latter must "recognize" it by
+adding it\[aq]s host file.
+.PP
+For instance, if the \f[I]ponape\f[] node has a "ConnectTo = medieval"
+line in it\[aq]s \f[I]tinc.conf\f[] file, for \f[I]medieval\f[] to
+recognize it, it must add \f[I]ponape\f[]\[aq]s host file in it\[aq]s
+node dir.
+.PP
+The \f[C]\-u\f[] flag updates the already recognized nodes.
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-u
+Update host files
+.RS
+.RE
+.TP
+.B \-f
+Replace if already exists
+.RS
+.RE
+.SH EXAMPLES
+.SS Add haiti and noanoa to ponape
+.PP
+\f[I]lvpn add\-host\f[] ponape haiti noanoa
+.SS Update nodes
+.PP
+\f[I]lvpn add\-host\f[] \-u ponape
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

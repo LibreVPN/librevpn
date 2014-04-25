@@ -20,8 +20,9 @@ _lvpn install_ [-hvdn] nodo-local
 -v
 :    Modo verborrágico
 
--d
-:    Eliminar archivos extra, copiar tal cual se ve en nodos/nodo-local
+-r
+:    Eliminar archivos extra, copiar tal cual se ve en nodos/nodo-local.
+     Antes era _-d_ pero esta flag está reservada para debug.
 
 -n
 :    Mostrar los cambios sin realizarlos (usar con -v)

@@ -24,6 +24,26 @@
 
 # Terminar ante el menor error
 set -e
+
+# Habilitar debug tan pronto como sea posible si se usa -d en algún lado
+echo "$*" | grep -q " -\([a-z]\+\)\?d" && set -x
+
+# Comprueba si los programas necesarios existen en el sistema
+requires() {
+    local missing=()
+    local bin
+    for bin in "$@"; do
+        if ! type "$bin" &>/dev/null; then
+            missing+=("$bin")
+        fi
+    done
+
+    if [[ ${#missing[@]} -ne 0 ]]; then
+        printf "Los siguientes programas no se encuentran en PATH:%s\n" "${missing[*]}"
+        exit 1
+    fi
+}
+
 trap_exit() {
     msg "ARGH! Algo pasó" 1>&2
     exit 1
@@ -39,27 +59,13 @@ self="$(basename $0)"
 add_to_file(){
     f=$1; shift
 
-    echo "$@" >>$f
-}
-
-# Comprueba si los programas necesarios existen en el sistema
-requires() {
-    local missing=""
-    for _bin in $@; do
-        if ! which $_bin >/dev/null 2>&1; then
-            missing+=" $_bin"
-        fi
-    done
-
-    if [ ${#missing} -ne 0 ]; then
-        fatal_error "Los siguientes programas no se encuentran en PATH:%s" "${missing}"
-   fi
+    echo "$*" >>"$f"
 }
 
 # Obtiene el directorio del nodo
 # $1 nombre del nodo
 get_node_dir() {
-    node=$1
+    node="$(get_node_name "$1")"
     dir="${LVPN_DIR}/nodos/${node}"
 
     if [ ! -d "${dir}" ] || [ ! -f "${dir}/tinc.conf" ]; then
@@ -71,11 +77,12 @@ get_node_dir() {
 
 # Obtiene el archivo del nodo en el directorio del nodo
 get_node_file() {
-    dir="$(get_node_dir $1)"
-    file="${dir}/hosts/$1"
+    node="$(get_node_name "$1")"
+    dir="$(get_node_dir "$1")"
+    file="${dir}/hosts/${node}"
 
     if [ ! -f "${file}" ]; then
-        fatal_error "El archivo host de %s no existe" $1
+        fatal_error "El archivo host de %s no existe" "$1"
     fi
 
     echo "${file}"
@@ -84,15 +91,28 @@ get_node_file() {
 # Limpia el hostname, convierte todo lo no alfanumérico a _
 # Ver tincd.conf(5)
 get_node_name() {
-  echo "$1" | sed -e "s/[^a-z0-9_]/_/g"
+  echo "$1" | sed -e "s/[^a-z0-9_]/_/gi"
 }
 
 get_host_file() {
-  test -f "${LVPN_HOSTS}/${1}" || \
-    error "El archivo host de %s no existe" "$1" || \
+  node="$(get_node_name "${1}")"
+  test -f "${LVPN_HOSTS}/${node}" || \
+    error "El archivo host de %s no existe" "$node" || \
     return 1
 
-  echo "${LVPN_HOSTS}/${1}"
+  echo "${LVPN_HOSTS}/${node}"
+}
+
+# Obtiene un evento válido
+get_event() {
+  echo "$1" | grep -qE "^host|subnet|tinc$" && echo "$1"
+}
+
+# Obtener un script
+get_script() {
+  script_dir="${LVPN_LIBDIR}/skel/scripts"
+
+  test -f "${script_dir}/$1" && echo "${script_dir}/$1"
 }
 
 # Encontrar el tipo de init que se va a usar para tinc
@@ -160,14 +180,17 @@ get_ipv4() {
 
 # Genera una dirección IPv6 /128
 get_ipv6() {
-# Compabilidad para versión standalone
-  if ! type generate-ipv6-address &>/dev/null; then
-    gia=$(uname -m)-generate-ipv6-address
-  else
-    gia=generate-ipv6-address
-  fi
+# Compatibilidad para versión standalone
+  arch=$(uname -m)
 
-  echo $(${gia} ${LVPN_SUBNET6%/*})/128
+  # probar los posibles nombres de generate-ipv6-address y no devolver
+  # nada si no hay
+  for gia in {${arch}-,}generate-ipv6-address; do
+    if type ${gia} &>/dev/null; then
+      echo "$(${gia} ${LVPN_SUBNET6%/*})/128"
+      return
+    fi
+  done
 }
 
 if $root ; then
