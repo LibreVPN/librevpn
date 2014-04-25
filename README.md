@@ -34,6 +34,16 @@ Si querés cambiar esto lo mejor es cambiando el hostname de tu
 computadora, siguiendo los pasos que indique tu distro.  Sino, agregá un
 nombre al comando `lvpn init un_nombre_lindo`.
 
+## Cómo me conecto con otro nodo?
+
+Enviá tu archivo de nodo a la lista vpn@hackcoop.com.ar o dáselo a
+alguien que ya esté dentro de la red.
+
+Luego, conectate a ese nodo con:
+
+    lvpn connectto tu_nodo el_otro_nodo
+    lvpn install tu_nodo
+
 ## Lo puedo usar en Android?
 
 Sí!  Instalá Tinc for Android desde [F-Droid](https://f-droid.org) y
