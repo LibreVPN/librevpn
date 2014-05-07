@@ -1,0 +1,28 @@
+# LasPircas
+# Matías Lang <shareman1204@gmail.com>
+# El nodo no utliza Avahi ni mDNS debido a que no funciona correctamente en OpenWRT
+# Para visualizar correctamente el contenido web ejecutar como root:
+#   echo '2001:1291:200:83ab:146d:5e02:789a:4ec7 LasPircas.lan' >> /etc/hosts
+# y acceder vía http://LasPircas.lan
+#
+IndirectData = yes
+Port = 655
+LocalDiscovery = yes
+# IPv4 desactivado por obsoleto
+#Subnet = 192.168.9.119/32
+
+Subnet = 2001:1291:200:83ab:146d:5e02:789a:4ec7/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAtt81bA/mZCbuRLXdxElPhDbQTEUzuJ98x1iQP0nqa1GEydXkqq+f
+HyuMQKqs2lLE0hoSCEYZ6MDowq6jlNz15mrcXwDiZCLtupuUaze2+9HfAwNUonGX
+VKvl4iiELreWhsL6hLql/2nrPORCaqVE7Z0LJ1V50yxNoCygESSiu5xkrgEwjv0S
+/S3a8FlUk8VQyt/9yJfG9cAk0ZYZjCBFOM0hZqal7lFJoLl455yVHBf0AWBD0ohR
+SJwIvhDpCi6Bdu7wGDcRrGiYBQWQVbrx/vWyj4aIdNepapAr5v2K1qSeRnZg2PQV
+ii+AKcNhfzYAF1dnIidCE48F5OXwAwDCilemSbIxFB5lvEgpZgeWL+zyO9XbCeyi
+Gzj7rdavvp50fPZ7H0mOo8TnzAEq9Rngg8Ixwmv7d8tKHNIWYT/CkzbOd3aSGWHh
+TLJrwTXs1JNf0+cQVuHLR6AEoMcQidexuc2mEUwoUmynLueqRF/iSITLk1AGd4Be
+tr4g8rWy7HChGP0s7FRg0Af5V8r6A0HYd5CAAsQf5DFhvZYvjRM9KofrMdIIUBw3
+VZ+3fMAd9P+Mj2BMPV8xGBXNopmh4M5F6OIu8DBncKCvZ4wPBY/9hSZ9SnPHScLK
+U5+L7VH8lztgSOScsRCMPyyOuHmN+TcvaWc0VvkgY3eW3+CtJQK6gCcCAwEAAQ==
+-----END RSA PUBLIC KEY-----

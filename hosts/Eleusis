@@ -5,6 +5,7 @@ Port = 657
 LocalDiscovery = yes
 Subnet = 192.168.9.17/32
 Subnet = 2001:1291:200:83ab:e80b:a922:4c4a:9212/128
+#Address = 192.168.2.11
 
 -----BEGIN RSA PUBLIC KEY-----
 MIICCgKCAgEA2ZIBpQqmCbQBwIacGwPouTAmvoMzTITKxAmfCNrnllN/hK5uTqzT
