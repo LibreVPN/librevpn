@@ -73,25 +73,29 @@ fi
 readonly ALL_OFF BOLD BLUE GREEN RED YELLOW
 # end makepkg
 
+# color por defecto
+DC="${!DEF_COLOR:-${GREEN}}"
+
 # La base para todos los mensajes, se imprime en stderr
 _msg() {
-    msg=$1; shift
-    printf "${BOLD}${RED}>${ALL_OFF} $msg${ALL_OFF}\n" "$@" 1>&2
+    msg="$1"; shift
+    printf "${BOLD}${RED}>${ALL_OFF} $msg${ALL_OFF}\n" "$@" |
+    sed "s/\*\+\([^ ][^\*]\+\)\*\+/${BOLD}\1${ALL_OFF}${DC}/g" 1>&2
 }
 
 msg() {
     msg="$(gettext "$1")"; shift
-    _msg "${GREEN}$msg" "$@"
+    _msg "${DC}$msg" "$@"
 }
 
 error() {
     msg="$(gettext "$1")"; shift
-    _msg "${BOLD}${RED}$(gettext "ERROR:")${ALL_OFF} ${GREEN}${msg}" "$@"
+    _msg "${BOLD}${RED}$(gettext "ERROR:")${ALL_OFF} ${DC}${msg}" "$@"
 }
 
 warning() {
     msg="$(gettext "$1")"; shift
-    _msg "${BOLD}${YELLOW}$(gettext "ALERTA:")${ALL_OFF} ${GREEN}${msg}" "$@"
+    _msg "${BOLD}${YELLOW}$(gettext "ALERTA:")${ALL_OFF} ${DC}${msg}" "$@"
 }
 
 # Mensaje de error y salir
@@ -103,11 +107,11 @@ fatal_error() {
 # Sugerir algo
 tip() {
   msg="$(gettext "$1")"; shift
-  _msg "${BOLD}${BLUE}$(gettext "Tip:")${ALL_OFF} ${GREEN}${msg}" "$@"
+  _msg "${BOLD}${BLUE}$(gettext "Tip:")${ALL_OFF} ${DEF_COLOR}${msg}" "$@"
 }
 
 # Muestra el manual
 # $1 el comando para obtener la ayuda
 help() {
-    man $1 || man ${LVPN_DIR}/doc/es/$1.1
+  man $1 || man ${LVPN_DIR}/doc/es/$1.1
 }
