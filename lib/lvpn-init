@@ -103,11 +103,15 @@ if [ ! -z "${address}" ]; then
     add_to_file "${nodefile}" "Address = ${_a}"
   done
 else
+  $verbose && warning "El nodo no tiene una dirección pública, se configura como cliente"
 # Cuando no tenemos una dirección pública probablemente estemos detrás
 # de un firewall, esto le indica a los demás nodos que no traten de
 # conectarse directamente sino que nos envíen paquetes a través de un
 # nodo al que estemos conectados.
   add_to_file "${nodefile}" "IndirectData = yes"
+
+  PORT=$(until test ${r:-0} -gt 20000; do r=${RANDOM}; done; echo $r)
+  $verbose && msg "Utilizando puerto al azar ${PORT}"
 fi
 
 add_to_file "${nodefile}" "Port = ${port:-${PORT}}"
