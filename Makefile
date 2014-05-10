@@ -142,8 +142,14 @@ inst_trans = $(patsubst locale/%,$(TARGET)$(TEXTDOMAINDIR)/%,$(out_po))
 # And now, the 'install' target, depending on all of those files
 install: PHONY all $(inst_progs) $(inst_hosts) $(inst_man) $(inst_trans)
 # Except that listing all the files in lib would be a pain, so just cp -r it
-	mkdir -p $(TARGET)$(LIBDIR)/
-	cp -r lib/* $(TARGET)$(LIBDIR)/
+	install -dm755 $(TARGET)$(LIBDIR)/
+	cp -rfv lib/* $(TARGET)$(LIBDIR)/
+# Correctly set the permissions
+	find $(TARGET)$(LIBDIR)/ | while read _f; do \
+		chmod u+w "$${_f}"; \
+		chmod g-w "$${_f}"; \
+		chmod o=g "$${_f}" ; \
+	done
 
 # Actual make rules ############################################################
 
