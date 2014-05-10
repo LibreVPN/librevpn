@@ -20,7 +20,7 @@ $obj->colors = array('nodes' => 'ff0000');
 
 $obj->rrd_title = 'LibreVPN';
 $obj->rrd_vertical = 'Nodos';
-$obj->rrd_format = '%.2lf';
+$obj->rrd_format = '%.0lf';
 
 collectd_flush($obj->identifiers);
 $obj->rrd_graph();
