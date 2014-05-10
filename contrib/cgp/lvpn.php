@@ -15,8 +15,13 @@ require_once 'inc/collectd.inc.php';
 
 $obj = new Type_Default($CONFIG);
 $obj->data_sources = array('value');
-$obj->ds_names = array('nodes' => 'Nodos totales');
-$obj->colors = array('nodes' => 'ff0000');
+$obj->ds_names = array(
+  'nodes' => 'Total',
+  'unknown-peers' => 'Desconocidos'
+  );
+$obj->colors = array(
+  'nodes' => 'ff0000',
+  'unknown-peers' => '00ff00');
 
 $obj->rrd_title = 'LibreVPN';
 $obj->rrd_vertical = 'Nodos';

@@ -35,17 +35,25 @@ if test ! -r "${DOT}" ; then
   exit 1
 fi
 
+# tipo_datos tipo_valor valor
+function putval() {
+  stdbuf --output=L \
+  printf "PUTVAL \"%s/%s/%s-%s\" interval=%d N:%d\n" \
+         "${COLLECTD_HOSTNAME:-${HOSTNAME}}" \
+         "${NETWORK}" \
+         "${1}" "${2}" \
+         "${INTERVAL}" \
+         "${3}"
+}
+
 # El script duerme para siempre y cuando se despierta escupe comandos de
 # collectd
 while sleep ${INTERVAL}; do
   # obtener la cantidad de nodos
   nodes=$(grep label "${DOT}" | cut -d" " -f1 | tr -d "\t" | wc -l)
+  # y guardarlos
+  putval "gauge" "nodes" "${nodes}"
 
-  # guardar la cantidad de nodos
-  stdbuf --output=L \
-  printf "PUTVAL \"%s/%s/gauge-nodes\" interval=%d N:%d\n" \
-         "${COLLECTD_HOSTNAME:-${HOSTNAME}}" \
-         "${NETWORK}" \
-         "${INTERVAL}" \
-         "${nodes}"
+  unknown=$(lvpn unknown-peers | wc -l)
+  putval "gauge" "unknown-peers" "${unknown}"
 done
