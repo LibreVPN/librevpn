@@ -45,6 +45,7 @@ SUBNET6 ?= 2001:1291:200:83ab::/64
 #BUILD_UPNPC = true
 #BUILD_LIBNATPMP = true
 BUILD_GEN_IPV6 = true
+BUILD_CONTRIB = true
 
 # Set up some runtime variables ################################################
 
@@ -93,6 +94,12 @@ ifdef BUILD_GEN_IPV6
 bins += $(arch)-generate-ipv6-address
 SUBDIRS += etc/generate-ipv6-address-0.1
 $(TARGET)$(PREFIX)/bin/%: etc/generate-ipv6-address-0.1/%
+	install -Dm755 '$<' '$@'
+endif
+
+ifdef BUILD_CONTRIB
+bins += collectd-lvpn
+$(TARGET)$(PREFIX)/bin/%: contrib/collectd/%
 	install -Dm755 '$<' '$@'
 endif
 
