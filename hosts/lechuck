@@ -1,6 +1,7 @@
 # lechuck
 # matt@lechuck
-IndirectData = yes
+#IndirectData = yes
+Address = spiria.me
 Port = 655
 LocalDiscovery = yes
 Subnet = 192.168.9.89/32
