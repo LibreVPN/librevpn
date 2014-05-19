@@ -181,13 +181,16 @@ get_ipv4() {
 # Genera una dirección IPv6 /128
 get_ipv6() {
 # Compatibilidad para versión standalone
-  if ! type generate-ipv6-address &>/dev/null; then
-    gia=$(uname -m)-generate-ipv6-address
-  else
-    gia=generate-ipv6-address
-  fi
+  arch=$(uname -m)
 
-  echo $(${gia} ${LVPN_SUBNET6%/*})/128
+  # probar los posibles nombres de generate-ipv6-address y no devolver
+  # nada si no hay
+  for gia in {${arch}-,}generate-ipv6-address; do
+    if type ${gia} &>/dev/null; then
+      echo "$(${gia} ${LVPN_SUBNET6%/*})/128"
+      return
+    fi
+  done
 }
 
 if $root ; then

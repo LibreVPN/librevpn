@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# lib/lvpn-peers
+# lib/lvpn-unknown-peers
 #
 # Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
 #
@@ -41,6 +41,7 @@ if [ ! -f "${log}" ]; then
     fatal_error "El archivo de log no existe.  Tip: hay que iniciar tinc con --logfile"
 fi
 
+test ! -z "${count}" && msg "Pares desconocidos"
 grep "Peer .* had unknown identity " ${log} 2>/dev/null | \
     grep -o "([^)]\+)" | sort | tr -d "[()]" | uniq ${count}
 

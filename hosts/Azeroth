@@ -1,0 +1,22 @@
+# Azeroth
+# diendenal@Azeroth
+
+IndirectData = yes
+Port = 655
+LocalDiscovery = yes
+Subnet = 192.168.9.56/32
+Subnet = 2001:1291:200:83ab:24fb:e060:25b7:55bc/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAu3LYNtDBLVxXgmAq/Ewz2P7zCCkDDqWyDrhpgAH+Yr7LDYHFsJwL
+9qb96UR19jnwRjay7/Y4KM5bKKjHUbazypuDZYsoH99xNa05JNqryeMMB4QcwsaQ
+iEGpkHaNQUp0iHnJFNHxJ70kH1K+b1Z2B6dIMCRACOP+M983ATEyoeQPjTM0D7r8
+IPU146ax59o18coXnS18ein4yWq35C05akLay4lf9ENW3iDPmS4D251xG8RBtKdK
+uuCnjqYE48i2bipyO1TtUc2H66yMxVfuUVHolgO5t0buRsxVdAhzf74kBe5B/EAq
+dctTYRWqemh4bJKFqJVpmwqUAUhCo/xSqFsKqSwBji5io0a+GGI1CqeFNH1lSNxZ
+VuSp3mkZId+zFxX68V+bsyfvUHPrYEnNT/XRCPYVyshUABGjsy2D8gjcebdrepEI
+J4jd1MgYKAi7wOb0wlh9SVol6NcixsXAOT6jgq9yFCeO61pEkeBr+EQuddtkKtkS
+wXQ3JKueREyfRtgOb1Ag/h//m0bJKmq1Yhe/aTT0husj+5xZPyBzpVgn4fe5egUq
+2FqOGMUbvMFIZM9TwF6IPM2JJRVL3zIEQWSHh246lyM45wP91XoIZtNNa2fdGcHz
+6tkbAFquqrm8lTOD1C7qhnbqJolyfxN1lmYDug2iM8g02pXoobgOzIcCAwEAAQ==
+-----END RSA PUBLIC KEY-----

@@ -1,0 +1,43 @@
+#     ______               ___             
+#    / ____/  ______  ____/ (_)________ _ 
+#   / __/ | |/_/ __ \/ __  / / ___/ __ `/ 
+#  / /____>  </ /_/ / /_/ / / /__/ /_/ / 
+# /_____/_/|_|\____/\__,_/_/\___/\__,_/  
+#
+#
+#  +-------------------------------------------------+
+#  | Nodo: exodica  - LibreVPN                       |
+#  |-------------------------------------------------|
+#  | Para conectarse con este nodo usa:              |
+#  | $ lvpn connectto exodica {tu_nodo}              |
+#  |                                                 |
+#  | Tambien debera avisar de esto enviando tu key   |
+#  | publica a tioscar at gmail dot com.             |
+#  |                                                 |
+#  | http://lvpn.exodica.com.ar                      |
+#  | http://http://j4qzu2hooulohmfn.onion/           |
+#  +-------------------------------------------------+
+#
+
+Address = lvpn.exodica.com.ar
+## Si qurés conetarte por TOR, comenta la anterior y descomentá
+## esta linea!!
+#Address = j4qzu2hooulohmfn.onion 
+Port = 655
+LocalDiscovery = yes
+Subnet = 192.168.9.51/32
+Subnet = 2001:1291:200:83ab:8c7e:4e3:3d43:3730/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEApINVxlJFhAKnjPbGm+pgswfCT+7Ps+Ll5m+MV/qW13+lgLBU7zs5
+4ubM3PamoWFbRqcJHh/YMmJT1ucNgjVIcQl7kl5AuLHDURj6Tux0Gl+b8IX3JJVp
+mU+EoyLH0faVBBQxGWv0r7RaeVHRvHTLP+2F0//AhXhMry2fsQbqdi0xVJUceQDw
+TlPhWmAs7WKaS4H85efZ0YeiyPDLG3kA6gkbbGIz0u0mhRM+FsYZz10EvDQD5B09
+t3dt6On7AJaYMY/hJwymPaisvBonWQBI7ycKtOQi2FnHMtuxYtVydN773MlWFoVF
+HUjjK0H43my3Ov0ETQ3nM/HFFnXSDOdrisTjGqsTHqRcaMDZtu5s38eEA9sgebTq
+ZvvLwDglu/B2CPOlXcnOV/8Nn99iKfshtGRJ3fo31fGRo2IsNzqkInKWNJOo6BVS
+S4oyjfnRxxH9MBOKsVeVGwMilqO6eShM8v+O0j3sq0FaWXZ4taaPXHbHgbhaRsZp
++5mXncVMYwTKJRw3niwKjiyeWtCtJXBDWK/Wqadd4IxP7LuN+xe5DyYwJ4dipStB
+i7jZx3Js7FOxEiw6Rn84Mn7Awb2r9DGEwkCiUYaMt7zaMN6KBJaXDkbSWnHvkilh
+dzPaBtDFF2im6K8cvztxrLZ9Xi5aTwMhKb6gBAVaoEykC2FCEAjyKJ8CAwEAAQ==
+-----END RSA PUBLIC KEY-----
