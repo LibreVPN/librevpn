@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+#
+# lib/lvpn-add-friend
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
+# Agrega valores connectto a un nodo
+
+. "${LVPN_LIBDIR}"/common
+
+root=true
+requires ipset
+
+UPDATE=false
+while getopts "uh" arg; do
+    case $arg in
+      u) UPDATE=true ;;
+      h) help ${self} ; exit 0;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+node="$(get_node_name "$1")"; shift
+nodedir="$(get_node_dir ${node})"
+
+# Si estamos actualizando, la lista de hosts es la que ya esta cargada
+${UPDATE} || hosts=("$@")
+${UPDATE} && hosts=($(shopt -s nullglob; echo "${nodedir}"/hosts/* | sed "s,${nodedir}/hosts/,,g"))
+
+# crea los sets si no existen
+for _set in ${NETWORK}-friends-inet{,6} ; do
+  _setname="${_set/-inet}"
+  ${sudo} ipset -exist create ${_setname} hash:net family ${_set##*-}
+done
+
+pushd "${LVPN_HOSTS}" &>/dev/null
+# obtiene todas las subnet disponibles
+grep --no-filename "^Subnet = " ${hosts[@]} |
+cut -d'=' -f2 |
+tr -d " " |
+while read _subnet; do
+  set +e
+# distingue las ipv6
+  echo "${_subnet}" | grep -qi "[a-f0-9:]\+/128" &&
+  ${sudo} ipset add -exist ${NETWORK}-friends6 ${_subnet}
+
+# de las ipv4
+  echo "${_subnet}" | grep -q  "[0-9\.]\+/32" &&
+  ${sudo} ipset add -exist ${NETWORK}-friends ${_subnet}
+  set -e
+done
+
+# imprimir las reglas, por defecto dropea todo y solo permite a los
+# amigos
+echo "iptables  -A INPUT -i ${NETWORK} -m set --match-set ${NETWORK}-friends src,dst -j ACCEPT"
+echo "ip6tables -A INPUT -i ${NETWORK} -m set --match-set ${NETWORK}-friends6 src,dst -j ACCEPT"
+echo "iptables  -A INPUT -i ${NETWORK} -j DROP"
+echo "ip6tables -A INPUT -i ${NETWORK} -j DROP"
+
+exit $?
