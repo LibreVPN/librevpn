@@ -1,6 +1,9 @@
 # Matías Lang <shareman1204@gmail.com>
+# Responde a criptonauta.local
 Subnet = 192.168.9.13/32
+Subnet = 2001:1291:200:83ab:145c:90a3:6351:1204/128
 Address = sh4r3m4n.no-ip.org
+Port = 656
 
 -----BEGIN RSA PUBLIC KEY-----
 MIICCgKCAgEA1rTIv1lhkueT0t7Xo96spytRSZuDO11kQuQChkei5xZgxDLKVQlJ
