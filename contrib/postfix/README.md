@@ -25,3 +25,26 @@ address.
 
 Email will be saved on `~/Maildir`.  To change this, adapt the
 `home_mailbox` var.
+
+
+# Test
+
+## Artesanal
+
+```
+
+$ echo -e "From: vos@nodo.local\nTo: fauno@yap.local\nSubject: hola\n\nhola!" | sendmail -t
+
+```
+
+## Mail
+
+```
+
+$ mail fauno@yap.local<enter>
+
+Subject: hola
+
+hola<ctrl-d>
+
+```
