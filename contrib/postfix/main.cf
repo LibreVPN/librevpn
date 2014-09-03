@@ -663,3 +663,5 @@ readme_directory = /usr/share/doc/postfix
 smtp_host_lookup = native
 ignore_mx_lookup_error = yes
 smtp_dns_support_level = enabled
+
+transport_maps = hash:/etc/postfix/transport

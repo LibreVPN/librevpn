@@ -1,7 +1,7 @@
 # Correo entre nodos de LibreVPN
 
-Copiá el archivo main.cf en este directorio a `/etc/postfix` o adaptalo
-a tu configuración actual.
+Copiá los archivos main.cf y transport en este directorio a
+`/etc/postfix` o adaptalos a tu configuración actual.
 
 Lo importante es cambiar el valor de `myhostname` por el nombre de tu
 nodo.local, lo que va a ser el @nodo.local de tu cuenta normal.
@@ -12,10 +12,14 @@ Por ejemplo para fauno en naven.local, la dirección de correo va a ser
 Los correos recibidos se guardan en `~/Maildir` para cambiar esto,
 adapta la variable `home_mailbox`.
 
+Además, para que postfix reconozca el archivo transport, hay que
+ejecutar `postmap /etc/postfix/transport` cada vez que se lo modifica.
+
 
 # Email between LibreVPN nodes
 
-Copy `main.cf` inside `/etc/postfix` or adapt it to your actual config.
+Copy `main.cf` and `transport` inside `/etc/postfix` or adapt them to
+your actual config.
 
 You need to change the `myhostname` variable to the name of your
 node.local, which is going to be your @node.local address.
@@ -25,6 +29,9 @@ address.
 
 Email will be saved on `~/Maildir`.  To change this, adapt the
 `home_mailbox` var.
+
+Remember to run `postmap /etc/postfix/transport` for postfix to
+recognize this file.
 
 
 # Test
