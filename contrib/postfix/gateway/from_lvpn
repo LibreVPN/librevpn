@@ -1,0 +1,3 @@
+# convert person@node.local to person@node.librevpn.org.ar for delivery
+# from the vpn to internet
+/^(.*)@(.*)\.local$/              $1@$2.librevpn.org.ar

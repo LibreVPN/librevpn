@@ -1,0 +1,6 @@
+# add this to your postfix main.cf to convert between librevpn public
+# and private addresses
+
+sender_canonical_maps = regexp:/etc/postfix/from_lvpn
+recipient_canonical_maps = regexp:/etc/postfix/to_lvpn
+
