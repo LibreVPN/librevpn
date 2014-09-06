@@ -293,6 +293,9 @@
 # 
 #                                                                   TRANSPORT(5)
 
+# if we don't set local transport for email delivered to our node we'll
+# catch a "loops back to myself" error
+{{node}}.local local:
 # send email to other nodes through our server
 .local  smtp:
 # everything else is relayed through naven to the internet
