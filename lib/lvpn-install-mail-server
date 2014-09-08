@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+#
+# lib/lvpn-install-mailserver
+#
+# Copyright (c) 2011-2014 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
+# Instala un servidor smtp
+
+. "${LVPN_LIBDIR}"/common
+
+requires postmap postfix
+
+FORCE=false
+PF_DIR=/etc/postfix
+while getopts "hfp:" arg; do
+    case $arg in
+      f) FORCE=true ;;
+      p) PF_DIR="${OPTARG}" ;;
+      h) help ${self} ; exit 0;;
+    esac
+done
+let OPTIND--; shift ${OPTIND}
+
+node="$(get_node_name "$1")"; shift
+nodedir="$(get_node_dir ${node})"
+
+test -d /etc/postfix/ ||
+  fatal_error "Postfix no está instalado" ||
+  true
+
+if ! ${FORCE}; then
+test -f /etc/postfix/main.cf &&
+  fatal_error "Postfix ya está configurado, si querés pisar la configuración usá -f" ||
+  true
+fi
+
+files=(postfix/main.cf postfix/transport)
+
+for file in ${files[@]}; do
+  full_file="${LVPN_CONTRIB}/${file}"
+
+  installed_file="${PF_DIR}/${file##*/}"
+
+  # fallar si no se encuentra el archivo
+  test -f "${full_file}" ||
+    fatal_error "No existe el archivo %s" "${full_file}"
+
+  # setear las variables
+  sed -e "s/{{node}}/${node}/g" \
+      "${LVPN_CONTRIB}/${file}" |
+      ${sudo} tee "${installed_file}" &>/dev/null
+done
+
+# crear la base de datos de transportes
+${sudo} postmap "${PF_DIR}/transport"
+
+msg "Servidor de correo instalado con éxito, iniciá o recargá postfix"
+
+exit $?
