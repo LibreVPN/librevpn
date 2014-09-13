@@ -28,7 +28,7 @@
 
 requires tail ps sudo killall wc cut nl sed mktemp
 
-while getopts "h" arg; do
+while getopts "dh" arg; do
     case $arg in
         h) help ${self} ; exit 0;;
     esac

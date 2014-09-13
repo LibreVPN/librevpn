@@ -37,7 +37,7 @@ ALL=false
 ADD=false
 NODES=""
 NODE=""
-while getopts "hc:fi:a:b:A" arg; do
+while getopts "dhc:fi:a:b:A" arg; do
     case $arg in
         h) help ${self} ; exit 0;;
         c) CONNECTTO=true; ADD=true; NODE=${OPTARG} ;;

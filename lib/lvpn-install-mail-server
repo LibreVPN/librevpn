@@ -29,7 +29,7 @@ requires postmap postfix
 
 FORCE=false
 PF_DIR=/etc/postfix
-while getopts "hfp:" arg; do
+while getopts "hdfp:" arg; do
     case $arg in
       f) FORCE=true ;;
       p) PF_DIR="${OPTARG}" ;;

@@ -27,7 +27,7 @@
 
 requires sort uniq grep tr
 
-while getopts "hc" arg; do
+while getopts "dhc" arg; do
     case $arg in
         h) help ${self} ; exit 0;;
         c) count="-c" ;;

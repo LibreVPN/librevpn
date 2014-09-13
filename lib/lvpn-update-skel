@@ -26,7 +26,7 @@
 . "${LVPN_LIBDIR}"/common
 
 VERBOSE=false
-while getopts "hv" arg; do
+while getopts "dhv" arg; do
     case $arg in
       h) help ${self} ; exit 0;;
       v) VERBOSE=true ;;
