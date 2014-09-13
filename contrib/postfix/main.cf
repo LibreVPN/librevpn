@@ -74,7 +74,7 @@ mail_owner = postfix
 #
 #myhostname = host.domain.tld
 #myhostname = virtual.domain.tld
-myhostname = {{node}}.local {{node}}.librevpn.org.ar
+myhostname = {{node}}.local
 
 # The mydomain parameter specifies the local internet domain name.
 # The default is to use $myhostname minus the first component.
@@ -162,6 +162,8 @@ inet_interfaces = all
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain,
 #	mail.$mydomain, www.$mydomain, ftp.$mydomain
+
+mydestination = $myhostname, {{node}}.librevpn.org.ar
 
 # REJECTING MAIL FOR UNKNOWN LOCAL USERS
 #
