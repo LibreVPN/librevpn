@@ -33,7 +33,7 @@ queue_directory = /var/spool/postfix
 # The command_directory parameter specifies the location of all
 # postXXX commands.
 #
-command_directory = /usr/bin
+command_directory = /usr/sbin
 
 # The daemon_directory parameter specifies the location of all Postfix
 # daemon programs (i.e. programs listed in the master.cf file). This
