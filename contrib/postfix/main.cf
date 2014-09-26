@@ -664,6 +664,9 @@ readme_directory = /usr/share/doc/postfix
 # librevpn: These options allow postfix to solve .local addresses
 smtp_host_lookup = native
 ignore_mx_lookup_error = yes
+# this is deprecated in 2.11+
+disable_dns_lookups = yes
+# this is only available on 2.11+
 smtp_dns_support_level = enabled
 
 transport_maps = hash:/etc/postfix/transport
