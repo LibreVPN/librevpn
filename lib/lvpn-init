@@ -47,7 +47,7 @@ force=false
 android=false
 
 # Procesar los flags (ver doc)
-while getopts 'vhirfp:a:c:s:l:A' arg; do
+while getopts 'dvhirfp:a:c:s:l:A' arg; do
     case $arg in
         h) help $self; exit 0 ;;
         q) verbose=false ;;

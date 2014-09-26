@@ -163,6 +163,8 @@ inet_interfaces = all
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain,
 #	mail.$mydomain, www.$mydomain, ftp.$mydomain
 
+mydestination = $myhostname, {{node}}.librevpn.org.ar
+
 # REJECTING MAIL FOR UNKNOWN LOCAL USERS
 #
 # The local_recipient_maps parameter specifies optional lookup tables

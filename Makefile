@@ -16,6 +16,7 @@ PREFIX ?= /usr/local
 # consistent with GNU, they would have different names.
 LIBDIR ?= $(PREFIX)/lib/$(NETWORK)
 DOC ?= $(PREFIX)/share/$(NETWORK)/doc
+CONTRIB ?= $(PREFIX)/share/$(NETWORK)/contrib
 HOSTS ?= $(PREFIX)/share/$(NETWORK)/hosts
 BEADLE ?= $(PREFIX)/share/$(NETWORK)/beadle
 
@@ -144,8 +145,10 @@ install: PHONY all $(inst_progs) $(inst_hosts) $(inst_man) $(inst_trans)
 # Except that listing all the files in lib would be a pain, so just cp -r it
 	install -dm755 $(TARGET)$(LIBDIR)/
 	cp -rfv lib/* $(TARGET)$(LIBDIR)/
+	install -dm755 $(TARGET)$(CONTRIB)/
+	cp -rfv contrib/* $(TARGET)$(CONTRIB)/
 # Correctly set the permissions
-	find $(TARGET)$(LIBDIR)/ | while read _f; do \
+	find $(TARGET)$(LIBDIR)/ $(TARGET)$(CONTRIB)/ | while read _f; do \
 		chmod u+w "$${_f}"; \
 		chmod g-w "$${_f}"; \
 		chmod o=g "$${_f}" ; \
@@ -158,6 +161,7 @@ install: PHONY all $(inst_progs) $(inst_hosts) $(inst_man) $(inst_trans)
 	sed -e "s/@NETWORK@/$(NETWORK)/g" \
 	    -e "s,@LIBDIR@,$(LIBDIR),g" \
 	    -e "s,@DOC@,$(DOC),g" \
+	    -e "s,@CONTRIB@,$(CONTRIB),g" \
 	    -e "s,@HOSTS@,$(HOSTS),g" \
 	    -e "s,@BEADLE@,$(BEADLE),g" \
 	    -e "s,@TINC@,$(TINC),g" \

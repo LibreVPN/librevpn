@@ -42,7 +42,7 @@ list_scripts() {
 }
 
 VERBOSE=""
-while getopts "vhes" arg; do
+while getopts "dvhes" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
     v) VERBOSE=" -v " ;;
