@@ -1,0 +1,14 @@
+# hacklab de barracas
+IndirectData = yes
+Cipher = blowfish
+Compression = 0
+Port = 655
+Subnet = 192.168.9.7/32
+-----BEGIN RSA PUBLIC KEY-----
+MIIBCgKCAQEApv9lzDOin8egJddUqF+GZJ78nuc4Zvi2ocd9kqV4jymJ6Cz48HHX
+ImjPwMucWvBWe39JlmKdagGc107z8ih4F8RHJ3TqZKTAPJ9KISVNHbAW1poJ8I8o
+V68QSbPyqGByzayBfDG4VQeS1kFMyAWjQlYWoCqjVqLGnQG0WR+EWY6omfKlV4VB
+fcMnsFDfYyYXunM0Yb0t9b0vKP25AIcqKKsXQP70K6Lt2FC9mwh/IYfadRkb4yev
+zKC6KnuEsyx+zDPYsWrDr4Ebak7vz4ZTRXMfx/9LhI2ymuoUzmPdc48Qi3rJM2Di
+xvg2+l1aQxEKbVuJaOdPcm+KTDc+mGGhiQIDAQAB
+-----END RSA PUBLIC KEY-----
