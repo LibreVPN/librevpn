@@ -1,0 +1,21 @@
+# helike
+# Eugenia <eugenia.reynolds@gmail.com>
+IndirectData = yes
+Port = 20961
+LocalDiscovery = yes
+Subnet = 192.168.9.227/32
+Subnet = 2001:1291:200:83ab:18d0:2402:9d39:fd96/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAq1wjy0SPm9/YZGyNqw4jz5phmUCYfWAJwXBoOWUFWjNVLL8d3h4c
+GALAHF8PB+E6aTzQXF0YlLxCoHfXMk1SNaYcJm+1e/scElHBg7+NDrVL2GrLiIwF
+MmRUtvtsNijBhuSyTRttxieziVTWqYRGe1hvyvn2tLejN20zltlIsuJ9SIx1lUxe
+wr+S9E9pvRi9hRsLZGs0ZBTLMZ32CuhVi6WZhgMZOCwTjiAjy/IROjjdsFOyTce6
+21th3MNLyTY4VZM78oySkuZZWCFucqnC+0d9Ot1CSSKCjqr/dvBIa6b7Ntts+XA1
+Nn4c/2qPXjyN/4JHMGpeVQeeVtFpS84teRuToPv4KatVR/s1Kx1vAd396BYWZQV0
+mDN8Nz4kQmKi9+YKUFQsUE3ADa5XNhOdTcys3/GHHfjF4QXGpfdrkne0v9dY4c8W
+bVo+SVXrGC05+0V+TXliJWZR7k/+z0/sqO/DcqTXVwY340Hr2dgZBFSznM1ICBB8
+IduwLwtKOO4ZEhAcxsekPZxoYbxPTXTMG1y5KlVijwZMl5jo98KpCre5e+a360sZ
+9DXKLu4I6yOeqWPP9ndTXV4tbufdli5wzoGXso7ZBtwGx5PGdpcdU3ineMqupdVj
+0PXN7R8jrv5QjqLWizV4OIrJXFzV8tC7RTKB6mxPHmp8puoWuqLfWRkCAwEAAQ==
+-----END RSA PUBLIC KEY-----
