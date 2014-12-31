@@ -1,0 +1,21 @@
+# zocacola
+# tomas <tomas@example.com>
+IndirectData = yes
+Port = 655
+LocalDiscovery = yes
+Subnet = 192.168.9.163/32
+Subnet = 2001:1291:200:83ab:d8a2:387d:edba:54d2/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAvHpbxT51XQWsPaMqOKA+jYHkqeblIjJzBwTwpATE3sVxExiALMeI
+Ncs/Tq+XQyj0gzKvM2tduxL+Wi1AIOimjwGwyjmRAhtBTE7DqvtYO/V6ZKuWGBZF
+hGFAXCXpzzToJfYU0y9MzAjCzj2/ZILtkjzwvzGLlt+RquoD8QBcG1bzRUlpDTf6
+Or6k+jtnNBxx/+LoiGqTzWZliL6Gn3xPfAYQ4txwKrHmEFPcmnCo7IL1azUdTVW6
+FGfXdyisikCYij1pML4XfSYZnt/XT6muf2phQqaA2S4b33id3iifjmK8dLrYwBWS
+64Sx4+d4pD7KG+95CNts0EAtK30HoCJlUp61u4CUmeJ0BHoyOvQQVYGahiCxEAkY
+46AFm0hQZ2U/4pZOFbFA4NGo9idjna5zpmKgfynr0vwheLdG9rHlLQnDicjo1E4z
+s7oFbJCA5NNesQJpkZxh83WhRslT1g/xW00r7u1xD/u5hYejIqlU8GH9AbbjeCvE
+1C1X6jPeuUBZXwKw1Ll38TrQMeqDzIDVwQEkj8qMfPHcyD46e45p5u6QFvLIm8un
+r5yVkvrsODHLj3ll1uHgpSlJl/em6NRAAfv7bLCR51ZkGGaD8Q5D/BQGAFCzg9Ot
+4fkrz+sDtnRGwBSgwVw3S+ZNcMcutDsUEbAdnQ8rLaS65XGwvYQOK/sCAwEAAQ==
+-----END RSA PUBLIC KEY-----

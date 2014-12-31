@@ -1,0 +1,13 @@
+#!/bin/sh
+
+case $1 in
+    up)
+       echo "Conectado $NODE" | wall
+       echo "Conectado $NODE" >> /tmp/log-hosts
+       ;;
+    down)
+       #echo "Desconectado $NODE" | wall
+       echo "Desconectado $NODE" >> /tmp/log-hosts
+       ;;
+esac
+
