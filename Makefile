@@ -16,6 +16,7 @@ PREFIX ?= /usr/local
 # consistent with GNU, they would have different names.
 LIBDIR ?= $(PREFIX)/lib/$(NETWORK)
 DOC ?= $(PREFIX)/share/$(NETWORK)/doc
+CONTRIB ?= $(PREFIX)/share/$(NETWORK)/contrib
 HOSTS ?= $(PREFIX)/share/$(NETWORK)/hosts
 BEADLE ?= $(PREFIX)/share/$(NETWORK)/beadle
 
@@ -45,6 +46,7 @@ SUBNET6 ?= 2001:1291:200:83ab::/64
 #BUILD_UPNPC = true
 #BUILD_LIBNATPMP = true
 BUILD_GEN_IPV6 = true
+BUILD_CONTRIB = true
 
 # Set up some runtime variables ################################################
 
@@ -96,6 +98,12 @@ $(TARGET)$(PREFIX)/bin/%: etc/generate-ipv6-address-0.1/%
 	install -Dm755 '$<' '$@'
 endif
 
+ifdef BUILD_CONTRIB
+bins += collectd-lvpn
+$(TARGET)$(PREFIX)/bin/%: contrib/collectd/%
+	install -Dm755 '$<' '$@'
+endif
+
 # All the high-level 'phony' targets ###########################################
 
 all: PHONY build man locale
@@ -135,8 +143,16 @@ inst_trans = $(patsubst locale/%,$(TARGET)$(TEXTDOMAINDIR)/%,$(out_po))
 # And now, the 'install' target, depending on all of those files
 install: PHONY all $(inst_progs) $(inst_hosts) $(inst_man) $(inst_trans)
 # Except that listing all the files in lib would be a pain, so just cp -r it
-	mkdir -p $(TARGET)$(LIBDIR)/
-	cp -r lib/* $(TARGET)$(LIBDIR)/
+	install -dm755 $(TARGET)$(LIBDIR)/
+	cp -rfv lib/* $(TARGET)$(LIBDIR)/
+	install -dm755 $(TARGET)$(CONTRIB)/
+	cp -rfv contrib/* $(TARGET)$(CONTRIB)/
+# Correctly set the permissions
+	find $(TARGET)$(LIBDIR)/ $(TARGET)$(CONTRIB)/ | while read _f; do \
+		chmod u+w "$${_f}"; \
+		chmod g-w "$${_f}"; \
+		chmod o=g "$${_f}" ; \
+	done
 
 # Actual make rules ############################################################
 
@@ -145,6 +161,7 @@ install: PHONY all $(inst_progs) $(inst_hosts) $(inst_man) $(inst_trans)
 	sed -e "s/@NETWORK@/$(NETWORK)/g" \
 	    -e "s,@LIBDIR@,$(LIBDIR),g" \
 	    -e "s,@DOC@,$(DOC),g" \
+	    -e "s,@CONTRIB@,$(CONTRIB),g" \
 	    -e "s,@HOSTS@,$(HOSTS),g" \
 	    -e "s,@BEADLE@,$(BEADLE),g" \
 	    -e "s,@TINC@,$(TINC),g" \

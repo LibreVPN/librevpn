@@ -1,0 +1,38 @@
+.TH "LVPN\-INSTALL\-MAIL\-SERVER" "1" "2013" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+\f[I]lvpn install\-mail\-server\f[] installs a local mailserver for
+email exchange from node to node.
+.SH SYNOPSIS
+.PP
+\f[I]lvpn install\-mail\-server\f[] [\-h] [\-f] [\-p /etc/postfix]
+local\-node
+.SH DESCRIPTION
+.PP
+Install a \f[I]postfix\f[] configuration suited for email exchange
+between nodes using local addresses in the form
+\f[I]user\@node.local\f[].
+It can also route email to Internet via a SMTP gateway that knows how to
+translate addresses.
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-f
+Force installation.
+It will replace your actual postfix config!
+.RS
+.RE
+.TP
+.B \-p /etc/postfix
+Install configuration on another path.
+.RS
+.RE
+.SH SEE ALSO
+.PP
+\f[I]postfix(1)\f[] \f[I]postmap(1)\f[] \f[I]transport(5)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

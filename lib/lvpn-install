@@ -35,7 +35,7 @@ test "${#TINC}" -lt 2 && fatal_error "La variable TINC está vacía"
 
 requires rsync find
 
-while getopts "hvrn" arg; do
+while getopts "dhvrn" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
     v) VERBOSE=-v ;;

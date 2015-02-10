@@ -1,0 +1,20 @@
+# bunker
+IndirectData = yes
+Port = 29037
+LocalDiscovery = yes
+Subnet = 192.168.9.217/32
+Subnet = 2001:1291:200:83ab:242a:9044:7f8b:2c2f/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAp/FvWkh7GWYtUTme5Kn/lk8bOy8Ck7Cti8kMgw4JsF03krFYxEKJ
+vsq4RhWh4tHTu1IMQ+Wxr7RvD4zXwMre8ryJuOgXO7fXt81pkhKsAIrDU0Y9PbxT
+/b91Q/aNV78mxHpHqw/T18UIhnrz4VqegiNempaFSKhqgbYYZgQJhMsm7TYedz23
+6ueKCtppiIXtMy0/pQb9UolBJS9Rf6ehQaiLXiH/n6nlX6gMMXBNnexU5VKe0X02
+9CXZTkfrZloxGKEkR4QlltmDzabNjB6TZCyiR7ujYPuFJGUKXWRPi/qDNAdcjk7C
+yKkPeYif7JGz/EvIEzD6NrIRtb2eS+IppuVkZLHGHLk8XlpiJBzzpKwl0k5WyZCh
+eMIW9n3ReJkuSqfYar8ocL89SrlL6x8aPpEukR40JhZszefs2ZKLILzXasa0cnUK
+VGw7oulkq9iqG6GeM9IYvaMtmVuUJIs+q2zvfEd+RW56fQQDpLsoIDf9dVA5Ieod
+iH64nZxGgEQPmZXJSPO+LujlykcFvaTOXpDaVJ8LA/m6PmLvjisrlpyFB+rjvz1Z
+B8kuexzOjM0jpKvBG5nKyzFKsPEbsp1RjzdPUMZlhib9bRrxmUqeNy+EBHxwduUj
+asFM1bM1dmvEiwiovQoDB67/7MgQYWkgbHiH4RwDF2wuyTX7ZojQoAkCAwEAAQ==
+-----END RSA PUBLIC KEY-----

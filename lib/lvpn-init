@@ -47,7 +47,7 @@ force=false
 android=false
 
 # Procesar los flags (ver doc)
-while getopts 'vhirfp:a:c:s:l:A' arg; do
+while getopts 'dvhirfp:a:c:s:l:A' arg; do
     case $arg in
         h) help $self; exit 0 ;;
         q) verbose=false ;;
@@ -81,12 +81,12 @@ if $force; then
     rm -r "${nodefile}" "${nodedir}" || true
 fi
 
-$verbose && msg "Creando %s..." "${nodename}"
+$verbose && msg "Creando %s..." "*${nodename}*"
 if [ -f "${nodefile}" ]; then
     fatal_error "El nodo ya existe! Utilice -f para re-crearlo"
 fi
 
-$verbose && msg "Creando %s..." "${nodedir}"
+$verbose && msg "Creando %s..." "*${nodedir}*"
 if [ -d "${nodedir}" ]; then
     fatal_error "El directorio del nodo ya existe"
 fi
@@ -94,7 +94,7 @@ fi
 # Crea los directorios de hosts y scripts
 mkdir -p ${nodedir}/{hosts,scripts} || fatal_error "No se pudo crear el directorio"
 
-$verbose && msg "Generando %s..." "${nodefile}"
+$verbose && msg "Generando %s..." "*${nodefile}*"
 add_to_file "${nodefile}" "# ${nodename}"
 get_id >>"${nodefile}"
 
@@ -103,11 +103,15 @@ if [ ! -z "${address}" ]; then
     add_to_file "${nodefile}" "Address = ${_a}"
   done
 else
+  $verbose && warning "El nodo no tiene una dirección pública, se configura como cliente"
 # Cuando no tenemos una dirección pública probablemente estemos detrás
 # de un firewall, esto le indica a los demás nodos que no traten de
 # conectarse directamente sino que nos envíen paquetes a través de un
 # nodo al que estemos conectados.
   add_to_file "${nodefile}" "IndirectData = yes"
+
+  PORT=$(until test ${r:-0} -gt 20000; do r=${RANDOM}; done; echo $r)
+  $verbose && msg "Utilizando puerto al azar %s" "*${PORT}*"
 fi
 
 add_to_file "${nodefile}" "Port = ${port:-${PORT}}"
@@ -147,9 +151,9 @@ if [ -z "${subnets}" ]; then
 else
     mode="router"
 fi
-$verbose && msg "Este nodo es un %s" "${mode}"
+$verbose && msg "Este nodo es un %s" "*${mode}*"
 
-$verbose && msg "Generando %s..." "${conffile}"
+$verbose && msg "Generando %s..." "*${conffile}*"
 add_to_file "${conffile}" "Name = ${nodename}"
 add_to_file "${conffile}" "Mode = ${mode}"
 add_to_file "${conffile}" "GraphDumpFile = /tmp/${NETWORK}.dot"
@@ -194,8 +198,8 @@ $install && ${LVPN} install ${nodename}
 
 msg "El nodo se ha creado con éxito"
 msg "*Importante*: "
-msg "* Envíe el archivo que representa su nodo a vpn@hackcoop.com.ar (%s), o" "${nodefile}"
+msg "* Envíe el archivo que representa su nodo a vpn@hackcoop.com.ar (%s), o" "*${nodefile}*"
 msg "* Comparta su nodo en la red local con \`lvpn announce\`"
-msg "* Agregue %s al repositorio git y publíquelo." "${nodefile}"
+msg "* Agregue %s al repositorio git y publíquelo." "*${nodefile}*"
 
 exit 0

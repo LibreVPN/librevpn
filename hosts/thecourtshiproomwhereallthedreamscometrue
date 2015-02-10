@@ -1,0 +1,22 @@
+# thecourtshiproomwhereallthedreamscometrue
+# root@Computer
+IndirectData = yes
+Port = 21522
+LocalDiscovery = yes
+Subnet = 192.168.9.231/32
+Subnet = 2001:1291:200:83ab:8897:5955:fa44:232a/128
+Address = thecourtshiproomwhereallthedreamscometrue.com.ar
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEA6OoImMaVXjFQZhpz4TruEgfOhalqRrPiveyRkR4b1boJ4acLV3Ud
+I50FEblKNZ8mViK991Nh/7p61pOg3A0pt7EtGdlIBlB3f9lwbIPfS0Owu01sy0G7
+xZy40tpv0O30/v2+pO1imuO57mDQW8ixxQ9nExqtco9Qg+voUC07pvT8gDmIZRJU
+/Kcd8WJ4P8hVN/Y5wLV84JPZ+OFKaNpkWylqZBSXsSlH4EZKUMkwQub/XOgZTeTe
+jnsSn52L90wJOjxtNiw7NbyH8NKHzPYIFpJcApeSLIXDRPq7M1onrT/t9RX7ckQy
+AB0beHKXbdYMgN3weerx5rrabLDTyXHbIbx0AWVn7ED8ak4kdA/bFerV1lfwKxal
+Wifr6QNXZNYqBejZWBTy1N+ekV6aA0i5eIG1OewGHm/a/8MhlPhFMF79awu+h4Cg
+hgaxzD48tD6pQuGg18WL36eIRghfqgXGa5K+QiO4eq7daCG14xpEjwug0k7vyMUl
+gpF8Yr4s0PYTNjqBSF6DDiecGdBgDkBMD3ZJqeOVvX94euQMXG1L8U7IaFoPcUn8
+1cmq0svsCD3eRkofgMe1xkQx1B4GJ1sZ7+/1638i/CSC/aFfkNernph4FwN+bDi4
+5vSWmy569Ysvt+GPYKpp1A6/sNhwzrAYCUDKTWFpdbwlAD8dnwXju9kCAwEAAQ==
+-----END RSA PUBLIC KEY-----

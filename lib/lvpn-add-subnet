@@ -29,7 +29,7 @@ VERBOSE=false
 GENERATE=false
 IPV4=false
 IPV6=true
-while getopts "hvg46" arg; do
+while getopts "dhvg46" arg; do
     case $arg in
       h) help ${self} ; exit 0;;
       v) VERBOSE=true ;;
