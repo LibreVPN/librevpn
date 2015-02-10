@@ -6,7 +6,7 @@ LocalDiscovery = yes
 # IPv4 desactivado por defecto para evitar problemas de red
 #Subnet = 192.168.9.94/32
 Subnet = 2001:1291:200:83ab:145c:90a3:6351:5a91/128
-Address = sh4r3m4n.no-ip.org
+Address = NodoPirron
 
 -----BEGIN RSA PUBLIC KEY-----
 MIICCgKCAgEA4e/8yXaGsgjuzTCGFz7QCzSaEpDeGpEQoI0Jw9uby+0EhUYw13Hk
