@@ -25,7 +25,7 @@
 
 . "${LVPN_LIBDIR}"/common
 
-while getopts "h" arg; do
+while getopts "dh" arg; do
     case $arg in
         h) help ${self} ; exit 0;;
     esac

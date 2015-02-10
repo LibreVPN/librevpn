@@ -1,7 +1,6 @@
 # yap
 # fauno@yap
-IndirectData = yes
-Port = 655
+Port = 6550
 LocalDiscovery = yes
 Subnet = 192.168.9.160/32
 Subnet = 2001:1291:200:83ab:fcde:aac:b015:43c8/128

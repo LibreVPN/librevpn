@@ -30,7 +30,7 @@ SENDMAIL=${SENDMAIL:-sendmail}
 
 requires ${SENDMAIL}
 
-while getopts "hs:m:f:t:"; do
+while getopts "dhs:m:f:t:"; do
     case $arg in 
         h) help ${self} ; exit 0;;
         s) subject="${OPTARG}" ;;

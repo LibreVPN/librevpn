@@ -34,7 +34,7 @@ SERVICE=${SERVICE:-/etc/avahi/services/${NETWORK}.service}
 touch "${PIDFILE}" 2>/dev/null || \
 fatal_error "No se puede escribir el archivo de pid: %s" "${PIDFILE}"
 
-while getopts "hpbs" arg; do
+while getopts "dhpbs" arg; do
     case $arg in
         h) help ${self} ; exit 0;;
         p) PERMANENT=true ;;

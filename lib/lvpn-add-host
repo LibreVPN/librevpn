@@ -27,7 +27,7 @@
 
 UPDATE=false
 FORCE=false
-while getopts "ufh" arg; do
+while getopts "ufhd" arg; do
     case $arg in
       u) UPDATE=true; FORCE=true ;;
       f) FORCE=true ;;
