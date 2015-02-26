@@ -1,0 +1,27 @@
+#!/usr/bin/env python2
+# Reconecta bonjour o cualquier cuenta de pidgin.  Hay un bug en la
+# implementación de pidgin que impide que se renueven los anuncios mDNS
+# de bonjour, haciéndonos creer que los contactos siguen conectados
+# cuando no.
+#
+# Se puede agregar a crontab así: `DISPLAY=:0 purple-reconnect`
+
+# Require python2-dbus
+import dbus
+import time
+
+bus = dbus.SessionBus()
+obj = bus.get_object("im.pidgin.purple.PurpleService", "/im/pidgin/purple/PurpleObject")
+purple = dbus.Interface(obj, "im.pidgin.purple.PurpleInterface")
+
+# Reconectar Bonjour
+protocols = [ 'bonjour' ]
+accounts = []
+
+for protocol in protocols:
+  accounts.append(purple.PurpleAccountsFindConnected('','prpl-%s' % protocol))
+
+for account in accounts:
+  purple.PurpleAccountSetEnabled(account, "hola", False)
+  time.sleep(1)
+  purple.PurpleAccountSetEnabled(account, "hola", True)
