@@ -1,0 +1,21 @@
+# probox
+# root@probox
+Address = probox.historiador.nom.es
+Port = 655
+LocalDiscovery = yes
+Subnet = 192.168.9.132/32
+Subnet = 2001:1291:200:83ab:c846:45b6:9475:9ec2/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEArgAhSeA9gyj1Ek0x7yIaunGFjfcztb4ExB5QT6+emaoI+CkpZfqt
+PE9cMvt8AhI9YYrgUmUj9iXyIFy3Te+A+Hxa4NcVidtSmzDBDG8g9k5QnIDV4POM
+NAT3YjFBovjPtWSPSZ9r622NpqTgbldbh1rlm0hXknrNtWfEC0KlWhwoHlrw4WJv
+pXBPNqi+p1v9Z78J+jM1FOowUiWVa0Xjjm6GxuC7CaQRdgspPunumwVN4NoCTy81
+RInlLu6IgFA2oVh8K6Qz8gJGtIQ0TLHIWXmMBaIZrKhkW1XGVuRbXQ1hzf8KeULF
+SBMnOaC9uBHV0sFTnc5lZPdN/UYxYowPP5n2wkuGRH/Dg8RcW4cz7XSfSHuiS2Dg
+HcdYwAICKCR7Cvq3gQARsNV4dLnirifx0O6Qq4cRE4kYUrPL7Ga0VRnI9fuGuLBh
+pTC9772Ewdhj3eanWUTzQ/oGOy1KJBpo036LmGU6ju2FxHsHEIna5nlrKKpDX9lG
+4k87qWhpMMLJySeMqn49jdjs/nONHcvSt8kpS5+BvPqhPEEpChIN6NyIrmVf/Prw
+64S1OeWHAzA4C4OhUF5JBzJugjd4Rg2geIx1O01JjpBiBNfUsBSodebhNpArYpKl
+rDRymzfyv0x/tjWmg7RNcRV8os4F+M6Y8KGf2eaRx5agy5Q/AuCBC5kCAwEAAQ==
+-----END RSA PUBLIC KEY-----
