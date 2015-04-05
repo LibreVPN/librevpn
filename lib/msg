@@ -115,3 +115,7 @@ tip() {
 help() {
   man $1 || man ${LVPN_DIR}/doc/es/$1.1
 }
+
+silent() {
+  $@ &>/dev/null
+}

@@ -193,6 +193,27 @@ get_ipv6() {
   done
 }
 
+# Obtiene una variable de un archivo de host
+# $1 nodo
+# $2 variable
+get_host_variable() {
+  grep -w "^$2" "$(get_host_file "$1")" \
+  | cut -d= -f2 \
+  | tr -d " "
+}
+
+get_host_ipv4() {
+  get_host_variable "$1" Subnet \
+  | grep "/32$" \
+  | sed "s,/.*,,"
+}
+
+get_host_ipv6() {
+  get_host_variable "$1" Subnet \
+  | grep "/128$" \
+  | sed "s,/.*,,"
+}
+
 if $root ; then
 # Salir si no se es root y no existe sudo, sino usarlo
   if [ ! -w / ]; then
