@@ -82,15 +82,15 @@ Match User ${KEYNODE}
 
 EOF
 
-set -x
 ${sudo} chmod 700 "${SSHD_CONFIG}"
 # Reinicia ssh
 if test -f /var/run/${KEYNODE}.pid ; then
   silent ${sudo} pkill --pidfile /var/run/${KEYNODE}.pid -HUP
 else
   ${sudo} $(which sshd) -f "${SSHD_CONFIG}"
-  ${sudo} cat /var/run/sshd.pid | silent ${sudo} tee /var/run/${KEYNODE}.pid
 fi
+# Obtiene el ultimo pid, que cambia con el hup también
+${sudo} cat /var/run/sshd.pid | silent ${sudo} tee /var/run/${KEYNODE}.pid
 
 # Crea el repositorio o lo clona de otro lado
 
