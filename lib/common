@@ -220,7 +220,7 @@ if $root ; then
     if ! type sudo &>/dev/null; then
       fatal_error "Correr como root"
     else
-      export sudo=sudo
+      export sudo="sudo --preserve-env"
     fi
   fi
 fi

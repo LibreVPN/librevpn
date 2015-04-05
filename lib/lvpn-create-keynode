@@ -28,12 +28,12 @@ root=true
 
 . "${LVPN_LIBDIR}"/common
 
-requires sshd git-shell which pkill
+requires sshd git-shell which pkill to_chroot create_chroot_jail
 
 PORT=49001
 KEYNODE="${NETWORK}-keynode"
 SSHD_CONFIG="/etc/ssh/${NETWORK}_sshd_config"
-HOSTS_GIT="/var/lib/${NETWORK}/hosts.git"
+HOSTS_GIT="/var/lib/${NETWORK}/pub/hosts.git"
 while getopts "hp:c:k:" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
@@ -61,8 +61,16 @@ silent getent passwd "${KEYNODE}" \
            "${KEYNODE}"
 
 silent ${sudo} passwd --unlock "${KEYNODE}"
+${sudo} chown root:root /var/lib/${NETWORK}
+${sudo} chmod 755 /var/lib/${NETWORK}
 
-# Crea una chroot para ese usuario
+# Crea una chroot para ese usuario y solo le permite usar git
+silent ${sudo} create_chroot_jail ${KEYNODE} ${KEYNODE} /var/lib/${NETWORK}
+silent ${sudo} to_chroot /var/lib/${NETWORK} /usr/bin/git-shell /usr/bin/git /usr/bin/git-upload-pack
+# openssh pasa el HOME original y no el de la chroot
+${sudo} install -d -o root -g root -m 755 /var/lib/${NETWORK}/var/lib
+${sudo} ln --force --symbolic ../../pub /var/lib/${NETWORK}/var/lib/${NETWORK}
+
 # Configura sshd_config
 ${sudo} test -f "${SSHD_CONFIG}" \
 && warning "SSH ya está configurado para este nodo de llaves, se pisan los cambios manuales"
@@ -75,6 +83,7 @@ UsePAM no
 AllowUsers ${KEYNODE}
 
 Match User ${KEYNODE}
+  ChrootDirectory %h
   AllowTcpForwarding no
   X11Forwarding no
   PasswordAuthentication yes
@@ -87,23 +96,22 @@ ${sudo} chmod 700 "${SSHD_CONFIG}"
 if test -f /var/run/${KEYNODE}.pid ; then
   silent ${sudo} pkill --pidfile /var/run/${KEYNODE}.pid -HUP
 else
-  ${sudo} $(which sshd) -f "${SSHD_CONFIG}"
+  ${sudo} $(command -v sshd) -f "${SSHD_CONFIG}"
 fi
 # Obtiene el ultimo pid, que cambia con el hup también
 ${sudo} cat /var/run/sshd.pid | silent ${sudo} tee /var/run/${KEYNODE}.pid
 
 # Crea el repositorio o lo clona de otro lado
-
 if test -n "${CLONE}"; then
   if ${sudo} test -d "${HOSTS_GIT}"; then
     ${sudo} sh -c "cd '${HOSTS_GIT}' ; git remote update"
   else
-    ${sudo} sh -c "cd '${HOSTS_GIT}'; git clone --mirror '${CLONE}' hosts.git'"
+    ${sudo} sh -c "cd '${HOSTS_GIT}/..' ; git clone --mirror '${CLONE}' hosts.git'"
   fi
 else
-  if ! ${sudo} test -d "/var/lib/${NETWORK}/hosts.git" ; then
+  if ! ${sudo} test -d "${HOSTS_GIT}" ; then
     ${sudo} mkdir -p "${HOSTS_GIT}"
-    ${sudo} sh -c "cd '${HOSTS_GIT}'; git init --bare"
+    ${sudo} sh -c "cd '${HOSTS_GIT}' ; git init --bare"
   fi
 fi
 

@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+if test ! -w / ; then
+  echo "Correr como root"
+  exit 1
+fi
+
+USER=$1; shift
+GROUP=$1; shift
+
+for chroot_dir in $@; do
+  test -f "${chroot_dir}/.jail" && continue
+  mkdir -p "${chroot_dir}"
+  chmod 755 "${chroot_dir}"
+  chown root:root "${chroot_dir}"
+  pushd "${chroot_dir}"
+
+  install -dm 755 -g root -o root {etc,tmp,usr/{lib,bin},pub}
+  install -dm 111 -g root -o root dev
+
+  ln -s usr/bin bin
+  ln -s usr/lib lib
+
+  chmod a+rw tmp
+  chmod a+t  tmp
+  chmod u+s  tmp
+
+  cp --archive --dereference /etc/localtime etc/
+  cp --archive /etc/{hosts,nsswitch.conf,resolv.conf} etc/
+  cp --archive --dereference /lib/libnss_files* usr/lib/
+  cp --archive --dereference /lib/libnss_dns* usr/lib/
+
+  chown -R ${USER}:${GROUP} pub/
+  chmod -R g+s pub/
+  chmod -R u+s pub/
+  chmod -R 750 pub/
+
+  mknod dev/null c 1 3
+  mknod dev/random c 1 8
+  mknod dev/urandom c 1 9
+  chmod 666 dev/null
+  chmod 444 dev/{u,}random
+
+  echo "root:x:0:0:root:/root:/bin/bash" >etc/passwd
+  echo "root:x:0:root" >etc/group
+
+  grep "^${USER}:" /etc/passwd >>etc/passwd
+  grep "^${GROUP}:" /etc/group >>etc/group
+
+  chmod 644 etc/{passwd,group}
+  chown root:root etc/{passwd,group}
+
+  date +%s >.jail
+done

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# copia un binario y todas sus librerías a una chroot
+set -e
+
+CUR="$(dirname "$(readlink -f "$0")")"
+NAME="$1"; shift
+
+# recorrer todos los archivos que se pasan como argumentos
+for bin in $@; do
+  # saltearse los que ya existen
+  test -f "${NAME}${bin}" && continue
+  echo ${bin}
+
+  # crear el directorio
+  mkdir -p "${NAME}${bin%/*}"
+  # copiar el archivo
+  cp --archive --dereference "${bin}" "${NAME}${bin}"
+
+  # obtener el mime type
+  mime="$(file --dereference --mime "${bin}" | cut -d" " -f2)"
+
+  # procesar dependencias según tipo
+  case $mime in
+    *x-executable*|*x-sharedlib*)
+      # extraer las librerías y
+      # buscar las dependencias recursivamente
+      $0 "${NAME}" $(ldd "${bin}" | grep --only-matching "/[^ ]\+")
+    ;;
+  esac
+
+done
