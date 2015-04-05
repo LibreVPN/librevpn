@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+#
+# lib/lvpn-create-keynode
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
+# Crea un nodo servidor de llaves
+
+# Este script necesita root (ver common)
+root=true
+
+. "${LVPN_LIBDIR}"/common
+
+requires sshd git-shell which pkill
+
+PORT=49001
+KEYNODE="${NETWORK}-keynode"
+SSHD_CONFIG="/etc/ssh/${NETWORK}_sshd_config"
+HOSTS_GIT="/var/lib/${NETWORK}/hosts.git"
+while getopts "hp:c:k:" arg; do
+  case $arg in
+    h) help ${self} ; exit 0;;
+    p) PORT="${OPTARG}" ;;
+    c) CLONE="${OPTARG}" ;;
+    k) KEYNODE="${OPTARG}" ;;
+  esac
+done
+let OPTIND--; shift ${OPTIND}
+
+node="$(get_node_name "${1}")"
+nodedir="$(get_node_dir "${1}")"
+ipv4="$(get_host_ipv4 "${node}")"
+ipv6="$(get_host_ipv6 "${node}")"
+
+# Agrega el usuario lvpn-keynode si no existe
+silent getent passwd "${KEYNODE}" \
+|| ${sudo} \
+   useradd --comment "${NETWORK} keynode" \
+           --home-dir "/var/lib/${NETWORK}" \
+           --create-home \
+           --skel /dev/null \
+           --user-group \
+           --shell /usr/bin/git-shell \
+           "${KEYNODE}"
+
+silent ${sudo} passwd --unlock "${KEYNODE}"
+
+# Crea una chroot para ese usuario
+# Configura sshd_config
+${sudo} test -f "${SSHD_CONFIG}" \
+&& warning "SSH ya está configurado para este nodo de llaves, se pisan los cambios manuales"
+
+${sudo} tee "${SSHD_CONFIG}" &>/dev/null <<EOF
+Port ${PORT}
+ListenAddress ${ipv4}
+ListenAddress ${ipv6}
+UsePAM no
+AllowUsers ${KEYNODE}
+
+Match User ${KEYNODE}
+  AllowTcpForwarding no
+  X11Forwarding no
+  PasswordAuthentication yes
+  PermitEmptyPasswords yes
+
+EOF
+
+set -x
+${sudo} chmod 700 "${SSHD_CONFIG}"
+# Reinicia ssh
+if test -f /var/run/${KEYNODE}.pid ; then
+  silent ${sudo} pkill --pidfile /var/run/${KEYNODE}.pid -HUP
+else
+  ${sudo} $(which sshd) -f "${SSHD_CONFIG}"
+  ${sudo} cat /var/run/sshd.pid | silent ${sudo} tee /var/run/${KEYNODE}.pid
+fi
+
+# Crea el repositorio o lo clona de otro lado
+
+if test -n "${CLONE}"; then
+  if ${sudo} test -d "${HOSTS_GIT}"; then
+    ${sudo} sh -c "cd '${HOSTS_GIT}' ; git remote update"
+  else
+    ${sudo} sh -c "cd '${HOSTS_GIT}'; git clone --mirror '${CLONE}' hosts.git'"
+  fi
+else
+  if ! ${sudo} test -d "/var/lib/${NETWORK}/hosts.git" ; then
+    ${sudo} mkdir -p "${HOSTS_GIT}"
+    ${sudo} sh -c "cd '${HOSTS_GIT}'; git init --bare"
+  fi
+fi
+
+${sudo} chown -R "${KEYNODE}:${KEYNODE}" "${HOSTS_GIT}"
+
+msg "Ahora podés agregar %s a la lista de nodos de llaves de tu nodo" \
+    "ssh://${KEYNODE}@$(get_host_ipv4 "${node}"):${PORT}/hosts.git"
