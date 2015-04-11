@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+#
+# lib/lvpn-rotate-nodes
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
+# Conecta el nodo a otros nodos aleatoreamente
+
+. "${LVPN_LIBDIR}"/common
+
+NODES=3
+while getopts "hn:" arg; do
+  case $arg in
+    h) help ${self} ; exit 0;;
+    n) NODES="${OPTARG}" ;;
+  esac
+done
+let OPTIND--; shift ${OPTIND}
+
+node="$(get_node_name "${1}")"
+nodedir="$(get_node_dir "${1}")"
+keynodedir="$(get_keynode_dir "${1}")"
+
+if ! test -d "${keynodedir}/.git" ; then
+  warning "Este nodo aun no tiene un nodo llavero"
+  tip 'Intente `lvpn add-keynode -h`'
+fi
+
+# Elimina los ConnectTo anteriores
+sed -i "/^ConnectTo\s\+=/d" "${nodedir}/tinc.conf"
+
+# Obtiene todos los nodos con direcciones públicas, los randomiza y los
+# prueba uno por uno hasta que llegamos al límite de nodos que queríamos
+# 
+# TODO en tinc 1.1 esto se puede simplificar a AutoConnect = ${NODES}
+grep --recursive --files-with-matches \
+"^Address\s\+=" "${keynodedir}" \
+| sed "s,^.*/,," \
+| shuf \
+| while read _connectto; do
+
+  msg "Conectando a %s..." "${_connectto}"
+  if ${LVPN} test-node "${node}" "${_connectto}"; then
+    add_to_file "${nodedir}/tinc.conf" "ConnectTo = ${_connectto}"
+    msg2 "OK"
+  else
+    msg2 "NOPE"
+  fi
+
+  test $(grep -c "^ConnectTo\s\+=" "${nodedir}/tinc.conf") -eq ${NODES} \
+  && break
+done

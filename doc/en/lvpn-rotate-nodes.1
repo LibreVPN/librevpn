@@ -1,0 +1,40 @@
+.TH "LVPN\-ROTATE\-NODES" "1" "2015" "Manual de LibreVPN" "lvpn"
+.SH NAME
+.PP
+Rotates local node\[aq]s connections to the VPN
+.SH SYNOPSIS
+.PP
+\f[I]lvpn rotate\-nodes\f[] [\-h] [\-n N] local\-node
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-n N
+Connect up to \f[B]N\f[] nodes.
+Default is \f[B]3\f[].
+.RS
+.RE
+.SH DESCRIPTION
+.PP
+Configures \f[B]local\-node\f[] to connect to a set of random nodes.
+.PP
+It tests the connection to random nodes and configures
+\f[B]local\-node\f[] to connect to them.
+.PP
+This script helps you get a set of connections to the VPN.
+.SH EXAMPLES
+.SS Connects yap to random nodes
+.PP
+lvpn rotate\-nodes yap
+.SS Connects yap to ten random nodes
+.PP
+lvpn rotate\-nodes \-n 10 yap
+.SH SEE ALSO
+.PP
+\f[I]lvpn\-create\-keynode(1)\f[] \f[I]lvpn\-test\-node(1)\f[]
+_lvpn\-add\-keynode(1)
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.
