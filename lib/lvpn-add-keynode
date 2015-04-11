@@ -69,6 +69,12 @@ for repo in $@; do
   fi
 
   silent pushd "${keynodedir}"
+
+  if git remote -v | cut -f2 | grep -q "${repo}" ; then
+    warning "Ignorando el repositorio duplicado %s" "${repo}"
+    continue
+  fi
+
   _remote="$(echo "${repo}" | tr --squeeze-repeats "[:punct:]" "-")"
   git remote add "${_remote}" "${repo}"
 done
