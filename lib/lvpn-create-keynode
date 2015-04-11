@@ -118,4 +118,4 @@ fi
 ${sudo} chown -R "${KEYNODE}:${KEYNODE}" "${HOSTS_GIT}"
 
 msg "Ahora podés agregar %s a la lista de nodos de llaves de tu nodo" \
-    "ssh://${KEYNODE}@$(get_host_ipv4 "${node}"):${PORT}/hosts.git"
+    "ssh://${KEYNODE}@${ipv4}:${PORT}/pub/hosts.git"
