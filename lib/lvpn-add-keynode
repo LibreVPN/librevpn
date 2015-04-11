@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+#
+# lib/lvpn-add-keynode
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
+# Agrega un nodo servidor de llaves
+
+. "${LVPN_LIBDIR}"/common
+
+requires git
+
+LIST=false
+while getopts "hl" arg; do
+  case $arg in
+    h) help ${self} ; exit 0;;
+    l) LIST=true ;;
+  esac
+done
+let OPTIND--; shift ${OPTIND}
+
+node="$(get_node_name "${1}")"
+nodedir="$(get_node_dir "${1}")"
+keynodedir="$(get_keynode_dir "${1}")"; shift
+
+if ${LIST}; then
+  if test -d "${keynodedir}" && ! test -d "${keynodedir}/.git"; then
+    warning "El nodo %s todavía no tiene nodos llavero configurados" "${node}"
+  else
+    silent pushd "${keynodedir}"
+    git remote -v \
+    | cut -d" " -f1 \
+    | column -t \
+    | sort -u
+  fi
+
+  exit 0
+fi
+
+# Si el directorio de llaves no es un repositorio git, eliminarlo
+if test -d "${keynodedir}" && ! test -d "${keynodedir}/.git"; then
+  mv "${keynodedir}"{,~}
+fi
+
+# Por cada repositorio, clonar el primero y agregar el resto como
+# remotes
+for repo in $@; do
+  if ! test -d "${keynodedir}/.git" ; then
+    msg "Clonando hosts.git"
+    git clone "${repo}" "${keynodedir}"
+    continue
+  fi
+
+  silent pushd "${keynodedir}"
+  _remote="$(echo "${repo}" | tr --squeeze-repeats "[:punct:]" "-")"
+  git remote add "${_remote}" "${repo}"
+done
+
