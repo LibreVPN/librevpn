@@ -70,7 +70,13 @@ hosts = $(notdir $(wildcard hosts/*))
 # List of man pages to install, structured like relative directories to /usr/share/man
 mans = $(patsubst en/%,./%,$(subst /,/man1/,$(patsubst doc/%,%,$(out_man))))
 # The list of programs to install to $(PREFIX)/bin
-bins = lvpn
+bins = lvpn to_chroot create_chroot_jail
+
+$(TARGET)$(PREFIX)/bin/to_chroot: bin/to_chroot
+	install -Dm755 '$<' '$@'
+
+$(TARGET)$(PREFIX)/bin/create_chroot_jail: bin/create_chroot_jail
+	install -Dm755 '$<' '$@'
 
 # List of subdirectories to recurse into
 SUBDIRS =
