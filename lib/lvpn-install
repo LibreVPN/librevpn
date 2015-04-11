@@ -55,6 +55,7 @@ ${sudo} mkdir -p "${TINC}"
 ${sudo} rsync -a --no-owner \
               --no-group \
               --exclude="*.backup" \
+              --exclude=".git" \
               ${VERBOSE} ${DELETE} ${DRYRUN} \
               "${nodedir}/" "${TINC}/"
 
