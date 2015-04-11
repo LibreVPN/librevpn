@@ -9,7 +9,7 @@ Tests connection to a node
 
 # SYNOPSIS
 
-_lvpn test-node_ [-hv] local-node node
+_lvpn test-node_ [-hvk] local-node node
 
 
 # OPTIONS
@@ -19,6 +19,9 @@ _lvpn test-node_ [-hv] local-node node
 
 -v
 :    Show tests
+
+-k
+:    Tests if **node** knows **local-node** too.
 
 
 # DESCRIPTION
@@ -30,6 +33,11 @@ Performs a connection test to **node**.  Error can be temporary if
 
 Returns **0** on success, **1** on error.
 
+If the **-k** flag is used, an aditional test is performed to check if
+**node** has the host file for **local-node**.  This doesn't mean the
+keys will match, but it's a way to know if the connection is possible
+without intervention in **node**.
+
 
 # EXAMPLES
 
@@ -40,6 +48,10 @@ lvpn test-node yap ponape ; echo $?
 ## Test connection and show messages
 
 lvpn test-node -v yap ponape
+
+## Test connection between yap and ponape
+
+lvpn test-node -k yap ponape; echo $?
 
 
 # SEE ALSO

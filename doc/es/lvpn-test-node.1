@@ -4,7 +4,7 @@
 Prueba la conexión a un nodo
 .SH SINOPSIS
 .PP
-\f[I]lvpn test\-node\f[] [\-hv] nodo\-local nodo
+\f[I]lvpn test\-node\f[] [\-hvk] nodo\-local nodo
 .SH OPCIONES
 .TP
 .B \-h
@@ -14,6 +14,11 @@ Este mensaje
 .TP
 .B \-v
 Muestra las pruebas
+.RS
+.RE
+.TP
+.B \-k
+Probar que \f[B]nodo\f[] conozca a \f[B]nodo\-local\f[]
 .RS
 .RE
 .SH DESCRIPCION
@@ -26,6 +31,13 @@ La prueba puede fallar temporalmente si \f[B]nodo\f[] no está
 disponible.
 .PP
 Devuelve \f[B]0\f[] en caso de éxito y \f[B]1\f[] en caso de error.
+.PP
+En caso de usar la opción \f[B]\-k\f[], se realizará una prueba
+adicional para saber si \f[B]nodo\f[] posee el archivo de nodo de
+\f[B]nodo\-local\f[].
+Esto no quiere decir que las llaves coincidan, pero da una pauta de que
+la conexión será posible de los dos lados sin intervención manual en
+\f[B]nodo\f[].
 .SH EJEMPLOS
 .SS Prueba la conexión de yap a ponape
 .PP
@@ -33,6 +45,9 @@ lvpn test\-node yap ponape ; echo $?
 .SS Prueba la conexión y muestra los mensajes
 .PP
 lvpn test\-node \-v yap ponape
+.SS Prueba la conexión entre yap y ponap
+.PP
+lvpn test\-node \-k yap ponape
 .SH VEASE TAMBIEN
 .PP
 \f[I]lvpn\-rotate\-nodes(1)\f[] \f[I]nc\f[]

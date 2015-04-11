@@ -35,11 +35,25 @@ test_host_address_port() {
   echo | nc --wait=2 "${2}" "${3}" 2>/dev/null | grep -q "0 ${1} "
 }
 
+# Testea que además tenga mi identidad
+# Esto no quiere decir que las llaves coincidan
+test_knows_me() {
+  local l=$(echo "0 ${1} 17" | nc --wait=1 "${2}" "${3}" 2>/dev/null | wc -l)
+
+  if test ${l} -ge 2 ; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 VERBOSE=false
-while getopts "hv" arg; do
+KNOWSME=false
+while getopts "hvk" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
     v) VERBOSE=true ;;
+    k) KNOWSME=true ;;
   esac
 done
 let OPTIND--; shift ${OPTIND}
@@ -67,6 +81,7 @@ port=${port:-${PORT}}
 
 # Lleva la cuenta de cuantos hosts funcionan
 functional=0
+knowsme=0
 # Obtener y probar todas las direcciones y puertos
 while read address _port; do
   triplet="${host} ${address} ${_port:-${port}}"
@@ -77,6 +92,19 @@ while read address _port; do
     # Este host está funcional
     ${VERBOSE} && msg2 "%s en %s:%d funcional" ${triplet}
     let functional++ || true
+
+    # Si queremos probar si nos conoce y no lo probamos antes en la
+    # misma conexión
+    if ${KNOWSME} && test ${knowsme} -eq 0 ; then
+      if test_knows_me ${node} ${address} ${_port:${port}}; then
+        ${VERBOSE} && msg2 "%s conoce a %s" ${host} ${node}
+      else
+        ${VERBOSE} && warning "%s no conoce a %s" ${host} ${node}
+        let functional-- || true
+      fi
+      # No repetir el test
+      let knowsme++ || true
+    fi
   else
     ${VERBOSE} && warning "%s en %s:%d no responde" ${triplet}
   fi

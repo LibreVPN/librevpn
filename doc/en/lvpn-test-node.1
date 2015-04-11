@@ -4,7 +4,7 @@
 Tests connection to a node
 .SH SYNOPSIS
 .PP
-\f[I]lvpn test\-node\f[] [\-hv] local\-node node
+\f[I]lvpn test\-node\f[] [\-hvk] local\-node node
 .SH OPTIONS
 .TP
 .B \-h
@@ -16,6 +16,11 @@ This message
 Show tests
 .RS
 .RE
+.TP
+.B \-k
+Tests if \f[B]node\f[] knows \f[B]local\-node\f[] too.
+.RS
+.RE
 .SH DESCRIPTION
 .PP
 Tests if it\[aq]s possible to connect from \f[B]local\-node\f[] to
@@ -25,6 +30,11 @@ Performs a connection test to \f[B]node\f[].
 Error can be temporary if \f[B]node\f[] is unavailable.
 .PP
 Returns \f[B]0\f[] on success, \f[B]1\f[] on error.
+.PP
+If the \f[B]\-k\f[] flag is used, an aditional test is performed to
+check if \f[B]node\f[] has the host file for \f[B]local\-node\f[].
+This doesn\[aq]t mean the keys will match, but it\[aq]s a way to know if
+the connection is possible without intervention in \f[B]node\f[].
 .SH EXAMPLES
 .SS Test connection from yap to ponape
 .PP
@@ -32,6 +42,9 @@ lvpn test\-node yap ponape ; echo $?
 .SS Test connection and show messages
 .PP
 lvpn test\-node \-v yap ponape
+.SS Test connection between yap and ponape
+.PP
+lvpn test\-node \-k yap ponape; echo $?
 .SH SEE ALSO
 .PP
 \f[I]lvpn\-rotate\-nodes(1)\f[] \f[I]nc\f[]

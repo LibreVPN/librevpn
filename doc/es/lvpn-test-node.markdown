@@ -9,7 +9,7 @@ Prueba la conexión a un nodo
 
 # SINOPSIS
 
-_lvpn test-node_ [-hv] nodo-local nodo
+_lvpn test-node_ [-hvk] nodo-local nodo
 
 
 # OPCIONES
@@ -19,6 +19,9 @@ _lvpn test-node_ [-hv] nodo-local nodo
 
 -v
 :    Muestra las pruebas
+
+-k
+:    Probar que **nodo** conozca a **nodo-local**
 
 
 # DESCRIPCION
@@ -30,6 +33,12 @@ temporalmente si **nodo** no está disponible.
 
 Devuelve **0** en caso de éxito y **1** en caso de error.
 
+En caso de usar la opción **-k**, se realizará una prueba adicional para
+saber si **nodo** posee el archivo de nodo de **nodo-local**.  Esto no
+quiere decir que las llaves coincidan, pero da una pauta de que la
+conexión será posible de los dos lados sin intervención manual en
+**nodo**.
+
 
 # EJEMPLOS
 
@@ -40,6 +49,10 @@ lvpn test-node yap ponape ; echo $?
 ## Prueba la conexión y muestra los mensajes
 
 lvpn test-node -v yap ponape
+
+## Prueba la conexión entre yap y ponap
+
+lvpn test-node -k yap ponape
 
 
 # VEASE TAMBIEN
