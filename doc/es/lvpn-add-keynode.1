@@ -1,0 +1,31 @@
+.TH "LVPN\-ADD\-KEYNODE" "1" "2015" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+Agrega nodos llavero a un nodo
+.SH SINOPSIS
+.PP
+\f[I]lvpn add\-keynode\f[] [\-h] [\-l] nodo\-local llavero:hosts.git
+[llavero:hosts.git]
+.SH OPCIONES
+.TP
+.B \-h
+Este mensaje
+.RS
+.RE
+.TP
+.B \-l
+Lista los llaveros de este nodo
+.RS
+.RE
+.SH DESCRIPCION
+.PP
+Configura nodo\-local para obtener archivos de nodo de las URLs
+especificadas.
+.PP
+Convierte el directorio de nodos de nodo\-local en un repositorio git
+que toma y publica cambios en los repositorios especificados.
+.SH VEASE TAMBIEN
+.PP
+\f[I]git(1)\f[] \f[I]lvpn\-create\-keynode(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.
