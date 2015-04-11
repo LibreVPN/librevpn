@@ -1,0 +1,58 @@
+.TH "LVPN\-CREATE\-KEYNODE" "1" "2015" "LibreVPN Manual" "LibreVPN"
+.SH NOMBRE
+.PP
+lvpn create\-keynode crea un nodo llavero
+.SH SINOPSIS
+.PP
+lvpn create\-keynode [\-h] [\-p puerto] [\-c hosts.git] [\-k
+lvpn\-keynode] nodo\-local
+.SH DESCRIPCION
+.PP
+Configura e inicia un nodo llavero.
+El llavero es un repositorio git(1) con los archivos de nodo que permite
+a cualquiera en la VPN a tomar y publicar cambios.
+.PP
+El llavero es un servidor sshd(8) corriendo en un puerto especial que
+permite conexiones no autenticadas desde la VPN.
+De esta forma los cambios solo pueden provenir de la red misma.
+.PP
+Este programa configura una chroot ssh para el usuario lvpn\-keynode y
+solo permite git pull y push via git\-shell(1).
+Al ejecutarlo repetidas veces se reparán la chroot y el archivo de
+configuración de sshd (alternativo al del sistema), además de reiniciar
+sshd si es necesario.
+.SH OPCIONES
+.TP
+.B \-h
+Este mensaje
+.RS
+.RE
+.TP
+.B \-p port
+Puerto alternativo.
+El default es 490001.
+.RS
+.RE
+.TP
+.B \-c
+Clona hosts.git desde esta URL git.
+.RS
+.RE
+.TP
+.B \-k lvpn\-keynode
+Usuario para el llavero.
+El default es lvpn\-keynode.
+.RS
+.RE
+.SH EJEMPLOS
+.SS Configura e inicia el llavero de ponape
+.PP
+\f[I]lvpn create\-keynode\f[] ponape
+.SS Reinicia el llavero de ponape
+.PP
+\f[I]lvpn create\-keynode\f[] ponape
+.SH VEASE TAMBIEN
+.PP
+\f[I]sshd(8)\f[] \f[I]git\-shell(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

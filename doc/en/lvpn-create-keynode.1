@@ -1,0 +1,57 @@
+.TH "LVPN\-CREATE\-KEYNODE" "1" "2015" "LibreVPN Manual" "LibreVPN"
+.SH NAME
+.PP
+lvpn create\-keynode creates a key node
+.SH SYNOPSIS
+.PP
+lvpn create\-keynode [\-h] [\-p port] [\-c hosts.git] [\-k
+lvpn\-keynode] local\-node
+.SH DESCRIPTION
+.PP
+Configures and starts a keynode.
+A keynode holds a git repository of node files, and allows everyone on
+the VPN to push and pull changes.
+.PP
+The keynode is a sshd(8) server running on a special port and allowing
+unauthenticated connections from the VPN.
+In this way changes can only come from the network itself.
+.PP
+This script configures a ssh chroot for the lvpn\-keynode user and only
+allows git pull and push via git\-shell(1).
+Subsequent runs will repair the chroot and sshd\[aq]s config file (an
+alternate one just for the keynode) and restart sshd if needed.
+.SH OPTIONS
+.TP
+.B \-h
+This message
+.RS
+.RE
+.TP
+.B \-p port
+Alternate port number.
+Default is 490001.
+.RS
+.RE
+.TP
+.B \-c
+Clone hosts.git from this git URL.
+.RS
+.RE
+.TP
+.B \-k lvpn\-keynode
+User name for the keynode.
+Default is lvpn\-keynode.
+.RS
+.RE
+.SH EXAMPLES
+.SS Configure and start the keynode on ponape
+.PP
+\f[I]lvpn create\-keynode\f[] ponape
+.SS Restart the keynode on ponape
+.PP
+\f[I]lvpn create\-keynode\f[] ponape
+.SH SEE ALSO
+.PP
+\f[I]sshd(8)\f[] \f[I]git\-shell(1)\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.
