@@ -26,10 +26,11 @@
 . "${LVPN_LIBDIR}"/common
 
 NODES=3
-while getopts "hn:" arg; do
+while getopts "hn:k" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
     n) NODES="${OPTARG}" ;;
+    k) KNOWSME="-k" ;;
   esac
 done
 let OPTIND--; shift ${OPTIND}
@@ -57,7 +58,7 @@ grep --recursive --files-with-matches \
 | while read _connectto; do
 
   msg "Conectando a %s..." "${_connectto}"
-  if ${LVPN} test-node "${node}" "${_connectto}"; then
+  if ${LVPN} test-node ${KNOWSME} "${node}" "${_connectto}"; then
     add_to_file "${nodedir}/tinc.conf" "ConnectTo = ${_connectto}"
     msg2 "OK"
   else

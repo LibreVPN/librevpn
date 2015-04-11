@@ -96,11 +96,12 @@ while read address _port; do
     # Si queremos probar si nos conoce y no lo probamos antes en la
     # misma conexión
     if ${KNOWSME} && test ${knowsme} -eq 0 ; then
-      if test_knows_me ${node} ${address} ${_port:${port}}; then
+      if test_knows_me ${node} ${address} ${_port:-${port}}; then
         ${VERBOSE} && msg2 "%s conoce a %s" ${host} ${node}
       else
         ${VERBOSE} && warning "%s no conoce a %s" ${host} ${node}
         let functional-- || true
+        break
       fi
       # No repetir el test
       let knowsme++ || true

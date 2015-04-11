@@ -4,7 +4,7 @@
 Rotates local node\[aq]s connections to the VPN
 .SH SYNOPSIS
 .PP
-\f[I]lvpn rotate\-nodes\f[] [\-h] [\-n N] local\-node
+\f[I]lvpn rotate\-nodes\f[] [\-hk] [\-n N] local\-node
 .SH OPTIONS
 .TP
 .B \-h
@@ -17,6 +17,11 @@ Connect up to \f[B]N\f[] nodes.
 Default is \f[B]3\f[].
 .RS
 .RE
+.TP
+.B \-k
+Only accepts nodes that know \f[B]local\-node\f[] ID.
+.RS
+.RE
 .SH DESCRIPTION
 .PP
 Configures \f[B]local\-node\f[] to connect to a set of random nodes.
@@ -25,6 +30,11 @@ It tests the connection to random nodes and configures
 \f[B]local\-node\f[] to connect to them.
 .PP
 This script helps you get a set of connections to the VPN.
+.PP
+When using \f[B]\-k\f[], it\[aq]ll only accept connections to nodes that
+know \f[B]local\-node\f[]\[aq]s ID.
+Don\[aq]t use it if you\[aq]re entering the VPN.
+See \f[I]lvpn\-test\-node(1)\f[] for more info.
 .SH EXAMPLES
 .SS Connects yap to random nodes
 .PP
@@ -32,6 +42,9 @@ lvpn rotate\-nodes yap
 .SS Connects yap to ten random nodes
 .PP
 lvpn rotate\-nodes \-n 10 yap
+.SS Connects yap to the nodes that have its key
+.PP
+lvpn rotate\-nodes \-k yap
 .SH SEE ALSO
 .PP
 \f[I]lvpn\-create\-keynode(1)\f[] \f[I]lvpn\-test\-node(1)\f[]

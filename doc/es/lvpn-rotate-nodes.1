@@ -4,7 +4,7 @@
 Rota las conexiones a la VPN del nodo local
 .SH SINOPSIS
 .PP
-\f[I]lvpn rotate\-nodes\f[] [\-h] [\-n N] nodo\-local
+\f[I]lvpn rotate\-nodes\f[] [\-hk] [\-n N] nodo\-local
 .SH OPCIONES
 .TP
 .B \-h
@@ -17,6 +17,11 @@ Conecta a \f[B]N\f[] nodes.
 Por defecto a \f[B]3\f[].
 .RS
 .RE
+.TP
+.B \-k
+Solo se conecta a nodos que conocen a \f[B]nodo\-local\f[].
+.RS
+.RE
 .SH DESCRIPCION
 .PP
 Configura \f[B]nodo\-local\f[] para conectarse a un grupo de nodos
@@ -26,6 +31,11 @@ Prueba la conexión a nodos aleatorios y configura \f[B]nodo\-local\f[]
 para que se conecte a ellos.
 .PP
 Este programa te ayuda a obtener un grupo de conexiones a la VPN.
+.PP
+Cuando se usa la opción \f[B]\-k\f[], solo se harán conexiones a nodos
+que conozcan a \f[B]nodo\-local\f[].
+No hagas esto si recién entrás a la VPN.
+Ver \f[I]lvpn\-test\-node(1)\f[] para más información.
 .SH EJEMPLOS
 .SS Conecta yap a nodos al azar
 .PP
@@ -33,6 +43,9 @@ lvpn rotate\-nodes yap
 .SS Conecta yap a diez nodos al azar
 .PP
 lvpn rotate\-nodes \-n 10 yap
+.SS Conecta yap a los nodos que lo conocen
+.PP
+lvpn rotate\-nodes \-k yap
 .SH VEASE TAMBIEN
 .PP
 \f[I]lvpn\-create\-keynode(1)\f[] \f[I]lvpn\-test\-node(1)\f[]

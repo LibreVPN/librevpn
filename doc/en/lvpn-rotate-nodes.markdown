@@ -9,7 +9,7 @@ Rotates local node's connections to the VPN
 
 # SYNOPSIS
 
-_lvpn rotate-nodes_ [-h] [-n N] local-node
+_lvpn rotate-nodes_ [-hk] [-n N] local-node
 
 
 # OPTIONS
@@ -19,6 +19,9 @@ _lvpn rotate-nodes_ [-h] [-n N] local-node
 
 -n N
 :    Connect up to **N** nodes.  Default is **3**.
+
+-k
+:    Only accepts nodes that know **local-node** ID.
 
 
 # DESCRIPTION
@@ -30,6 +33,10 @@ connect to them.
 
 This script helps you get a set of connections to the VPN.
 
+When using **-k**, it'll only accept connections to nodes that know
+**local-node**'s ID.  Don't use it if you're entering the VPN.  See
+_lvpn-test-node(1)_ for more info.
+
 
 # EXAMPLES
 
@@ -40,6 +47,10 @@ lvpn rotate-nodes yap
 ## Connects yap to ten random nodes
 
 lvpn rotate-nodes -n 10 yap
+
+## Connects yap to the nodes that have its key
+
+lvpn rotate-nodes -k yap
 
 
 # SEE ALSO
