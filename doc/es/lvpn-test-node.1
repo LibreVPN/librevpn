@@ -1,0 +1,40 @@
+.TH "LVPN\-TEST\-NODE" "1" "2015" "Manual de LibreVPN" "lvpn"
+.SH NOMBRE
+.PP
+Prueba la conexión a un nodo
+.SH SINOPSIS
+.PP
+\f[I]lvpn test\-node\f[] [\-hv] nodo\-local nodo
+.SH OPCIONES
+.TP
+.B \-h
+Este mensaje
+.RS
+.RE
+.TP
+.B \-v
+Muestra las pruebas
+.RS
+.RE
+.SH DESCRIPCION
+.PP
+Comprueba que sea posible conectar \f[B]nodo\-local\f[] con
+\f[B]nodo\f[].
+.PP
+Realiza una prueba de conexión a \f[B]nodo\f[].
+La prueba puede fallar temporalmente si \f[B]nodo\f[] no está
+disponible.
+.PP
+Devuelve \f[B]0\f[] en caso de éxito y \f[B]1\f[] en caso de error.
+.SH EJEMPLOS
+.SS Prueba la conexión de yap a ponape
+.PP
+lvpn test\-node yap ponape ; echo $?
+.SS Prueba la conexión y muestra los mensajes
+.PP
+lvpn test\-node \-v yap ponape
+.SH VEASE TAMBIEN
+.PP
+\f[I]lvpn\-rotate\-nodes(1)\f[] \f[I]nc\f[]
+.SH AUTHORS
+fauno <fauno@endefensadelsl.org>.

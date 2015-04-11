@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+#
+# lib/lvpn-rotate-nodes
+#
+# Copyright (c) 2011-2013 LibreVPN <vpn@hackcoop.com.ar>
+#
+# See AUTHORS for a list of contributors
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation; either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General
+# Public License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+#
+# Conecta el nodo a otros nodos aleatoreamente
+
+# Este script necesita root (ver common)
+root=true
+
+. "${LVPN_LIBDIR}"/common
+
+requires nc
+
+# Testea que la direccion y el puerto respondan con un mensaje de tinc
+test_host_address_port() {
+  echo | nc --wait=2 "${2}" "${3}" 2>/dev/null | grep -q "0 ${1} "
+}
+
+VERBOSE=false
+while getopts "hv" arg; do
+  case $arg in
+    h) help ${self} ; exit 0;;
+    v) VERBOSE=true ;;
+  esac
+done
+let OPTIND--; shift ${OPTIND}
+
+node="$(get_node_name "${1}")"
+nodedir="$(get_node_dir "${1}")"
+keynodedir="$(get_keynode_dir "${1}")"
+host="$(get_node_name "${2}")"
+hostfile="$(get_local_host_file "${1}" "${2}")"
+
+if ${VERBOSE} && ! test -d "${keynodedir}/.git" ; then
+  warning "Este nodo aun no tiene un nodo llavero"
+  tip 'Intente `lvpn add-keynode -h`'
+fi
+
+# No podemos conectarnos a este nodo
+if ! grep -q "^Address\s\+=" "${hostfile}" ; then
+  ${VERBOSE} && fatal_error "Este no es un nodo público"
+  exit 1
+fi
+
+# Obtener el puerto
+port="$(get_local_host_variable "${1}" "${2}" Port)"
+port=${port:-${PORT}}
+
+# Lleva la cuenta de cuantos hosts funcionan
+functional=0
+# Obtener y probar todas las direcciones y puertos
+while read address _port; do
+  triplet="${host} ${address} ${_port:-${port}}"
+
+  ${VERBOSE} && msg "Probando %s en %s:%d" ${triplet}
+
+  if test_host_address_port ${triplet}; then
+    # Este host está funcional
+    ${VERBOSE} && msg2 "%s en %s:%d funcional" ${triplet}
+    let functional++ || true
+  else
+    ${VERBOSE} && warning "%s en %s:%d no responde" ${triplet}
+  fi
+
+# Lo hacemos acá para que functional sobreviva el rulo
+done < <(get_local_host_variable "${1}" "${2}" Address)
+
+# Si tenemos hosts funcionales el test anduvo
+if test ${functional} -gt 0; then
+  exit 0
+else
+  exit 2
+fi

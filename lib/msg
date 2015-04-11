@@ -88,6 +88,11 @@ msg() {
     _msg "${DC}$msg" "$@"
 }
 
+msg2() {
+    msg="$(gettext "$1")"; shift
+    _msg "${BOLD}${RED}-${ALL_OFF} ${DC}$msg" "$@"
+}
+
 error() {
     msg="$(gettext "$1")"; shift
     _msg "${BOLD}${RED}$(gettext "ERROR:")${ALL_OFF} ${DC}${msg}" "$@"

@@ -103,6 +103,18 @@ get_host_file() {
   echo "${LVPN_HOSTS}/${node}"
 }
 
+get_local_host_file() {
+  nodedir="$(get_node_dir "${1}")"
+  node="$(get_node_name "${1}")"
+  host="$(get_node_name "${2}")"
+
+  test -f "${nodedir}/hosts/${host}" \
+  || error "El archivo host de %s no existe en %s" "${host}" "${node}" \
+  || return 1
+
+  echo "${nodedir}/hosts/${host}"
+}
+
 # Obtiene un evento válido
 get_event() {
   echo "$1" | grep -qE "^host|subnet|tinc$" && echo "$1"
@@ -198,6 +210,12 @@ get_ipv6() {
 # $2 variable
 get_host_variable() {
   grep -w "^$2" "$(get_host_file "$1")" \
+  | cut -d= -f2 \
+  | tr -d " "
+}
+
+get_local_host_variable() {
+  grep -w "^$3" "$(get_local_host_file "$1" "$2")" \
   | cut -d= -f2 \
   | tr -d " "
 }
