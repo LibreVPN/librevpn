@@ -71,6 +71,14 @@ done
 # crear la base de datos de transportes
 ${sudo} postmap "${PF_DIR}/transport"
 
+# en debian los alias van dentro de /etc
+if test ! -f "${PF_DIR}/aliases"; then
+  test -f /etc/aliases && ${sudo} ln -s ../aliases "${PF_DIR}/aliases"
+  test -f /etc/aliases.db && ${sudo} ln -s ../aliases.db "${PF_DIR}/aliases.db"
+fi
+
+${sudo} newaliases
+
 msg "Servidor de correo instalado con éxito, iniciá o recargá postfix"
 
 exit $?
