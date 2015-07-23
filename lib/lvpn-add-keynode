@@ -60,6 +60,7 @@ if ${UPDATE}; then
   silent pushd "${keynodedir}"
 
   # Comitea todos nuestros cambios
+  git add .
   git commit -am "${node}: keynode upgrade" || true
 
   _cur_branch="$(git rev-parse --abbrev-ref HEAD)"
