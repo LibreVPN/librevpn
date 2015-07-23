@@ -9,7 +9,7 @@ Adds keynode URLs to a given node
 
 # SYNOPSIS
 
-_lvpn add-keynode_ [-h] [-l] local-node keynode:hosts.git [keynode2:hosts.git]
+_lvpn add-keynode_ [-h] [-l] [-u] local-node keynode:hosts.git [keynode2:hosts.git]
 
 
 # OPTIONS
@@ -19,6 +19,9 @@ _lvpn add-keynode_ [-h] [-l] local-node keynode:hosts.git [keynode2:hosts.git]
 
 -l
 :    List keynodes of this node
+
+-u
+:    Update keynodes bringing changes and uploading ours
 
 
 # DESCRIPTION

@@ -9,7 +9,7 @@ Agrega nodos llavero a un nodo
 
 # SINOPSIS
 
-_lvpn add-keynode_ [-h] [-l] nodo-local llavero:hosts.git [llavero:hosts.git]
+_lvpn add-keynode_ [-h] [-l] [-u] nodo-local llavero:hosts.git [llavero:hosts.git]
 
 
 # OPCIONES
@@ -19,6 +19,10 @@ _lvpn add-keynode_ [-h] [-l] nodo-local llavero:hosts.git [llavero:hosts.git]
 
 -l
 :    Lista los llaveros de este nodo
+
+-u
+:    Actualiza los llaveros, trayendo los cambios y enviando los
+     nuestros
 
 
 # DESCRIPCION

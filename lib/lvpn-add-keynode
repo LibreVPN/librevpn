@@ -28,10 +28,12 @@
 requires git
 
 LIST=false
-while getopts "hl" arg; do
+UPDATE=false
+while getopts "hlu" arg; do
   case $arg in
     h) help ${self} ; exit 0;;
     l) LIST=true ;;
+    u) UPDATE=true ;;
   esac
 done
 let OPTIND--; shift ${OPTIND}
@@ -50,6 +52,28 @@ if ${LIST}; then
     | column -t \
     | sort -u
   fi
+
+  exit 0
+fi
+
+if ${UPDATE}; then
+  silent pushd "${keynodedir}"
+
+  # Comitea todos nuestros cambios
+  git commit -am "${node}: keynode upgrade" || true
+
+  _cur_branch="$(git rev-parse --abbrev-ref HEAD)"
+  # Recorre todos los repos trayendo los cambios
+  git remote -v | grep "(fetch)$" | cut -f1 \
+  | while read _remote; do
+    git pull --rebase "${_remote}" "${_cur_branch}" || true
+  done
+
+  # y subiendo los nuestros
+  git remote -v | grep "(push)$" | cut -f1 \
+  | while read _remote; do
+    git push "${_remote}" "${_cur_branch}" || true
+  done
 
   exit 0
 fi
@@ -75,7 +99,11 @@ for repo in $@; do
     continue
   fi
 
-  _remote="$(echo "${repo}" | tr --squeeze-repeats "[:punct:]" "-")"
+  # convierte
+  # ssh://lvpn-keynode@192.168.9.3:49001/pub/hosts.git
+  # en 
+  # 192.168.9.3
+  _remote="$(echo "${repo}" | cut -d@ -f2 | cut -d: -f1)"
   git remote add "${_remote}" "${repo}"
 done
 

@@ -4,8 +4,8 @@
 Agrega nodos llavero a un nodo
 .SH SINOPSIS
 .PP
-\f[I]lvpn add\-keynode\f[] [\-h] [\-l] nodo\-local llavero:hosts.git
-[llavero:hosts.git]
+\f[I]lvpn add\-keynode\f[] [\-h] [\-l] [\-u] nodo\-local
+llavero:hosts.git [llavero:hosts.git]
 .SH OPCIONES
 .TP
 .B \-h
@@ -15,6 +15,11 @@ Este mensaje
 .TP
 .B \-l
 Lista los llaveros de este nodo
+.RS
+.RE
+.TP
+.B \-u
+Actualiza los llaveros, trayendo los cambios y enviando los nuestros
 .RS
 .RE
 .SH DESCRIPCION

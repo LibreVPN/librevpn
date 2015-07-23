@@ -4,8 +4,8 @@
 Adds keynode URLs to a given node
 .SH SYNOPSIS
 .PP
-\f[I]lvpn add\-keynode\f[] [\-h] [\-l] local\-node keynode:hosts.git
-[keynode2:hosts.git]
+\f[I]lvpn add\-keynode\f[] [\-h] [\-l] [\-u] local\-node
+keynode:hosts.git [keynode2:hosts.git]
 .SH OPTIONS
 .TP
 .B \-h
@@ -15,6 +15,11 @@ This message
 .TP
 .B \-l
 List keynodes of this node
+.RS
+.RE
+.TP
+.B \-u
+Update keynodes bringing changes and uploading ours
 .RS
 .RE
 .SH DESCRIPTION
