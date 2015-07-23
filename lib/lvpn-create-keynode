@@ -60,7 +60,8 @@ silent getent passwd "${KEYNODE}" \
            --shell /usr/bin/git-shell \
            "${KEYNODE}"
 
-silent ${sudo} passwd --unlock "${KEYNODE}"
+# Crea un usuario sin contraseña
+${sudo} passwd --delete "${KEYNODE}"
 ${sudo} chown root:root /var/lib/${NETWORK}
 ${sudo} chmod 755 /var/lib/${NETWORK}
 
