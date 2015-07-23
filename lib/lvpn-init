@@ -34,12 +34,8 @@ connectto=""
 address=""
 # Port
 port=""
-# Subnets extra (-s)
-subnets=""
 # Instalar
 install=false
-# Habilitar subnet-up (-r)
-subnetup=false
 # Modo verborrágico por defecto
 verbose=true
 force=false
@@ -47,18 +43,16 @@ force=false
 android=false
 
 # Procesar los flags (ver doc)
-while getopts 'dvhirfp:a:c:s:l:A' arg; do
+while getopts 'dvhifp:a:c:l:A' arg; do
     case $arg in
         h) help $self; exit 0 ;;
         q) verbose=false ;;
-        r) subnetup=true ;;
         i) install=true;;
         f) force=true ;;
         p) port="$OPTARG" ;;
         l) localnet="${localnet} $OPTARG" ;;
         a) address="${address} $OPTARG" ;;
         c) connectto="$connectto $OPTARG" ;;
-        s) subnets="$subnets $OPTARG" ;;
         A) android=true ;;
     esac
 done ;
@@ -140,17 +134,11 @@ $verbose && msg "Generando IPv6..."
 localnet="${localnet} $(get_ipv6)"
 
 $verbose && msg "Añadiendo subredes..."
-for _subnet in ${localnet} ${subnets}; do
+for _subnet in ${localnet}; do
     add_to_file "${nodefile}" "Subnet = ${_subnet}"
 done
 
-# Si se anuncia otra subnet, el nodo actua como router, pero se pierden
-# servicios como avahi
-if [ -z "${subnets}" ]; then
-    mode="switch"
-else
-    mode="router"
-fi
+mode="router"
 $verbose && msg "Este nodo es un %s" "*${mode}*"
 
 $verbose && msg "Generando %s..." "*${conffile}*"
@@ -177,10 +165,6 @@ else
   sed -e "s,{{LVPN_SUBNET}},${LVPN_SUBNET},g" \
       -e "s,{{LVPN_SUBNET6}},${LVPN_SUBNET6},g" \
       -i "${nodedir}/tinc-up"
-fi
-
-if ${subnetup} ; then
-    cp "${LVPN_LIBDIR}"/skel/subnet-{up,down} "${nodedir}"
 fi
 
 $verbose && msg "Generando llaves..."

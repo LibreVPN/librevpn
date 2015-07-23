@@ -4,8 +4,8 @@
 Creates a new node
 .SH SYNOPSIS
 .PP
-lvpn init [\-A] [\-f] [\-q] [\-p 655] [\-l 192.168.9.202/32] [\-s
-10.4.24.128/27] [\-r] [\-a internet.domain.tld] [\-c otronodo] nodo
+lvpn init [\-A] [\-f] [\-q] [\-p 655] [\-l 192.168.9.202/32] [\-a
+internet.domain.tld] [\-c otronodo] nodo
 .SH OPTIONS
 .TP
 .B \-h
@@ -58,16 +58,6 @@ Port number, default is 655 o \f[I]LVPN_PORT\f[] env var.
 .RS
 .RE
 .TP
-.B \-s 10.0.0.0
-Announce another subnet (deprecated)
-.RS
-.RE
-.TP
-.B \-r
-Accept other subnets (deprecated)
-.RS
-.RE
-.TP
 .B \-A
 Creates a node for Android.
 Since the system doesn\[aq]t have advanced configuration utilities, this
@@ -105,12 +95,6 @@ lvpn init \-i \-a guachiguau.org \-c trululu guachiguau
 .SS Create a node with a given IP address
 .PP
 lvpn init \-l 192.168.9.202/32 guachiguau
-.SS Create a node that reaches other subnets
-.PP
-lvpn init \-r guachiguau
-.SS Create a node that reaches other subnets and routes one
-.PP
-lvpn init \-r \-s 10.4.23.224/27 guachiguau
 .SS Create an Android node
 .PP
 Requires Tinc GUI for Android (http://tinc_gui.poirsouille.org/)

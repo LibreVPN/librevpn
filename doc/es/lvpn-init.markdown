@@ -9,7 +9,7 @@ Crea un nuevo nodo
 
 # SINOPSIS
 
-lvpn init [-A] [-f] [-q] [-p 655] [-l 192.168.9.202/32] [-s 10.4.24.128/27] [-r] [-a dominio.eninternet.tld] [-c otronodo] nodo
+lvpn init [-A] [-f] [-q] [-p 655] [-l 192.168.9.202/32] [-a dominio.eninternet.tld] [-c otronodo] nodo
 
 
 # OPCIONES
@@ -46,12 +46,6 @@ lvpn init [-A] [-f] [-q] [-p 655] [-l 192.168.9.202/32] [-s 10.4.24.128/27] [-r]
 -p 655
 :    Número de puerto, por defecto 655 o la variable de entorno
      _LVPN\_PORT_.
-
--s 10.0.0.0
-:    Anunciar otra subred (_opción no funcional_).
-
--r
-:    Aceptar otras subredes remotas (_opción no funcional_).
 
 -A
 :    Crear un nodo para sistemas Android.  Dado que el sistema puede no
@@ -92,14 +86,6 @@ pública también tenés que deshabilitar la opción IndirectData.
 ## Crear un nodo con una IP predeterminada en la red 
 
   lvpn init -l 192.168.9.202/32 guachiguau
-
-## Crear un nodo que acepte otras redes 
-
-  lvpn init -r guachiguau
-
-## Crear un nodo que acepte otras redes y sea puente de otra red
-
-  lvpn init -r -s 10.4.23.224/27 guachiguau
 
 ## Crear el nodo rapanui para sistemas android
 

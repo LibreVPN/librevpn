@@ -9,7 +9,7 @@ Creates a new node
 
 # SYNOPSIS
 
-lvpn init [-A] [-f] [-q] [-p 655] [-l 192.168.9.202/32] [-s 10.4.24.128/27] [-r] [-a internet.domain.tld] [-c otronodo] nodo
+lvpn init [-A] [-f] [-q] [-p 655] [-l 192.168.9.202/32] [-a internet.domain.tld] [-c otronodo] nodo
 
 
 # OPTIONS
@@ -44,12 +44,6 @@ lvpn init [-A] [-f] [-q] [-p 655] [-l 192.168.9.202/32] [-s 10.4.24.128/27] [-r]
 
 -p 655
 :    Port number, default is 655 o *LVPN_PORT* env var.
-
--s 10.0.0.0
-:    Announce another subnet (deprecated)
-
--r
-:   Accept other subnets (deprecated)
 
 -A
 :    Creates a node for Android.  Since the system doesn't have advanced
@@ -91,14 +85,6 @@ you add an Address later you have to remove the IndirectData option.
 ## Create a node with a given IP address
 
   lvpn init -l 192.168.9.202/32 guachiguau
-
-## Create a node that reaches other subnets
-
-  lvpn init -r guachiguau
-
-## Create a node that reaches other subnets and routes one
-
-  lvpn init -r -s 10.4.23.224/27 guachiguau
 
 ## Create an Android node
 
