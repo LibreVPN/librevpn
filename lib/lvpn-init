@@ -41,6 +41,8 @@ verbose=true
 force=false
 # Soporte para android
 android=false
+# Autoconfigurarse
+self=true
 
 # Procesar los flags (ver doc)
 while getopts 'dvhifp:a:c:l:A' arg; do
@@ -52,7 +54,7 @@ while getopts 'dvhifp:a:c:l:A' arg; do
         p) port="$OPTARG" ;;
         l) localnet="${localnet} $OPTARG" ;;
         a) address="${address} $OPTARG" ;;
-        c) connectto="$connectto $OPTARG" ;;
+        c) connectto="$connectto $OPTARG"; self=false ;;
         A) android=true ;;
     esac
 done ;
@@ -146,9 +148,15 @@ add_to_file "${conffile}" "Name = ${nodename}"
 add_to_file "${conffile}" "Mode = ${mode}"
 add_to_file "${conffile}" "GraphDumpFile = /tmp/${NETWORK}.dot"
 
-$verbose && msg "Añadiendo hosts..."
-if [ -n "${connectto}" ]; then
-    ${LVPN} connectto ${nodename} ${connectto}
+if ${self} ; then
+  $verbose && msg "Autoconfigurando conexiones..."
+  cp "${LVPN_LIBDIR}/skel/${BOOTSTRAP_NODE}" "${nodedir}/hosts/"
+  add_to_file "${conffile}" "ConnectTo = ${BOOTSTRAP_NODE}"
+else
+  $verbose && msg "Añadiendo hosts..."
+  if [ -n "${connectto}" ]; then
+      ${LVPN} connectto ${nodename} ${connectto}
+  fi
 fi
 
 # Copiar los scripts de inicio

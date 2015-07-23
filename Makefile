@@ -42,6 +42,10 @@ PORT ?= 655
 SUBNET ?= 192.168.9.0/24
 SUBNET6 ?= 2001:1291:200:83ab::/64
 
+# Nodo de entrada a la red
+BOOTSTRAP_NODE ?= ponape
+DEFAULT_KEYNODE ?= ssh://lvpn-keynode@192.168.9.3:49001/pub/hosts.git
+
 # Sub-projects to optionally build
 #BUILD_UPNPC = true
 #BUILD_LIBNATPMP = true
@@ -179,6 +183,8 @@ install: PHONY all $(inst_progs) $(inst_hosts) $(inst_man) $(inst_trans)
 	    -e "s,@SUBNET6@,$(SUBNET6),g" \
 	    -e "s,@TEXTDOMAINDIR@,$(TEXTDOMAINDIR),g" \
 	    -e "s/@TEXTDOMAIN@/$(TEXTDOMAIN)/g" \
+	    -e "s/@BOOTSTRAP_NODE@/$(BOOTSTRAP_NODE)/g" \
+	    -e "s/@DEFAULT_KEYNODE@/$(DEFAULT_KEYNODE)/g" \
 	    '$<' > '$@'
 $(TARGET)$(PREFIX)/bin/%: %.out
 	install -Dm755 '$<' '$@'
