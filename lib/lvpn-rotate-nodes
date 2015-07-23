@@ -44,6 +44,11 @@ if ! test -d "${keynodedir}/.git" ; then
   tip 'Intente `lvpn add-keynode -h`'
 fi
 
+# Si no tiene un keynode agregar el por defecto
+if ! has_keynode "${node}" ; then
+  ${LVPN} add-keynode "${node}" "${DEFAULT_KEYNODE}"
+fi
+
 # Elimina los ConnectTo anteriores
 sed -i "/^ConnectTo\s\+=/d" "${nodedir}/tinc.conf"
 

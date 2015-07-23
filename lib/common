@@ -238,6 +238,12 @@ get_keynode_dir() {
   echo "${nodedir}/hosts"
 }
 
+has_keynode() {
+  silent pushd "$(get_keynode_dir "$1")"
+
+  test $(git --git-dir=.git remote 2>/dev/null | wc -l) -gt 0
+}
+
 if $root ; then
 # Salir si no se es root y no existe sudo, sino usarlo
   if [ ! -w / ]; then
