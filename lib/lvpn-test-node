@@ -32,7 +32,7 @@ requires nc
 
 # Testea que la direccion y el puerto respondan con un mensaje de tinc
 test_host_address_port() {
-  echo | nc --wait=2 "${2}" "${3}" 2>/dev/null | grep -q "0 ${1} "
+  echo | nc -w 2 "${2}" "${3}" 2>/dev/null | grep -q "0 ${1} "
 }
 
 # Testea que además tenga mi identidad
