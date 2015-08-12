@@ -1,0 +1,21 @@
+# raspberry_pi
+# root@raspberry-pi
+IndirectData = yes
+Port = 20057
+LocalDiscovery = yes
+Subnet = 192.168.9.67/32
+Subnet = 2001:1291:200:83ab:dc9d:547d:d064:3fa6/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEA1OUpWl5CD+HUvWTzcynU+ax5rP1asMspDgXg1wnaX/HoSYbXzhPe
+jIWKUTHNuubGGihbIcpVJt56L11Z4i/Orgzl5DhwdVjDBYP36BVWDGG6dvj6Ex9Y
+hThgsb9z6Sbm5HgSjYnyYCGadGAqH6e17+TqZk6zn1ng4OboDaTPjSuVSMOJ+Ku3
+0EbKWxTyB9D8HxWhddnU5sLXjNJ7lLXhw9WNOk7xCOoCc38KtYMSMlLaKFtbwNRq
+/pRbyEmcSfyDYv/nEkfWWG3mZk490bIwcgZeolSiH54J5AQ+QwcxSO7yNUxMmz33
+FnRqQIKuOCtz8VI/PO92p2BZ0noNaZKJlACsEvrb6PNrGLyUNT52hyX1FxHVlR97
+GqWuCsflWvjxLiXxq89Z0ObxoEcAlCF4h3auWUnB5hjIL8hxhyJh984nQb8a9tmj
+HgndAm5AwsD642enpET42sFFMEnkTDfHVWW7TckqfQn2V0x6ttvPXBjvv3Go2Qti
+y/sXp7DnjlRRfiUgoxyZnl0fcaGhJCq2+dPeyq25lVrzn8Lp8s5bNGGCuvSQR7bO
+uYYClSQjk4G08WfHQ5peaxdS0J1PEiaZRXDl+CdEAfrdSBWQ6J0JxkVCHxiQIvZN
+wqkxzYBny2s01NM60JSIaX4eJObQ0KWbbO6AyW/c3oFi1RFyKajoDl0CAwEAAQ==
+-----END RSA PUBLIC KEY-----

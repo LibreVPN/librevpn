@@ -1,0 +1,20 @@
+# beagleBone_black
+# root@beagleBone-black
+IndirectData = yes
+Port = 28035
+LocalDiscovery = yes
+Subnet = 192.168.9.211/32
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAv4a+U3RugBDaRirBsJ5azrKcGhBn+wAjXPfuvLiBIzZW7LtGuiiB
+GgLwNS1H2RzgGojwzMtyFe692+BQfDRCMFSFXQpEyW21eUmrgOGCa+E0i8Z+YhLo
+rpv85xdJ4PtAr0CSuvWPwa/NaI8wUsO0J3/M4bHKXxVwJwniDCHTadJYorplpKjC
+PWNxbroagJ+fXfaocPCyAQa74xNu+B7E/QoGMTjpF/ZzZbJ6I34lzstCoFHu77FQ
+q3QeSsuqPCAspye9CHMy5ufYdaCT7zHGJu+D7yO8YPiAOlz6P9TUzwP3acpyP5vy
+Q5lgj6dhPplj+RQuC4tRVtr2v/SwfQVFJ5ipdOvF7387ukNEvWp2Kxlrs99xGont
+fKIPTw0tPaOMEhOTiyiMXoucXoOoat2zH0fcn/LIPwdCpXluGbLObl2yoOrfojgE
+OtGUW+c6nRaAghbWO0PaWhsu45mC01uendAsFDqJy9bk6DjkaI6v8a062aOcSQim
+csHzemV/xV47EXo3Y/1Iq58Tv5B1IYh9TcUtR2og1pUcAinuCoWr5NvISYGGSQch
+5QUQDvolT421r2RCJKK/CKwcBF+XzRWOPlPjvmhN5rQTgH7RRudGILH4ACpdn8Hq
+N3rrf1j13GrPSxkQi7eIH1eyJOnAG4NwMHM7WSGYDlh5fMbcGKeYrb8CAwEAAQ==
+-----END RSA PUBLIC KEY-----
