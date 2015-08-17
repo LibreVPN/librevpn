@@ -1,0 +1,21 @@
+# ovruni
+# Omar Vega Ramos <ovruni@gnu.org.pe>
+IndirectData = yes
+Port = 31559
+LocalDiscovery = yes
+Subnet = 192.168.9.87/32
+Subnet = 2001:1291:200:83ab:786f:427d:d923:a8c/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAum4Ee5pfMGJxlVLVERtSLwJaSZjgeQ8/0/iTnigRL1H1ToPCA6/Q
+zehg9VniwMprL6gB+bdkGSkEu6RUvE+giDEKM9MLlmalZ/ZbJRf/O8xZFgTkkV5G
+8h7Ao5DIeXbUqd16j8Oy5qD9N3c3cHfFVX/o49qiKZKBwCmlGQQXVnIsZSQHoe4I
+aKGjcKgl9EfkwfFhsQnIIIm0NUs/ztfPyvjB2ppjAhiMQHKla30AcPEcNHE1NtI2
+M+ccqK10Fgu6BvsJqfQJK1w9mX1YDsndpx+U4KLhAWIgydQ3Rmwvl+BfrcR1W9KN
+1WuBe5HPm0PaGd8N//zqEWWlX7W+Pi/O2NK477rFH0LKgQXCyWYoL57xZU0wENHO
+HvkKAIKOYkks6wod5oMjuahwxhdO++eGBbRPZoqQJg66xtvhdnQsN9IHqpspDNAN
+u98g4JOILuqqUNNoKjoICmzUrEDbGt5sNLuZXsokwJdKWr6oBWUYBzjJYtgy6bMi
+TKXQlW10wUpN/DUEBwc1rbtZzJGalp96ZX/azosmZMnfUhNhXelgWf1Xs57RByfe
+sQUvCbk3fZLi3BBijL3HHPriI+jSRphpCgQeRYjG0TlnkYom5eiXcYHfqaaAN32g
+zeI+0rtAJ8xtiUX7uqE40sXcGLo7kdIHoxd6udOYpjRn0QJaUHxMwcsCAwEAAQ==
+-----END RSA PUBLIC KEY-----
