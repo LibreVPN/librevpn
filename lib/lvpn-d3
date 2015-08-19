@@ -38,7 +38,7 @@ let OPTIND--; shift ${OPTIND}
 tmpfile="$(mktemp /tmp/$self-XXXX.log)"
 
 # Monitorear el log
-tail -f -n1 /var/log/tinc.$(basename ${TINC}).log > ${tmpfile} &
+tail -f -n1 /var/log/tinc.${NETWORK}.log > ${tmpfile} &
 tailpid=$(ps -o pid -C tail --no-header)
 
 # Limpia la cache de nodos y pide la lista de nodos y enlaces
@@ -47,7 +47,11 @@ for _signal in WINCH USR2; do
 done
 
 # Esperar la lista
+count=0
 while [ $(wc -l ${tmpfile} | cut -d " " -f1) -lt 5 ]; do
+    let count++ || true
+    test ${count} -gt 20 && fatal_error "No se pudo leer el log: %s" "/var/log/tinc.${NETWORK}.log"
+
     sleep 1s
 done
 
