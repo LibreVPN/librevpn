@@ -19,11 +19,15 @@ PORT=${PORT:-655}
 case $1 in
   up)
 # Pasar a segundo plano para no hacer esperar a tincd
-      natpmpc -a ${PORT} ${PORT} tcp &
-      natpmpc -a ${PORT} ${PORT} udp &
-      upnpc -a ${IP} ${PORT} ${PORT} tcp &
-      upnpc -a ${IP} ${PORT} ${PORT} udp &
+      natpmpc -a ${PORT} ${PORT} tcp 999999999999 &
+      natpmpc -a ${PORT} ${PORT} udp 999999999999 &
+      upnpc -a ${IP} ${PORT} ${PORT} tcp 999999999999 &
+      upnpc -a ${IP} ${PORT} ${PORT} udp 999999999999 &
     ;;
   down)
+      natpmpc -a ${PORT} ${PORT} tcp 0 &
+      natpmpc -a ${PORT} ${PORT} udp 0 &
+      upnpc -a ${IP} ${PORT} ${PORT} tcp 0 &
+      upnpc -a ${IP} ${PORT} ${PORT} udp 0 &
     ;;
 esac
