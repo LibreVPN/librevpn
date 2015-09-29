@@ -139,53 +139,36 @@ get_id() {
 
 # Encuentra una IP libre entre los archivos de host
 get_ipv4() {
-# Las subnets encontradas
-  local subnets=/tmp/$$.subnets
-  local ip=""
-  local fourth=0
-  local tries=0
+# Compatibilidad para versión standalone
+  local _arch=$(uname -m)
+  local _subnets=/tmp/$$.subnets
 
-# Armar la lista de IPs
-  grep -i "subnet\s*=" ${LVPN_HOSTS}/* | cut -d'=' -f2 | sort > ${subnets}
+  grep -i "subnet\s*=" ${LVPN_HOSTS}/* | cut -d'=' -f2 | sort > ${_subnets}
 
-# Fallar si hay 250 nodos...
-  if [ $(wc -l ${subnets} | cut -d' ' -f1 2>/dev/null) -ge 250 ]; then
-# No detecta si hay varios rangos en uso pero por ahora sirve
-    error "Este rango está agotado"
-    return 1
-  fi
+  # probar los posibles nombres de generate-ipv4-address y no devolver
+  # nada si no hay
+  for gia in {${_arch}-,}generate-ipv4-address; do
+    if type ${gia} &>/dev/null; then
 
-# Hasta que encontremos una IP libre elegir el cuarto octeto al azar
-  until [ -n "${ip}" ]; do
-    let fourth=${RANDOM}%250
-    local tmpip="${LVPN_SUBNET%.*}.${fourth}/32"
+      local _ipv4=$(${gia} ${LVPN_SUBNET} | cut -d/ -f1)
 
-# Está en la lista?
-    if ! grep -q "${tmpip}" "${subnets}"; then
-      ip="${tmpip}"
-    fi
+      while grep -q "${_ipv4}" "${_subnets}"; do
+        _ipv4=$(${gia} ${LVPN_SUBNET} | cut -d/ -f1)
+      done
 
-# Aumentar la cantidad de intentos
-# Por alguna razon let devuelve 1
-    let tries++ || true
-
-    if [ ${tries} -ge 250 ]; then
-      error "No hay IPs libres"
-      return 1
+      echo "${_ipv4%*/}/32"
     fi
   done
-
-  echo "${ip}"
 }
 
 # Genera una dirección IPv6 /128
 get_ipv6() {
 # Compatibilidad para versión standalone
-  arch=$(uname -m)
+  local _arch=$(uname -m)
 
   # probar los posibles nombres de generate-ipv6-address y no devolver
   # nada si no hay
-  for gia in {${arch}-,}generate-ipv6-address; do
+  for gia in {${_arch}-,}generate-ipv6-address; do
     if type ${gia} &>/dev/null; then
       echo "$(${gia} ${LVPN_SUBNET6%/*})/128"
       return
