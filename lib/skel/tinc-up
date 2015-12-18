@@ -32,4 +32,4 @@ else
   ifconfig ${INTERFACE} up
 fi
 
-source /etc/tinc/${NETNAME}/run-script
+. /etc/tinc/${NETNAME}/run-script
