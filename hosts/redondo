@@ -1,0 +1,21 @@
+# redondo
+# root@redondo
+IndirectData = yes
+Port = 25227
+LocalDiscovery = yes
+Subnet = 192.168.9.80/32
+Subnet = 2001:1291:200:83ab:2ca6:78eb:48d0:9b37/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEAygvUE9Oa+WnL3skBbWUdpw8XV4+BnJH8zxZCkAulqsFi77y01qzY
+FsnBJXB8UwyJwt0+bP2arRbfI51tzLSGhb75HFhkIG/LUzpK6uFdbAxMmkmVZlzp
+x55NsN0RkYE0YQGBUgx7Ne6YcHE1o8i9mvcb1NpPEPmk39+QrPyiH1iBkJnN6k4k
+QohrFsg76LIGIJ1XIx/lk7WlRmbXr4OpLjBwZi5jmgCbpPHvcoionXcizoOHix9v
+UneAIwMAMxYb8rYAyMz4cImRAvmuxDFCzlqU77kZp3M8dqlAmquN3VPFBVBCsKxs
+FDubqM3nm+8OT4SQJPNXkfxmzWmj1QIGnz3DvbPBGaUzmdQmhcKgM2eGcz6Xd6/G
+NoCH8xIQvfNkbojdNwvjQYI/gqIeZiMs3r+O5XnNk6nOMTgUs6oqO5VKRMoL6eUP
+uIIbrSZjMLffowxGx/ghyvPbsQsGcYWiPgiq6StaFsvgp47PWHMEs+oRCa+DyKur
+OY+cg31tQrDnuwIruO3NtqrVeF8xUaBre4zc6Bg20Y4vR0HB/Bi1FpEHlZ7M/llO
+wqx9ZLuXmALE246XFMe6d5CAQxi+a7zFXlDWwykETk+jXPHcXCDPZ/zWyzSdJNbU
+rAYrLzmZ5Bk68hnzWbDm2gv1+TNjij1m1zV20luhN+sxHQB18Cw7a4UCAwEAAQ==
+-----END RSA PUBLIC KEY-----
