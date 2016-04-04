@@ -1,0 +1,20 @@
+# spiria
+IndirectData = yes
+Port = 21124
+LocalDiscovery = yes
+Subnet = 192.168.9.244/32
+Subnet = 2001:1291:200:83ab:d825:343a:f15f:86e9/128
+
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEA5I3ygAoQqCN/2ROdRdcQZugkv7j/I7gjolThg0ptDBnSayqTWt+5
+hSwwa7H1bgo3MW8iiPzSaoqH1iOffiWZ6gSQeRVhe4qOD5ewqhVZn0ifTtfKGTx7
+L3unBh4Jt3vzlJ2KBXJDGqtvl53BffVJEIrVyYuBVCez5j5lfC7hWRyuyDJafdSb
+gD3RmnIXl15TKZSu6f2wCE2VdEuxUEDcGfz3vb8MfoHbS7N75sLNaWocqnRY7f0R
+fTaTCwxXl3cIcCjPzc3rggH2QFO5/IBQ4ti/PvbTYLbUh5LBZc8haa8XmFQNnWWS
+4YIi5GxypBximTDGNbD5CDMvJ/kLYlqc9u0UzDgajgxJM8c41TZNgA4ywW2mrGTw
+uCZeCN5A5B/ywfgb1K9qQLGxIPbFDfiaTml5mefbEo3raUJRRqvIv71aWykfS/A6
+QYOBNihX6/lRUWr7UFlmeyWaf/3HltXUPdNKfhigjrk+gt03JwhwmgE2WUqxKPES
+mTgE56vgzM9O+/C/Zn6ZBHG1gi6YSP9yjy7RLy8WVznqdmzu6RyduCveHs+lvTHw
+GkwW7Pr0dJ3r3+SgU67xb0hIzD/v7U3evhTBfkhrklgLdJ6FxU1hSiTJp66XhqyF
+Mf73PT8Abtz/A2b3MOmxFHxGnHSzeCI7vqiXSCXADFosb7e8WL/TsQMCAwEAAQ==
+-----END RSA PUBLIC KEY-----
